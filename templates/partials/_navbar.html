@@ -1,0 +1,77 @@
+<nav class="navbar navbar-expand-lg">
+  {% load static%}
+  <style>
+    .navbar-logo,
+    .mzansi-plug-logo {
+      max-height: 50px; /* Adjust as needed */
+      width: auto;
+      display: block;
+    }
+
+    @media (max-width: 767px) {
+      .navbar-logo,
+      .mzansi-plug-logo {
+        max-height: 30px; /* Adjust as needed */
+      }
+
+      .person-icon {
+        display: none;
+      }
+    }
+  </style>
+
+  <div class="container">
+    <a class="navbar-brand" href="index.html">
+      <img
+        src="{% static 'images/mzansiplug-logo-s.png' %}"
+        alt="Mzansi Plug Logo"
+        class="navbar-logo mzansi-plug-logo"
+      />
+    </a>
+
+    <div class="d-lg-none ms-auto me-4 person-icon">
+      <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+    </div>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-lg-5 me-lg-auto">
+        <li class="nav-item">
+          <a class="nav-link click-scroll" href="/index.html">Home</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/south-african-jobs.html">Find Jobs</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/salaries.html">Find salaries</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/careers.html">Careers</a>
+        </li>
+      </ul>
+
+      <!-- Employers/Post Jobs aligned right -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/employers-index.html"
+            >Employers/Post Jobs</a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
