@@ -76,41 +76,13 @@
             </div>
           </form>
 
-          <button
-            type="button"
-            class="toggle-filters"
-            onclick="document.getElementById('filters').style.display = 
-                    document.getElementById('filters').style.display === 'none' ? 'block' : 'none';"
-          >
-            &#9881; Advanced Filters
-          </button>
+          <br>
 
-          <div id="filters" class="advanced-filters row gx-3 gy-2" style="display:none;">
-            <div class="col-md-3">
-              <label>Job Type</label>
-              <select class="form-control" name="job_type">
-                <option value="">Any</option>
-                <option value="full_time" {% if filters.job_type == 'full_time' %}selected{% endif %}>Full Time</option>
-                <option value="part_time" {% if filters.job_type == 'part_time' %}selected{% endif %}>Part Time</option>
-                <option value="contract" {% if filters.job_type == 'contract' %}selected{% endif %}>Contract</option>
-                <option value="internship" {% if filters.job_type == 'internship' %}selected{% endif %}>Internship</option>
-                <option value="remote" {% if filters.job_type == 'remote' %}selected{% endif %}>Remote</option>
-                <option value="hybrid" {% if filters.job_type == 'hybrid' %}selected{% endif %}>Hybrid</option>
-              </select>
-            </div>
-
-            <div class="col-md-3">
-              <label>Experience Level</label>
-              <select class="form-control" name="experience_level">
-                <option value="">Any</option>
-                <option value="entry" {% if filters.experience_level == 'entry' %}selected{% endif %}>Entry</option>
-                <option value="mid" {% if filters.experience_level == 'mid' %}selected{% endif %}>Mid</option>
-                <option value="senior" {% if filters.experience_level == 'senior' %}selected{% endif %}>Senior</option>
-                <option value="executive" {% if filters.experience_level == 'executive' %}selected{% endif %}>Executive</option>
-                <option value="manager" {% if filters.experience_level == 'manager' %}selected{% endif %}>Manager</option>
-              </select>
-            </div>
-          </div>
+          {% if request.GET.role or request.GET.location or request.GET.sort or request.GET.job_type or request.GET.experience_level %}
+          <form method="get" action="">
+            <a href="{% url 'south-african-jobs' %}" class="btn btn-outline-danger">Clear Search</a>
+          </form>
+        {% endif %}
         </div>
 
         <div class="row">

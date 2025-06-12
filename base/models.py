@@ -65,7 +65,9 @@ class Job(models.Model):
     company = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE, related_name="jobs")
     location = models.CharField(max_length=200)
     description = RichTextField()
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="jobs")
+    
+    categories = models.ManyToManyField("Category", related_name="jobs")
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     internal_or_external = models.CharField(max_length=10, choices=JOB_TYPE, default='internal')

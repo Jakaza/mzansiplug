@@ -1,0 +1,10 @@
+{% extends 'admin/base_site.html' %} {% block content %}
+<h1>{{ job.title }}</h1>
+<p><strong>Company:</strong> {{ job.company }}</p>
+<p><strong>Location:</strong> {{ job.location }}</p>
+<p><strong>Type:</strong> {{ job.job_type }}</p>
+
+<hr />
+<h2>Description</h2>
+<div>{{ job.description|safe }}</div>
+{% endblock %}

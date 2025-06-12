@@ -4,7 +4,10 @@ from django.db.models import Q
 from .models import Job , Category
 from django.shortcuts import get_object_or_404
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.admin.views.decorators import staff_member_required
 
+
+# Home Views
 
 def index(request):
     category_slug = request.GET.get('category')
@@ -26,6 +29,8 @@ def index(request):
 
 
 
+# Jobs Views
+
 def job_list(request):
     # Get query params
     role = request.GET.get('role', '')
@@ -40,8 +45,10 @@ def job_list(request):
     # Filters
     if role:
         jobs = jobs.filter(
-            Q(title__icontains=role) | Q(description__icontains=role) | Q(category__name__icontains=role)
-        )
+            Q(title__icontains=role) |
+            Q(description__icontains=role) |
+            Q(categories__name__icontains=role)
+        ).distinct()
     if location:
         jobs = jobs.filter(location__icontains=location)
     if job_type:
@@ -74,11 +81,6 @@ def job_list(request):
     }
     return render(request, 'jobs/job_list.html', context)
 
-def salary_list(request):
-    return render(request, 'salaries/salaries.html', {
-        'title': 'Latest Salaries in South Africa – Compare Wages by Industry & Role',
-    })
-
 
 def job_detail(request, pk, slug):
     job = get_object_or_404(Job, pk=pk, slug=slug)
@@ -102,5 +104,19 @@ def apply_job(request,pk, slug):
     return render(request, 'jobs/job-detail.html', {'job': job , 'title': title})
 
 
+# Salaries Views
 
+def salary_list(request):
+    return render(request, 'salaries/salaries.html', {
+        'title': 'Latest Salaries in South Africa – Compare Wages by Industry & Role',
+    })
+
+
+
+# Careers Views 
+
+def career_list(request):
+    return render(request, 'careers/careers.html', {
+        'title': 'South African Careers',
+    })
 

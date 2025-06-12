@@ -15,7 +15,7 @@
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item">
-                    <a href="index.html">Homepage</a>
+                    <a href="{% url 'index' %}">Homepage</a>
                   </li>
 
                   <li class="breadcrumb-item active" aria-current="page">
@@ -58,7 +58,7 @@
 
       {% load static %}
 
-      <section class="job-section section-padding pb-0">
+      <section class="job-section pb-0" style="padding: 15px 0">
         <div class="container">
           <div class="row">
             <!-- Job Details -->
