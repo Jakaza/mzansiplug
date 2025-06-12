@@ -1,29 +1,28 @@
 <div class="col-lg-4 col-md-6 mb-4">
   <a
-    href="job-detail.html"
+    href="{% url 'job-detail' job.id job.slug %}"
     class="text-decoration-none text-dark d-block h-100"
   >
     <div
       class="custom-block bg-white shadow-lg h-100 p-4 rounded-4 hover-shadow"
     >
-      <h5 class="mb-1">Marketing Specialist</h5>
+      <h5 class="mb-1">{{ job.title }}</h5>
       <div class="d-flex justify-content-between mb-2">
-        <small class="text-muted">AdVantage</small>
+        <small class="text-muted">{{ job.external_company_name }}</small>
         <small class="text-muted"
-          ><i class="bi bi-geo-alt"></i> Johannesburg</small
+          ><i class="bi bi-geo-alt"></i> {{ job.location }}</small
         >
       </div>
       <div class="mb-2">
         <span class="badge bg-success bg-opacity-10 text-success"
-          >Marketing</span
+          >{{ job.category.name }}</span
         >
       </div>
-      <p class="text-truncate mb-3">
-        We’re looking for a digital marketing expert with experience in paid ads
-        and SEO strategies...
+      <p class="text-truncate mb-3" style="text-transform: capitalize">
+        {{ job.internal_or_external }}
       </p>
       <div class="text-end">
-        <small class="text-muted">1 hour ago</small>
+        <small class="text-muted">{{ job.created_at|timesince }} ago</small>
       </div>
     </div>
   </a>

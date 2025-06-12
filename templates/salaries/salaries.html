@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include 'partials/_head.html' %}
+
+  <body class="topics-listing-page" id="top">
+    <main>
+      {% include 'partials/_navbar.html' %}
+
+      <header
+        class="site-header d-flex flex-column justify-content-center align-items-center"
+      >
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-lg-5 col-12">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="index.html">Homepage</a>
+                  </li>
+
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Salaries
+                  </li>
+                </ol>
+              </nav>
+
+              <h3 class="text-white">Discover your earning potential</h3>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section
+        class="salaries-hero-section section-padding"
+        id="discover-salaries"
+        style="padding-bottom: 15px"
+      >
+        <div class="container">
+          <div class="row justify-content-center text-center">
+            <div class="col-lg-8 col-md-10">
+              <h2 class="mb-3">Discover Salaries in South Africa</h2>
+              <p class="lead text-muted">
+                Search average salaries by job title, industry, or location.
+                Make informed career and hiring decisions.
+              </p>
+
+              <form
+                class="d-flex flex-column flex-md-row gap-2 mt-4 justify-content-center"
+              >
+                <input
+                  type="text"
+                  class="form-control form-control-lg rounded-3"
+                  placeholder="Search job title (e.g. Driver, Admin)"
+                />
+                <input
+                  type="text"
+                  class="form-control form-control-lg rounded-3"
+                  placeholder="City or Province"
+                />
+                <button type="submit" class="btn btn-primary btn-lg">
+                  Search
+                </button>
+              </form>
+            </div>
+          </div>
+          <div class="row mb-5 mt-5">
+            <div class="col-md-6">
+              <label for="" class="form-label mb-2">Choose Industry</label>
+              <select
+                id="industrySelect"
+                class="form-select rounded-3 shadow-sm"
+              >
+                <option selected disabled>-- Select Industry --</option>
+                <option value="technology">Technology</option>
+                <option value="education">Education</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="manufacturing">Manufacturing</option>
+                <option value="construction">Construction</option>
+                <option value="retail">Retail</option>
+                <option value="transport">Transport & Logistics</option>
+                <option value="finance">Finance</option>
+                <option value="hospitality">Hospitality</option>
+                <!-- Add more industries as needed -->
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="popular-salaries section-padding bg-white"
+        style="padding-bottom: 0; padding-top: 0"
+      >
+        <div class="container">
+          <div class="row g-4">
+            <div class="col-lg-4 col-12 mb-4">
+              <div class="custom-block bg-white shadow-lg p-4 rounded-4 h-100">
+                <a
+                  href="salary_details.html?job=delivery-driver"
+                  class="text-decoration-none text-dark d-block"
+                >
+                  <div class="d-flex flex-column h-100">
+                    <div>
+                      <h5 class="mb-2">Delivery Driver</h5>
+                      <p class="text-muted mb-1">Average: R7,200/month</p>
+                      <small class="text-muted">Gauteng, Johannesburg</small>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-12 mb-4">
+              <div class="custom-block bg-white shadow-lg p-4 rounded-4 h-100">
+                <a
+                  href="salary_details.html?job=call-centre-agent"
+                  class="text-decoration-none text-dark d-block"
+                >
+                  <div class="d-flex flex-column h-100">
+                    <div>
+                      <h5 class="mb-2">Call Centre Agent</h5>
+                      <p class="text-muted mb-1">Average: R5,800/month</p>
+                      <small class="text-muted">Western Cape, Cape Town</small>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-12 mb-4">
+              <div class="custom-block bg-white shadow-lg p-4 rounded-4 h-100">
+                <a
+                  href="salary_details.html?job=admin-assistant"
+                  class="text-decoration-none text-dark d-block"
+                >
+                  <div class="d-flex flex-column h-100">
+                    <div>
+                      <h5 class="mb-2">Administrative Assistant</h5>
+                      <p class="text-muted mb-1">Average: R6,500/month</p>
+                      <small class="text-muted">KwaZulu-Natal, Durban</small>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-12 mb-4">
+              <div class="custom-block bg-white shadow-lg p-4 rounded-4 h-100">
+                <a
+                  href="salary_details.html?job=security-guard"
+                  class="text-decoration-none text-dark d-block"
+                >
+                  <div class="d-flex flex-column h-100">
+                    <div>
+                      <h5 class="mb-2">Security Guard</h5>
+                      <p class="text-muted mb-1">Average: R4,800/month</p>
+                      <small class="text-muted">Gauteng, Pretoria</small>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-12 mb-4">
+              <div class="custom-block bg-white shadow-lg p-4 rounded-4 h-100">
+                <a
+                  href="salary_details.html?job=cashier"
+                  class="text-decoration-none text-dark d-block"
+                >
+                  <div class="d-flex flex-column h-100">
+                    <div>
+                      <h5 class="mb-2">Cashier</h5>
+                      <p class="text-muted mb-1">Average: R4,200/month</p>
+                      <small class="text-muted"
+                        >Eastern Cape, Port Elizabeth</small
+                      >
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-12 mb-4">
+              <div class="custom-block bg-white shadow-lg p-4 rounded-4 h-100">
+                <a
+                  href="salary_details.html?job=electrician"
+                  class="text-decoration-none text-dark d-block"
+                >
+                  <div class="d-flex flex-column h-100">
+                    <div>
+                      <h5 class="mb-2">Electrician</h5>
+                      <p class="text-muted mb-1">Average: R12,000/month</p>
+                      <small class="text-muted">Limpopo, Polokwane</small>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="salary-insight-cta section-padding bg-light">
+        <div class="container text-center">
+          <h3 class="mb-3">Not sure what to expect for your salary?</h3>
+          <p class="text-muted">
+            Compare your role with others, research pay trends, and get ahead in
+            your job search or hiring journey.
+          </p>
+
+          <form
+            class="row justify-content-center mt-4"
+            action="/submit-salary-request"
+            method="POST"
+          >
+            <div class="col-md-4 mb-2">
+              <input
+                type="text"
+                class="form-control"
+                name="job_title"
+                placeholder="Enter Job Title (e.g. Junior Software Developer)"
+                required
+              />
+            </div>
+            <div class="col-md-3 mb-2">
+              <input
+                type="text"
+                class="form-control"
+                name="location"
+                placeholder="City or Province (optional)"
+              />
+            </div>
+            <div class="col-md-3 mb-2">
+              <button
+                type="submit"
+                class="btn btn-primary w-100"
+                style="background-color: #13547a; color: #fff"
+              >
+                Request Salary Insight
+              </button>
+            </div>
+          </form>
+
+          <p class="text-muted mt-3 small">
+            Our team will research and get back to you with insights tailored to
+            your role.
+          </p>
+        </div>
+      </section>
+
+      <section class="section-padding">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12 col-12">
+              <h5 class="mb-4">RECOMMENDED JOBS</h5>
+            </div>
+
+            <!-- Job 1: Retail Assistant -->
+            <div class="col-lg-4 col-md-6 mb-4">
+              <a
+                href="job-detail.html"
+                class="text-decoration-none text-dark d-block h-100"
+              >
+                <div
+                  class="custom-block bg-white shadow-lg h-100 p-4 rounded-4 hover-shadow"
+                >
+                  <h5 class="mb-1">Retail Assistant (Part-time)</h5>
+                  <div class="d-flex justify-content-between mb-2">
+                    <small class="text-muted">Mr Price</small>
+                    <small class="text-muted"
+                      ><i class="bi bi-geo-alt"></i> Durban</small
+                    >
+                  </div>
+                  <div class="mb-2">
+                    <span
+                      class="badge bg-secondary bg-opacity-10 text-secondary"
+                      >Retail</span
+                    >
+                  </div>
+                  <p class="text-truncate mb-3">
+                    Help customers, stock shelves and assist with sales at a
+                    leading clothing retailer...
+                  </p>
+                  <div class="text-end">
+                    <small class="text-muted">1 day ago</small>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Job 2: Call Centre Learnership -->
+            <div class="col-lg-4 col-md-6 mb-4">
+              <a
+                href="job-detail.html"
+                class="text-decoration-none text-dark d-block h-100"
+              >
+                <div
+                  class="custom-block bg-white shadow-lg h-100 p-4 rounded-4 hover-shadow"
+                >
+                  <h5 class="mb-1">Call Centre Learnership</h5>
+                  <div class="d-flex justify-content-between mb-2">
+                    <small class="text-muted">Capita SA</small>
+                    <small class="text-muted"
+                      ><i class="bi bi-geo-alt"></i> Johannesburg</small
+                    >
+                  </div>
+                  <div class="mb-2">
+                    <span class="badge bg-primary bg-opacity-10 text-primary"
+                      >Learnership</span
+                    >
+                  </div>
+                  <p class="text-truncate mb-3">
+                    12-month paid training for matriculants. Gain experience
+                    while earning a stipend...
+                  </p>
+                  <div class="text-end">
+                    <small class="text-muted">2 days ago</small>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Job 3: Online English Tutor -->
+            <div class="col-lg-4 col-md-6 mb-4">
+              <a
+                href="job-detail.html"
+                class="text-decoration-none text-dark d-block h-100"
+              >
+                <div
+                  class="custom-block bg-white shadow-lg h-100 p-4 rounded-4 hover-shadow"
+                >
+                  <h5 class="mb-1">Online English Tutor</h5>
+                  <div class="d-flex justify-content-between mb-2">
+                    <small class="text-muted">Cambly</small>
+                    <small class="text-muted"
+                      ><i class="bi bi-geo-alt"></i> Remote</small
+                    >
+                  </div>
+                  <div class="mb-2">
+                    <span class="badge bg-info bg-opacity-10 text-info"
+                      >Education</span
+                    >
+                  </div>
+                  <p class="text-truncate mb-3">
+                    Teach conversational English online. Great for students with
+                    strong communication skills...
+                  </p>
+                  <div class="text-end">
+                    <small class="text-muted">Just now</small>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Job 4: Data Capturer (Remote) -->
+            <div class="col-lg-4 col-md-6 mb-4">
+              <a
+                href="job-detail.html"
+                class="text-decoration-none text-dark d-block h-100"
+              >
+                <div
+                  class="custom-block bg-white shadow-lg h-100 p-4 rounded-4 hover-shadow"
+                >
+                  <h5 class="mb-1">Data Capturer (Remote)</h5>
+                  <div class="d-flex justify-content-between mb-2">
+                    <small class="text-muted">EduData</small>
+                    <small class="text-muted"
+                      ><i class="bi bi-geo-alt"></i> Work from Home</small
+                    >
+                  </div>
+                  <div class="mb-2">
+                    <span class="badge bg-success bg-opacity-10 text-success"
+                      >Admin</span
+                    >
+                  </div>
+                  <p class="text-truncate mb-3">
+                    Work remotely capturing student records. No prior experience
+                    needed, training provided...
+                  </p>
+                  <div class="text-end">
+                    <small class="text-muted">3 hours ago</small>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Job 5: Junior IT Intern -->
+            <div class="col-lg-4 col-md-6 mb-4">
+              <a
+                href="job-detail.html"
+                class="text-decoration-none text-dark d-block h-100"
+              >
+                <div
+                  class="custom-block bg-white shadow-lg h-100 p-4 rounded-4 hover-shadow"
+                >
+                  <h5 class="mb-1">Junior IT Intern</h5>
+                  <div class="d-flex justify-content-between mb-2">
+                    <small class="text-muted">BCX</small>
+                    <small class="text-muted"
+                      ><i class="bi bi-geo-alt"></i> Pretoria</small
+                    >
+                  </div>
+                  <div class="mb-2">
+                    <span class="badge bg-dark bg-opacity-10 text-dark"
+                      >IT Internship</span
+                    >
+                  </div>
+                  <p class="text-truncate mb-3">
+                    A paid IT internship for young tech enthusiasts wanting to
+                    enter the digital field...
+                  </p>
+                  <div class="text-end">
+                    <small class="text-muted">4 days ago</small>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Job 6: Assistant Library Clerk -->
+            <div class="col-lg-4 col-md-6 mb-4">
+              <a
+                href="job-detail.html"
+                class="text-decoration-none text-dark d-block h-100"
+              >
+                <div
+                  class="custom-block bg-white shadow-lg h-100 p-4 rounded-4 hover-shadow"
+                >
+                  <h5 class="mb-1">Library Clerk (Student Job)</h5>
+                  <div class="d-flex justify-content-between mb-2">
+                    <small class="text-muted">City of Cape Town</small>
+                    <small class="text-muted"
+                      ><i class="bi bi-geo-alt"></i> Cape Town</small
+                    >
+                  </div>
+                  <div class="mb-2">
+                    <span class="badge bg-warning bg-opacity-10 text-warning"
+                      >Public Sector</span
+                    >
+                  </div>
+                  <p class="text-truncate mb-3">
+                    Assist with shelving and issuing books at public libraries
+                    during school holidays...
+                  </p>
+                  <div class="text-end">
+                    <small class="text-muted">5 days ago</small>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    {% include 'partials/_footer.html' %}
+  </body>
+</html>

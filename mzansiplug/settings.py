@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,6 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,7 +41,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # my apps
     'base.apps.BaseConfig',
+    # Other apps
+    'ckeditor'
 ]
+
+AUTH_USER_MODEL = 'base.User'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
