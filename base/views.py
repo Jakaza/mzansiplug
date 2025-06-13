@@ -340,3 +340,17 @@ def download_paper(request, paper_id, file_type='file'):
         return FileResponse(file_to_download.open(), as_attachment=True, filename=os.path.basename(file_to_download.name))
     except Exception:
         raise Http404("Error serving the file")
+    
+
+
+def graduates_opportunities(request):
+    return render(request, 'careers/graduates.html', {
+        'title': 'Graduate Opportunities in South Africa',
+    })
+
+
+
+def graduates_internships(request):
+    return render(request, 'careers/graduate-internships.html', {
+        'title': 'Graduate Internships in South Africa',
+    })

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    {% include 'partials/_head.html' %}
+
+  <body class="topics-listing-page" id="top">
+    <main>
+   
+      {% include 'partials/_navbar.html' %}
+
+      <header
+        class="site-header d-flex flex-column justify-content-center align-items-center"
+      >
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-lg-5 col-12">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="index.html">Homepage</a>
+                  </li>
+
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Graduate internships / learnerships
+                  </li>
+                </ol>
+              </nav>
+
+              <h2 class="text-white">Graduate internships and learnerships</h2>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="" style="padding: 15px 0">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12 col-12 text-center">
+              <h3 class="mb-4">
+                Internship/Learnership programs in South Africa designed for
+                recent graduates <br />
+                in various industries.
+              </h3>
+            </div>
+            <div class="container mt-3 mb-5">
+              <div class="col-md-6">
+                <label for="" class="form-label mb-2">Choose Industry</label>
+                <select
+                  id="industrySelect"
+                  class="form-select rounded-3 shadow-sm"
+                >
+                  <option selected disabled>-- Select Industry --</option>
+                  <option value="technology">Technology</option>
+                  <option value="education">Education</option>
+                  <option value="healthcare">Healthcare</option>
+                  <option value="manufacturing">Manufacturing</option>
+                  <option value="construction">Construction</option>
+                  <option value="retail">Retail</option>
+                  <option value="transport">Transport & Logistics</option>
+                  <option value="finance">Finance</option>
+                  <option value="hospitality">Hospitality</option>
+                  <!-- Add more industries as needed -->
+                </select>
+              </div>
+
+              <br /><br />
+
+              <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                  <a
+                    href="job-detail.html"
+                    class="text-decoration-none text-dark d-block h-100"
+                  >
+                    <div
+                      class="custom-block bg-white shadow-lg h-100 p-4 rounded-4 hover-shadow"
+                    >
+                      <h5 class="mb-1">Frontend Developer</h5>
+                      <div class="d-flex justify-content-between mb-2">
+                        <small class="text-muted">TechCorp</small>
+                        <small class="text-muted"
+                          ><i class="bi bi-geo-alt"></i> Cape Town</small
+                        >
+                      </div>
+                      <div class="mb-2">
+                        <span
+                          class="badge bg-primary bg-opacity-10 text-primary"
+                          >Software Engineering</span
+                        >
+                      </div>
+                      <p class="text-truncate mb-3">
+                        Join our dynamic team to build responsive UI components
+                        using modern frontend frameworks...
+                      </p>
+                      <div class="text-end">
+                        <small class="text-muted">3 days ago</small>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+                <div class="col-lg-4 col-md-6 mb-4">
+                  <a
+                    href="job-detail.html"
+                    class="text-decoration-none text-dark d-block h-100"
+                  >
+                    <div
+                      class="custom-block bg-white shadow-lg h-100 p-4 rounded-4 hover-shadow"
+                    >
+                      <h5 class="mb-1">Marketing Specialist</h5>
+                      <div class="d-flex justify-content-between mb-2">
+                        <small class="text-muted">AdVantage</small>
+                        <small class="text-muted"
+                          ><i class="bi bi-geo-alt"></i> Johannesburg</small
+                        >
+                      </div>
+                      <div class="mb-2">
+                        <span
+                          class="badge bg-success bg-opacity-10 text-success"
+                          >Marketing</span
+                        >
+                      </div>
+                      <p class="text-truncate mb-3">
+                        We’re looking for a digital marketing expert with
+                        experience in paid ads and SEO strategies...
+                      </p>
+                      <div class="text-end">
+                        <small class="text-muted">1 hour ago</small>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+                <div class="col-lg-4 col-md-6 mb-4">
+                  <a
+                    href="job-detail.html"
+                    class="text-decoration-none text-dark d-block h-100"
+                  >
+                    <div
+                      class="custom-block bg-white shadow-lg h-100 p-4 rounded-4 hover-shadow"
+                    >
+                      <h5 class="mb-1">UX Designer</h5>
+                      <div class="d-flex justify-content-between mb-2">
+                        <small class="text-muted">DesignLab</small>
+                        <small class="text-muted"
+                          ><i class="bi bi-geo-alt"></i> Remote</small
+                        >
+                      </div>
+                      <div class="mb-2">
+                        <span
+                          class="badge bg-warning bg-opacity-10 text-warning"
+                          >Design</span
+                        >
+                      </div>
+                      <p class="text-truncate mb-3">
+                        Help shape user experiences by researching and
+                        prototyping mobile-first design solutions...
+                      </p>
+                      <div class="text-end">
+                        <small class="text-muted">Just now</small>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-12 col-12 mt-5">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center mb-0">
+                  <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                      <span aria-hidden="true">Prev</span>
+                    </a>
+                  </li>
+
+                  <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="#">1</a>
+                  </li>
+
+                  <li class="page-item">
+                    <a class="page-link" href="#">2</a>
+                  </li>
+
+                  <li class="page-item">
+                    <a class="page-link" href="#">3</a>
+                  </li>
+
+                  <li class="page-item">
+                    <a class="page-link" href="#">4</a>
+                  </li>
+
+                  <li class="page-item">
+                    <a class="page-link" href="#">5</a>
+                  </li>
+
+                  <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                      <span aria-hidden="true">Next</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      {% include 'partials/_trending_articles.html' %}
+    
+    </main>
+
+    {% include 'partials/_footer.html' %}
+  </body>
+</html>

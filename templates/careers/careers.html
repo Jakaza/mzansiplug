@@ -49,7 +49,7 @@
             <!-- Graduate -->
             <div class="col-md-4">
               <a
-                href="/graduates.html"
+                href="{% url 'graduates-opportunities' %}"
                 class="card career-card cutostom-card-background-color text-white text-decoration-none h-100 border-0 shadow"
               >
                 <div class="card-body">
@@ -65,15 +65,14 @@
             <!-- Job Seeking -->
             <div class="col-md-4">
               <a
-                href="/south-african-jobs.html"
+              href="{% url 'south-african-jobs' %}?job_type=internship"
                 class="card cutostom-card-background-color career-card text-white text-decoration-none h-100 border-0 shadow"
                 style="background-color: #13547a"
               >
                 <div class="card-body">
                   <h5 class="card-title text-white">Job Seeking</h5>
                   <p class="card-text" style="color: rgb(189, 189, 189)">
-                    Get help with job search, CV writing and interview
-                    preparation.
+                    Search for jobs, internships and entry-level opportunities.
                   </p>
                 </div>
               </a>
