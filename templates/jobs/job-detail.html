@@ -439,6 +439,25 @@
         </div>
       </section>
 
+      {% if messages %}
+      <div class="position-fixed top-0 end-0 p-3" style="z-index: 1050">
+        {% for message in messages %}
+        <div
+          class="alert alert-success alert-dismissible fade show"
+          role="alert"
+        >
+          {{ message }}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
       <section class="section-bg">
         <div class="container">
           <div class="">
@@ -447,10 +466,12 @@
             >
               <form
                 class="custom-form subscribe-form"
-                action="#"
-                method="post"
+                action="{% url 'job-notification-subscription' %}"
+                method="POST"
                 role="form"
               >
+                {% csrf_token %}
+
                 <p class="mb-4 pb-2">
                   Subscribe now for the latest job alerts!
                 </p>
@@ -464,6 +485,8 @@
                   placeholder="Email Address"
                   required=""
                 />
+
+                <input type="hidden" name="next" value="{{ request.path }}" />
 
                 <div class="col-lg-12 col-12">
                   <button type="submit" class="form-control">Subscribe</button>

@@ -75,7 +75,6 @@
               <button type="submit" class="btn btn-primary w-100">Search</button>
             </div>
           </form>
-
           <br>
 
           {% if request.GET.role or request.GET.location or request.GET.sort or request.GET.job_type or request.GET.experience_level %}
@@ -153,7 +152,7 @@
                   </div>
 
                   <img
-                    src="images/topics/undraw_Finance_re_gnv2.png"
+                    src="{% static 'images/topics/undraw_Finance_re_gnv2.png' %}"
                     class="custom-block-image img-fluid"
                     alt=""
                   />
@@ -165,7 +164,7 @@
               <div class="custom-block custom-block-overlay">
                 <div class="d-flex flex-column h-100">
                   <img
-                    src="images/businesswoman-using-tablet-analysis.jpg"
+                    src="{% static 'images/businesswoman-using-tablet-analysis.jpg' %}"
                     class="custom-block-image img-fluid"
                     alt=""
                   />
@@ -240,7 +239,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
               <div class="card h-100 shadow-sm">
                 <img
-                  src="images/articles/article1.jpg"
+                  src="{% static 'images/articles/article1.jpg' %}"
                   class="card-img-top"
                   alt="Article Image"
                 />
@@ -268,7 +267,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
               <div class="card h-100 shadow-sm">
                 <img
-                  src="images/articles/article1.jpg"
+                src="{% static 'images/articles/article1.jpg' %}"
                   class="card-img-top"
                   alt="Article Image"
                 />
@@ -293,7 +292,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
               <div class="card h-100 shadow-sm">
                 <img
-                  src="images/articles/article1.jpg"
+                src="{% static 'images/articles/article1.jpg' %}"
                   class="card-img-top"
                   alt="Article Image"
                 />
@@ -322,11 +321,5 @@
 
     {% include 'partials/_footer.html' %}
 
-    <!-- JAVASCRIPT FILES -->
-    <script src="{% static 'js/jquery.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'js/jquery.sticky.js'%}"></script>
-    <script src="{% static 'js/click-scroll.js' %}"></script>
-    <script src="{% static 'js/custom.js'%}"></script>
   </body>
 </html>

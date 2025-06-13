@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  {% include 'partials/_head.html' %}
+
+  <body class="topics-listing-page" id="top">
+    <main>
+      {% include 'partials/_navbar.html' %}
+
+      <header
+        class="site-header d-flex flex-column justify-content-center align-items-center"
+      >
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-lg-5 col-12">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{% url 'index' %}">Homepage</a>
+                  </li>
+
+                  <li class="breadcrumb-item active" aria-current="page">
+                    High school students
+                  </li>
+                </ol>
+              </nav>
+
+              <h3 class="text-white">
+                Resources for South African High School Students
+              </h3>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="" style="padding: 15px 0" id="highschool-main">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 text-center mb-5">
+              <p class="lead">
+                Find past exam papers, apply to open universities, download
+                prospectuses, and explore bursary opportunities for your future
+                studies.
+              </p>
+            </div>
+
+            <!-- Previous Question Papers -->
+            <div class="col-md-3 mb-4">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h3 class="card-title">📘 Past Question Papers</h3>
+                  <p class="card-text">
+                    Download free matric past papers for Grades 10 to 12.
+                    Practice with real exams to improve your performance.
+                  </p>
+                  <a
+                    href="{% url 'past-papers' %}"
+                    class="btn"
+                    style="background-color: #13547a; color: #fff"
+                    >View Papers</a
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Apply to Universities -->
+            <div class="col-md-3 mb-4">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h3 class="card-title">🎓 Apply to Universities</h3>
+                  <p class="card-text">
+                    Check which South African universities are open for 2025
+                    applications. Apply online today.
+                  </p>
+                  <a
+                    href="/apply-universities.html"
+                    class="btn"
+                    style="background-color: #13547a; color: #fff"
+                    >Open Applications</a
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Download Prospectus -->
+            <div class="col-md-3 mb-4">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h3 class="card-title">📄 Download Prospectus</h3>
+                  <p class="card-text">
+                    Get the 2025 prospectus for leading universities in South
+                    Africa. Explore courses and admission info.
+                  </p>
+                  <a
+                    href="/download-prospectus.html"
+                    class="btn"
+                    style="background-color: #13547a; color: #fff"
+                    >Download Now</a
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Bursaries Box -->
+            <div class="col-md-3 mb-4">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h3 class="card-title">💰 Bursaries & Funding</h3>
+                  <p class="card-text">
+                    Explore bursary options available for South African
+                    matriculants. Find funding to support your studies.
+                  </p>
+                  <a
+                    href="/bursaries.html"
+                    class="btn"
+                    style="background-color: #13547a; color: #fff"
+                    >View Bursaries</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recommended Links -->
+          <div class="row mt-5">
+            <div class="col-12">
+              <h4 class="mb-3">Recommended Resources</h4>
+              <ul class="list-unstyled">
+                <li>
+                  📚
+                  <a href="/article-detail.html" class="text-decoration-none"
+                    >Matric exam tips and preparation strategies →</a
+                  >
+                </li>
+                <li>
+                  💻
+                  <a href="/article-detail.html" class="text-decoration-none"
+                    >Free online courses for Grade 11–12 learners →</a
+                  >
+                </li>
+                <li>
+                  📝
+                  <a href="article-detail.html" class="text-decoration-none"
+                    >Career guidance and job paths after matric →</a
+                  >
+                </li>
+                <li>
+                  🏫
+                  <a href="/article-detail.html" class="text-decoration-none"
+                    >TVET Colleges: Programs and application details →</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-padding">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12 col-12">
+              <h5 class="mb-4">RECOMMENDED JOBS FOR STUDENTS</h5>
+            </div>
+
+            {% for job in entry_level_jobs %}
+            <div class="col-lg-4 col-md-6 mb-4">
+              <a
+                href="{% url 'job-detail' job.id job.slug %}"
+                class="text-decoration-none text-dark d-block h-100"
+              >
+                <div
+                  class="custom-block bg-white shadow-lg h-100 p-4 rounded-4 hover-shadow"
+                >
+                  <h5 class="mb-1">{{ job.title }}</h5>
+                  <div class="d-flex justify-content-between mb-2">
+                    <small class="text-muted"
+                      >{{ job.external_company_name }}</small
+                    >
+                    <small class="text-muted">
+                      <i class="bi bi-geo-alt"></i> {{ job.location }}
+                    </small>
+                  </div>
+                  <div class="mb-2">
+                    {% for category in job.categories.all|slice:":2" %}
+                    <span
+                      class="badge bg-secondary bg-opacity-10 text-secondary"
+                      >{{ category.name }}</span
+                    >
+                    {% endfor %}
+                  </div>
+                  <!-- <p class="text-truncate mb-3">
+                    {{ job.description|striptags|truncatewords:20 }}
+                  </p> -->
+
+                  <p
+                    class="text-truncate mb-3"
+                    style="text-transform: capitalize"
+                  >
+                    {{ job.internal_or_external }}
+                  </p>
+
+                  <small class="text-muted"
+                    >Posted By <b>{{ job.company.company_name }}</b></small
+                  >
+
+                  <div class="text-end">
+                    <small class="text-muted"
+                      >{{ job.created_at|timesince }} ago</small
+                    >
+                  </div>
+                </div>
+              </a>
+            </div>
+            {% empty %}
+            <div class="col-12">
+              <p>No entry-level jobs available at the moment.</p>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+    </main>
+
+    {% include 'partials/_footer.html' %}
+  </body>
+</html>

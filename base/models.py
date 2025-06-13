@@ -1,9 +1,14 @@
+import os
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 from django.conf import settings
 from ckeditor.fields import RichTextField
+from PyPDF2 import PdfReader, PdfWriter
+from io import BytesIO
+from django.core.files.base import ContentFile
+
 
 
 class User(AbstractUser):
@@ -37,6 +42,12 @@ class Category(models.Model):
         return self.name
 
 
+class JobNotificationSub(models.Model):
+    subscribe_email = models.CharField(max_length=255)
+    notification_count = models.PositiveIntegerField(default=0)
+
+
+
 class Job(models.Model):
     JOB_TYPE = (
         ('internal', 'Internal'),
@@ -65,7 +76,7 @@ class Job(models.Model):
     company = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE, related_name="jobs")
     location = models.CharField(max_length=200)
     description = RichTextField()
-    
+
     categories = models.ManyToManyField("Category", related_name="jobs")
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -96,3 +107,144 @@ class Job(models.Model):
 
     def __str__(self):
         return f"{self.title} at {self.company.company_name}"
+    
+
+class SalaryRequest(models.Model):
+    job_title = models.CharField(max_length=255, unique=True, null=True)
+    location = models.CharField(max_length=255, blank=True)
+    requests_count = models.PositiveIntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.job_title} ({self.requests_count} requests)"
+
+
+
+class SalaryCompany(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+class SalaryReport(models.Model):
+    SALARY_TYPE_CHOICES = [
+        ('yearly', 'Per Year'),
+        ('monthly', 'Per Month'),
+        ('daily', 'Per Day'),
+        ('hourly', 'Per Hour'),
+    ]
+
+    title = models.CharField(max_length=255)  # e.g., "Front-End Developer"
+    slug = models.SlugField(max_length=255, unique=True, blank=True)
+
+    location = models.CharField(max_length=255, blank=True, null=True)
+     
+
+    categories = models.ManyToManyField("Category", related_name="salary_reports", blank=True)
+    companies = models.ManyToManyField("SalaryCompany", related_name="salary_reports", blank=True)
+
+    low_salary = models.DecimalField(max_digits=10, decimal_places=2)
+    average_salary = models.DecimalField(max_digits=10, decimal_places=2)
+    high_salary = models.DecimalField(max_digits=10, decimal_places=2)
+    salary_type = models.CharField(max_length=20, choices=SALARY_TYPE_CHOICES, default='yearly')
+
+    overview = RichTextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.title} Salary Report"
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.title)
+            slug = base_slug
+            counter = 1
+            while SalaryReport.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
+
+
+class Subject(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=120, unique=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+class PastPaper(models.Model):
+    PAPER_NUMBER_CHOICES = [
+        ('Paper 1', 'Paper 1'),
+        ('Paper 2', 'Paper 2'),
+        ('Paper 3', 'Paper 3'),
+    ]
+
+    GRADE_CHOICES = [
+        ('Grade 10', 'Grade 10'),
+        ('Grade 11', 'Grade 11'),
+        ('Grade 12', 'Grade 12'),
+    ]
+
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name="papers")
+    paper_number = models.CharField(max_length=20, choices=PAPER_NUMBER_CHOICES)
+    grade = models.CharField(max_length=20, choices=GRADE_CHOICES)
+    exam_month = models.CharField(max_length=20)  # e.g., "November"
+    exam_year = models.PositiveIntegerField()     # e.g., 2023
+
+    file = models.FileField(upload_to='past_papers/questions/')
+    memo = models.FileField(upload_to='past_papers/memos/')
+    created_at = models.DateTimeField(auto_now_add=True)
+    download_count = models.PositiveIntegerField(default=0) 
+
+    class Meta:
+        ordering = ['-exam_year', 'subject']
+
+    def apply_watermark(self, file_field):
+        if file_field and file_field.name.endswith('.pdf'):
+            original_path = file_field.path
+            watermark_path = os.path.join('media', 'watermark.pdf')
+
+            try:
+                input_pdf = PdfReader(original_path)
+                watermark = PdfReader(watermark_path)
+                watermark_page = watermark.pages[0]
+            except Exception as e:
+                print(f"Watermarking failed: {e}")
+                return
+
+            output_pdf = PdfWriter()
+            for page in input_pdf.pages:
+                page.merge_page(watermark_page)
+                output_pdf.add_page(page)
+
+            output_stream = BytesIO()
+            output_pdf.write(output_stream)
+
+            # Clean filename and re-assign to same folder
+            base_name = os.path.basename(file_field.name)
+            file_field.delete(save=False)  # Delete unwatermarked file
+            file_field.save(base_name, ContentFile(output_stream.getvalue()), save=False)
+            output_stream.close()
+
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        super().save(*args, **kwargs)
+
+        if is_new:
+            self.apply_watermark(self.file)
+            self.apply_watermark(self.memo)
+            super().save(update_fields=['file', 'memo'])
+
+    def __str__(self):
+        return f"{self.subject.name} {self.paper_number} – {self.exam_month} {self.exam_year}"
+
+

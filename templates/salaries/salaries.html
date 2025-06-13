@@ -31,172 +31,97 @@
       </header>
 
       <section
-        class="salaries-hero-section section-padding"
+        class="salaries-hero-section" style="padding: 15px 0;"
         id="discover-salaries"
         style="padding-bottom: 15px"
       >
         <div class="container">
           <div class="row justify-content-center text-center">
-            <div class="col-lg-8 col-md-10">
+            <div class="col-lg-10 col-md-10">
               <h2 class="mb-3">Discover Salaries in South Africa</h2>
               <p class="lead text-muted">
                 Search average salaries by job title, industry, or location.
                 Make informed career and hiring decisions.
               </p>
-
-              <form
-                class="d-flex flex-column flex-md-row gap-2 mt-4 justify-content-center"
-              >
-                <input
-                  type="text"
-                  class="form-control form-control-lg rounded-3"
-                  placeholder="Search job title (e.g. Driver, Admin)"
-                />
-                <input
-                  type="text"
-                  class="form-control form-control-lg rounded-3"
-                  placeholder="City or Province"
-                />
-                <button type="submit" class="btn btn-primary btn-lg">
-                  Search
-                </button>
+              <form method="get" action="{% url 'south-african-salaries' %}" class="row g-3 mt-4 justify-content-center">
+                <div class="col-md-3">
+                  <input
+                    type="text"
+                    name="title"
+                    class="form-control form-control-lg rounded-3"
+                    placeholder="Search job title (e.g. Driver, Admin)"
+                    value="{{ request.GET.title }}"
+                  />
+                </div>
+                <div class="col-md-3">
+                  <input
+                    type="text"
+                    name="location"
+                    class="form-control form-control-lg rounded-3"
+                    placeholder="City or Province"
+                    value="{{ request.GET.location }}"
+                  />
+                </div>
+                <div class="col-md-3">
+                  <select id="industrySelect" name="industry" class="form-select form-select-lg rounded-3 shadow-sm">
+                    <option disabled {% if not request.GET.industry %}selected{% endif %}>-- Select Industry --</option>
+                    {% for category in categories %}
+                      <option value="{{ category.slug }}" {% if request.GET.industry == category.slug %}selected{% endif %}>
+                        {{ category.name }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col-md-2">
+                  <button type="submit" class="btn btn-primary btn-lg w-100">Search</button>
+                </div>
               </form>
+              
+              <br> <br>
             </div>
           </div>
-          <div class="row mb-5 mt-5">
-            <div class="col-md-6">
-              <label for="" class="form-label mb-2">Choose Industry</label>
-              <select
-                id="industrySelect"
-                class="form-select rounded-3 shadow-sm"
-              >
-                <option selected disabled>-- Select Industry --</option>
-                <option value="technology">Technology</option>
-                <option value="education">Education</option>
-                <option value="healthcare">Healthcare</option>
-                <option value="manufacturing">Manufacturing</option>
-                <option value="construction">Construction</option>
-                <option value="retail">Retail</option>
-                <option value="transport">Transport & Logistics</option>
-                <option value="finance">Finance</option>
-                <option value="hospitality">Hospitality</option>
-                <!-- Add more industries as needed -->
-              </select>
-            </div>
-          </div>
+
+          {% if request.GET.title or request.GET.location or request.GET.industry %}
+          <form method="get" action="">
+            <a href="{% url 'south-african-salaries' %}" class="btn btn-outline-danger">Clear Search</a>
+          </form>
+        {% endif %}
+  
         </div>
       </section>
+
+      {% load humanize %}
 
       <section
         class="popular-salaries section-padding bg-white"
         style="padding-bottom: 0; padding-top: 0"
       >
         <div class="container">
+          {% if salaries %}
           <div class="row g-4">
-            <div class="col-lg-4 col-12 mb-4">
-              <div class="custom-block bg-white shadow-lg p-4 rounded-4 h-100">
-                <a
-                  href="salary_details.html?job=delivery-driver"
-                  class="text-decoration-none text-dark d-block"
-                >
-                  <div class="d-flex flex-column h-100">
-                    <div>
-                      <h5 class="mb-2">Delivery Driver</h5>
-                      <p class="text-muted mb-1">Average: R7,200/month</p>
-                      <small class="text-muted">Gauteng, Johannesburg</small>
+            {% for salary in salaries %}
+              <div class="col-lg-4 col-12 mb-4">
+                <div class="custom-block bg-white shadow-lg p-4 rounded-4 h-100">
+                  <a href="{% url 'salary-detail' salary.id salary.slug %}" class="text-decoration-none text-dark d-block">
+                    <div class="d-flex flex-column h-100">
+                      <div>
+                        <h5 class="mb-2">{{ salary.title }}</h5>
+                        <p class="text-muted mb-1">
+                          Average: R{{ salary.average_salary|floatformat:0|intcomma }} /
+                          {{ salary.get_salary_type_display }}
+                        </p>
+                        <small class="text-muted">{{ salary.location }}</small>
+                      </div>
                     </div>
-                  </div>
-                </a>
+                  </a>
+                </div>
               </div>
-            </div>
-
-            <div class="col-lg-4 col-12 mb-4">
-              <div class="custom-block bg-white shadow-lg p-4 rounded-4 h-100">
-                <a
-                  href="salary_details.html?job=call-centre-agent"
-                  class="text-decoration-none text-dark d-block"
-                >
-                  <div class="d-flex flex-column h-100">
-                    <div>
-                      <h5 class="mb-2">Call Centre Agent</h5>
-                      <p class="text-muted mb-1">Average: R5,800/month</p>
-                      <small class="text-muted">Western Cape, Cape Town</small>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-12 mb-4">
-              <div class="custom-block bg-white shadow-lg p-4 rounded-4 h-100">
-                <a
-                  href="salary_details.html?job=admin-assistant"
-                  class="text-decoration-none text-dark d-block"
-                >
-                  <div class="d-flex flex-column h-100">
-                    <div>
-                      <h5 class="mb-2">Administrative Assistant</h5>
-                      <p class="text-muted mb-1">Average: R6,500/month</p>
-                      <small class="text-muted">KwaZulu-Natal, Durban</small>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-12 mb-4">
-              <div class="custom-block bg-white shadow-lg p-4 rounded-4 h-100">
-                <a
-                  href="salary_details.html?job=security-guard"
-                  class="text-decoration-none text-dark d-block"
-                >
-                  <div class="d-flex flex-column h-100">
-                    <div>
-                      <h5 class="mb-2">Security Guard</h5>
-                      <p class="text-muted mb-1">Average: R4,800/month</p>
-                      <small class="text-muted">Gauteng, Pretoria</small>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-12 mb-4">
-              <div class="custom-block bg-white shadow-lg p-4 rounded-4 h-100">
-                <a
-                  href="salary_details.html?job=cashier"
-                  class="text-decoration-none text-dark d-block"
-                >
-                  <div class="d-flex flex-column h-100">
-                    <div>
-                      <h5 class="mb-2">Cashier</h5>
-                      <p class="text-muted mb-1">Average: R4,200/month</p>
-                      <small class="text-muted"
-                        >Eastern Cape, Port Elizabeth</small
-                      >
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-12 mb-4">
-              <div class="custom-block bg-white shadow-lg p-4 rounded-4 h-100">
-                <a
-                  href="salary_details.html?job=electrician"
-                  class="text-decoration-none text-dark d-block"
-                >
-                  <div class="d-flex flex-column h-100">
-                    <div>
-                      <h5 class="mb-2">Electrician</h5>
-                      <p class="text-muted mb-1">Average: R12,000/month</p>
-                      <small class="text-muted">Limpopo, Polokwane</small>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
+            {% endfor %}
           </div>
+        {% else %}
+          <p>No salary reports available for this industry.</p>
+        {% endif %}
+        
         </div>
       </section>
 
@@ -208,41 +133,57 @@
             your job search or hiring journey.
           </p>
 
-          <form
-            class="row justify-content-center mt-4"
-            action="/submit-salary-request"
-            method="POST"
-          >
-            <div class="col-md-4 mb-2">
-              <input
-                type="text"
-                class="form-control"
-                name="job_title"
-                placeholder="Enter Job Title (e.g. Junior Software Developer)"
-                required
-              />
-            </div>
-            <div class="col-md-3 mb-2">
-              <input
-                type="text"
-                class="form-control"
-                name="location"
-                placeholder="City or Province (optional)"
-              />
-            </div>
-            <div class="col-md-3 mb-2">
-              <button
-                type="submit"
-                class="btn btn-primary w-100"
-                style="background-color: #13547a; color: #fff"
-              >
-                Request Salary Insight
-              </button>
-            </div>
-          </form>
+
+
+          
+{% if messages %}
+  <div class="position-fixed top-0 end-0 p-3" style="z-index: 1050;">
+    {% for message in messages %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<form
+  class="row justify-content-center mt-4"
+  action="{% url 'submit-salary-request' %}"
+  method="POST"
+>
+  {% csrf_token %}
+  <div class="col-md-4 mb-2">
+    <input
+      type="text"
+      class="form-control"
+      name="job_title"
+      placeholder="Enter Job Title (e.g. Junior Software Developer)"
+      required
+    />
+  </div>
+  <div class="col-md-3 mb-2">
+    <input
+      type="text"
+      class="form-control"
+      name="location"
+      placeholder="City or Province (optional)"
+    />
+  </div>
+  <div class="col-md-3 mb-2">
+    <button
+      type="submit"
+      class="btn btn-primary w-100"
+      style="background-color: #13547a; color: #fff"
+    >
+      Request Salary Insight
+    </button>
+  </div>
+</form>
+
 
           <p class="text-muted mt-3 small">
-            Our team will research and get back to you with insights tailored to
+            Our team will research and get back to you with insights customized to
             your role.
           </p>
         </div>
