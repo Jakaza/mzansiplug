@@ -27,57 +27,51 @@
         </div>
       </div>
 
-      <div class="col-lg-6 col-12">
-        <div class="custom-block custom-block-overlay">
-          <div class="d-flex flex-column h-100">
-            <img
-              src="{% static 'images/businesswoman-using-tablet-analysis.jpg' %}"
-              class="custom-block-image img-fluid"
-              alt=""
-            />
 
-            <div class="custom-block-overlay-text d-flex">
-              <div>
-                <h5 class="text-white mb-2">Finance</h5>
+      {% if top_article %}
+<div class="col-lg-6 col-12">
+  <div class="custom-block custom-block-overlay">
+  
+    <div class="d-flex flex-column h-100">
 
-                <p class="text-white">
-                  Topic Listing Template includes homepage, listing page, detail
-                  page, and contact page. You can feel free to edit and adapt
-                  for your CMS requirements.
-                </p>
-
-                <a href="topics-detail.html" class="btn custom-btn mt-2 mt-lg-3"
-                  >Learn More</a
-                >
-              </div>
-
-              <span class="badge bg-finance rounded-pill ms-auto">25</span>
-            </div>
-
-            <div class="social-share d-flex">
-              <p class="text-white me-4">Share:</p>
-
-              <ul class="social-icon">
-                <li class="social-icon-item">
-                  <a href="#" class="social-icon-link bi-twitter"></a>
-                </li>
-
-                <li class="social-icon-item">
-                  <a href="#" class="social-icon-link bi-facebook"></a>
-                </li>
-
-                <li class="social-icon-item">
-                  <a href="#" class="social-icon-link bi-pinterest"></a>
-                </li>
-              </ul>
-
-              <a href="#" class="custom-icon bi-bookmark ms-auto"></a>
-            </div>
-
-            <div class="section-overlay"></div>
-          </div>
+      {% if top_article.cover_image %}
+        <img src="{{ top_article.cover_image.url }}" class="custom-block-image img-fluid" alt="{{ top_article.title }}">
+      {% else %}
+        <img src="{% static 'images/default-cover.jpg' %}" class="custom-block-image img-fluid" alt="{{ top_article.title }}">
+      {% endif %}
+    
+      <div class="custom-block-overlay-text d-flex">
+        <div>
+          {% if top_article.category %}
+            <h5 class="text-white mb-2">{{ top_article.category.name }}</h5>
+          {% else %}
+            <h5 class="text-white mb-2">Article</h5>
+          {% endif %}
+    
+          <p class="text-white">{{ top_article.excerpt|truncatewords:25 }}</p>
+          <a href="{% url 'article-detail' pk=top_article.pk slug=top_article.slug %}" class="btn custom-btn mt-2 mt-lg-3">Read Article</a>
         </div>
+        <span class="badge bg-finance rounded-pill ms-auto">{{ top_article.view_count }} views</span>
       </div>
+    
+      <div class="social-share d-flex">
+        <p class="text-white me-4">Share:</p>
+        <ul class="social-icon">
+          <li class="social-icon-item"><a href="#" class="social-icon-link bi-twitter"></a></li>
+          <li class="social-icon-item"><a href="#" class="social-icon-link bi-facebook"></a></li>
+          <li class="social-icon-item"><a href="#" class="social-icon-link bi-pinterest"></a></li>
+        </ul>
+        <a href="#" class="custom-icon bi-bookmark ms-auto"></a>
+      </div>
+    
+      <div class="section-overlay"></div>
+    </div>
+    
+  </div>
+</div>
+{% endif %}
+
+
     </div>
   </div>
 </section>

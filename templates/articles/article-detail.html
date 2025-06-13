@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+ 
+  {% include 'partials/_head.html' %}
+
+  <body class="topics-listing-page" id="top">
+    <main>
+   
+      {% include 'partials/_navbar.html' %}
+
+      <header
+        class="site-header d-flex flex-column justify-content-center align-items-center"
+      >
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-lg-5 col-12">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="index.html">Homepage</a>
+                  </li>
+
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Career Advice
+                  </li>
+                </ol>
+              </nav>
+
+              <h2 class="text-white">20 Tips for Great Job Interviews</h2>
+            </div>
+          </div>
+        </div>
+      </header>
+    </main>
+
+
+    {% load static %}
+
+<section style="padding: 15px 0" class="bg-white" id="article-detail">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="mb-4">
+          <p class="text-primary text-uppercase small">
+            {{ article.category.name|default:"General" }}
+          </p>
+
+          <p class="text-muted">
+            Published on {{ article.published_at|date:"F d, Y" }} 
+            {% if article.author %}| By {{ article.author.get_full_name|default:article.author.username }}{% endif %}
+          </p>
+        </div>
+
+        <div class="mb-5">
+          {% if article.cover_image %}
+            <img src="{{ article.cover_image.url }}" class="img-fluid rounded" alt="{{ article.title }}">
+          {% else %}
+            <img src="{% static 'images/default-cover.jpg' %}" class="img-fluid rounded" alt="{{ article.title }}">
+          {% endif %}
+        </div>
+
+        <div class="article-content">
+          {{ article.content|safe }}
+        </div>
+
+              <!-- Tags Section -->
+              {% if article.tags.all %}
+              <div class="mt-5">
+                <h6 class="text-uppercase text-muted small">Tags:</h6>
+                <div class="d-flex flex-wrap gap-2">
+                  {% for tag in article.tags.all %}
+                    {% if "{" not in tag.name and "}" not in tag.name and ":" not in tag.name and "value" not in tag.name %}
+                    <a href="{% url 'tagged-articles' tag_slug=tag.slug  %}" 
+                       class="badge bg-light text-primary text-decoration-none border p-2">
+                      {{ tag.name }}
+                    </a>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+              {% endif %}
+
+      
+
+        <div class="mt-5">
+          <a href="{% url 'south-african-articles' %}" class="btn btn-outline-primary">← Back to All Articles</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <!-- Recommendations section under your article -->
+
+    <section class="section-padding bg-light">
+      <div class="container">
+        <div class="row mb-4">
+          <div class="col-12 text-center">
+            <h3 class="text-dark">Recommended Articles</h3>
+            <p class="text-muted">You may also find these useful</p>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <!-- Recommendation Card 1 -->
+          <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+              <img
+                src="images/articles/Career-Development-Tips.jpg"
+                class="card-img-top"
+                alt="Career Growth"
+              />
+              <div class="card-body">
+                <h5 class="card-title">How to Grow Your Career in 2025</h5>
+                <p class="card-text text-muted small">
+                  Explore new ways to boost your career and stand out in your
+                  industry.
+                </p>
+                <a href="article_detail.html" class="btn btn-sm btn-primary"
+                  >Read More</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Recommendation Card 2 -->
+          <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+              <img
+                src="images/articles/cv-writing.webp"
+                class="card-img-top"
+                alt="CV Writing Tips"
+              />
+              <div class="card-body">
+                <h5 class="card-title">
+                  Top CV Writing Tips That Get You Hired
+                </h5>
+                <p class="card-text text-muted small">
+                  Learn how to write a CV that recruiters notice immediately.
+                </p>
+                <a href="article_detail.html" class="btn btn-sm btn-primary"
+                  >Read More</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Recommendation Card 3 -->
+          <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+              <img
+                src="images/articles/remote-work.jpeg"
+                class="card-img-top"
+                alt="Remote Work Guide"
+              />
+              <div class="card-body">
+                <h5 class="card-title">
+                  A Guide to Remote Work in South Africa
+                </h5>
+                <p class="card-text text-muted small">
+                  Tips and tools to help you succeed while working from home.
+                </p>
+                <a href="article_detail.html" class="btn btn-sm btn-primary"
+                  >Read More</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    {% include "partials/_footer.html" %}
+
+  </body>
+</html>

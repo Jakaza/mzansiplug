@@ -22,5 +22,11 @@ urlpatterns = [
     path('careers/graduates-opportunities/', views.graduates_opportunities, name='graduates-opportunities'),
     path('careers/early-career-opportunities/', views.graduates_internships, name='graduates-internships'),
 
+
+    # Articles 
+    path('articles/', views.article_list, name='south-african-articles'),
+    path('articles/<int:pk>/<slug:slug>/', views.article_detail, name='article-detail'),
+    path('articles/tag/<str:tag_slug>/', views.tagged_articles, name='tagged-articles'),
+
 ]
 

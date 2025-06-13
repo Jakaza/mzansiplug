@@ -9,6 +9,17 @@ from PyPDF2 import PdfReader, PdfWriter
 from io import BytesIO
 from django.core.files.base import ContentFile
 
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+from django.db.models import Index
+
+from taggit.managers import TaggableManager
+
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
+
+
+
 
 
 class User(AbstractUser):
@@ -248,3 +259,221 @@ class PastPaper(models.Model):
         return f"{self.subject.name} {self.paper_number} – {self.exam_month} {self.exam_year}"
 
 
+#  ARTICLE MODELS 
+
+
+class ArticleCategory(models.Model):
+    name = models.CharField(
+        max_length=100,
+        unique=True,
+        verbose_name=_("Name"),
+        help_text=_("Category name (max 100 characters)")
+    )
+    slug = models.SlugField(
+        max_length=120,
+        unique=True,
+        blank=True,
+        verbose_name=_("Slug"),
+        help_text=_("URL-friendly identifier (auto-generated if blank)")
+    )
+
+    class Meta:
+        verbose_name = _("Article Category")
+        verbose_name_plural = _("Article Categories")
+        ordering = ['name']
+        indexes = [
+            Index(fields=['name']),
+            Index(fields=['slug']),
+        ]
+
+    def __str__(self):
+        return self.name
+
+    def clean(self):
+        if not self.slug:
+            self.slug = slugify(self.name)
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
+
+def article_cover_upload_path(instance, filename):
+    return f'articles/images/{instance.slug}/{filename}'
+
+
+class Article(models.Model):
+    STATUS_DRAFT = 'draft'
+    STATUS_PUBLISHED = 'published'
+    STATUS_ARCHIVED = 'archived'
+    
+    STATUS_CHOICES = [
+        (STATUS_DRAFT, _('Draft')),
+        (STATUS_PUBLISHED, _('Published')),
+        (STATUS_ARCHIVED, _('Archived')),
+    ]
+
+    title = models.CharField(
+        max_length=200,
+        verbose_name=_("Title"),
+        help_text=_("Article title (max 200 characters)")
+    )
+    slug = models.SlugField(
+        max_length=220,
+        unique=True,
+        blank=True,
+        verbose_name=_("Slug"),
+        help_text=_("URL-friendly identifier (auto-generated if blank)")
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='articles',
+        verbose_name=_("Author")
+    )
+    category = models.ForeignKey(
+        ArticleCategory,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='articles',
+        verbose_name=_("Category")
+    )
+    cover_image = models.ImageField(
+        upload_to=article_cover_upload_path,
+        blank=True,
+        null=True,
+        verbose_name=_("Cover Image"),
+        help_text=_("Recommended size: 1200x630 pixels")
+    )
+    cover_image_thumbnail = ImageSpecField(
+        source='cover_image',
+        processors=[ResizeToFill(400, 300)],
+        format='JPEG',
+        options={'quality': 80}
+    )
+
+    content = RichTextField(
+        verbose_name=_("Content"),
+        help_text=_("Main article content")
+    )
+    excerpt = models.TextField(
+        max_length=300,
+        blank=True,
+        verbose_name=_("Excerpt"),
+        help_text=_("Short summary for previews (max 300 characters)")
+    )
+
+    tags = TaggableManager(
+        blank=True,
+        verbose_name=_("Tags"),
+        help_text=_("Comma-separated tags for this article")
+    )
+
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default=STATUS_DRAFT,
+        verbose_name=_("Status"),
+        help_text=_("Publication status")
+    )
+    is_featured = models.BooleanField(
+        default=False,
+        verbose_name=_("Featured"),
+        help_text=_("Mark as featured article")
+    )
+
+    published_at = models.DateTimeField(
+        blank=True,
+        null=True,
+        verbose_name=_("Published At"),
+        help_text=_("Date when article was published")
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name=_("Created At")
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name=_("Updated At")
+    )
+    view_count = models.PositiveIntegerField(
+        default=0,
+        editable=False,
+        verbose_name=_("View Count")
+    )
+
+    # SEO Fields
+    meta_title = models.CharField(
+        max_length=70,
+        blank=True,
+        verbose_name=_("Meta Title"),
+        help_text=_("SEO title (max 70 characters)")
+    )
+    meta_description = models.CharField(
+        max_length=160,
+        blank=True,
+        verbose_name=_("Meta Description"),
+        help_text=_("SEO description (max 160 characters)")
+    )
+
+    class Meta:
+        ordering = ['-published_at', '-created_at']
+        verbose_name = _("Article")
+        verbose_name_plural = _("Articles")
+        indexes = [
+            Index(fields=['status']),
+            Index(fields=['published_at']),
+            Index(fields=['is_featured']),
+            Index(fields=['slug']),
+        ]
+
+    def __str__(self):
+        return self.title
+
+    def clean(self):
+        # Auto-generate slug if empty
+        if not self.slug:
+            base_slug = slugify(self.title)[:220]
+            unique_slug = base_slug
+            counter = 1
+            while Article.objects.filter(slug=unique_slug).exclude(pk=self.pk).exists():
+                unique_slug = f'{base_slug}-{counter}'
+                counter += 1
+            self.slug = unique_slug
+
+        # Set published_at when status changes to published
+        if self.status == self.STATUS_PUBLISHED and not self.published_at:
+            self.published_at = timezone.now()
+
+        # Validate published_at isn't in the future
+        if self.published_at and self.published_at > timezone.now():
+            raise ValidationError(_("Published date cannot be in the future"))
+
+        # Set meta_title if empty
+        if not self.meta_title:
+            self.meta_title = self.title[:70]
+
+        # Set meta_description if empty
+        if not self.meta_description and self.excerpt:
+            self.meta_description = self.excerpt[:160]
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
+    def is_published(self):
+        return self.status == self.STATUS_PUBLISHED
+
+    def get_reading_time(self):
+        """Estimate reading time in minutes (average 200 words per minute)"""
+        word_count = len(self.content.split())
+        return max(1, word_count // 200)
+
+    def increment_view_count(self):
+        """Atomically increment view count"""
+        Article.objects.filter(pk=self.pk).update(
+            view_count=models.F('view_count') + 1
+        )
+        self.refresh_from_db()

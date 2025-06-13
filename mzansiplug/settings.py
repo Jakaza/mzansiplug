@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     # my apps
     'base.apps.BaseConfig',
     # Other apps
-    'ckeditor'
+    'ckeditor',
+    'taggit',
+    'imagekit',
 ]
 
 AUTH_USER_MODEL = 'base.User'

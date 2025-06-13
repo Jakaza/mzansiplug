@@ -3,7 +3,7 @@ from django.db.models import Prefetch
 from django.db.models import Q
 from django.db.models import F
 import os
-from .models import Job , Category , SalaryReport , SalaryCompany , SalaryRequest , JobNotificationSub , Subject , PastPaper
+from .models import Job , Category , SalaryReport , SalaryCompany , SalaryRequest , JobNotificationSub , Subject , PastPaper , Article
 from django.shortcuts import get_object_or_404 , get_list_or_404
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.admin.views.decorators import staff_member_required
@@ -14,6 +14,8 @@ from django.http import FileResponse
 from .models import PastPaper
 # import Http404
 from django.http import Http404
+
+from taggit.models import Tag  
 
 
 
@@ -32,9 +34,12 @@ def index(request):
 
     categories = Category.objects.all().order_by('name')
 
+    top_article = Article.objects.filter(status='published').order_by('-view_count').first()
+
     return render(request, 'index.html', {
         'categories': categories,
         'jobs': jobs,
+        'top_article': top_article,
         'selected_category': selected_category,
         'title': 'Welcome to MzansiPlug - South African Jobs and Salaries Platform',
     })
@@ -354,3 +359,28 @@ def graduates_internships(request):
     return render(request, 'careers/graduate-internships.html', {
         'title': 'Graduate Internships in South Africa',
     })
+
+
+
+
+
+# Articles Views 
+
+def article_list(request):
+    return render(request, 'articles/articles.html', {
+        'title': 'South African Articles',
+    })
+
+def article_detail(request, pk, slug):
+    article = get_object_or_404(Article, pk=pk, slug=slug)
+    article.view_count += 1
+    article.save()
+    return render(request, 'articles/article-detail.html', {'article': article})
+
+def tagged_articles(request, tag_slug):
+    tag = get_object_or_404(Tag, slug=tag_slug)
+
+    articles = Article.objects.filter(tags__slug__in=[tag_slug], status=Article.STATUS_PUBLISHED) 
+    
+    return render(request, 'articles/tagged-articles.html', {'tag': tag , 'articles': articles})
+
