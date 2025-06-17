@@ -3,7 +3,7 @@ from django.db.models import Prefetch
 from django.db.models import Q
 from django.db.models import F
 import os
-from .models import Job , Category , SalaryReport , SalaryCompany , SalaryRequest , JobNotificationSub , Subject , PastPaper , Article
+from .models import Job , Category , ArticleCategory , SalaryReport , SalaryCompany , SalaryRequest , Certification , JobNotificationSub , Bursary , Subject , PastPaper , Article
 from django.shortcuts import get_object_or_404 , get_list_or_404
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.admin.views.decorators import staff_member_required
@@ -43,6 +43,10 @@ def index(request):
         'selected_category': selected_category,
         'title': 'Welcome to MzansiPlug - South African Jobs and Salaries Platform',
     })
+
+
+def contact(request):
+    return render(request, 'contact.html')
 
 
 
@@ -361,26 +365,84 @@ def graduates_internships(request):
     })
 
 
+def postgraduate_bursaries(request):
+    bursaries = Bursary.objects.all()
+    return render(request, 'careers/postgraduate-bursaries.html', {
+        'title': 'Postgraduate Bursaries in South Africa',
+        'bursaries': bursaries
+    })
+
+
+
+def get_certifications(request):
+    certifications = Certification.objects.all()
+
+    query = request.GET.get('q')
+    price_filter = request.GET.get('price')
+    sort = request.GET.get('sort')
+
+    # Search
+    if query:
+        certifications = certifications.filter(
+            Q(title__icontains=query) | Q(description__icontains=query)
+        )
+
+    # Filter by price type (Free / Paid)
+    if price_filter in ['Free', 'Paid']:
+        certifications = certifications.filter(price_type__iexact=price_filter)
+
+    # Sort
+    if sort == 'popular':
+        certifications = certifications.order_by('-students_enrolled')
+    elif sort == 'latest':
+        certifications = certifications.order_by('-id')
+
+    return render(request, 'careers/certificates.html', {
+        'title': 'Get Certifications in South Africa',
+        'certifications': certifications,
+        'total': certifications.count(),
+        'query': query or '',
+        'active_price': price_filter or '',
+        'active_sort': sort or '',
+    })
+
 
 
 
 # Articles Views 
 
 def article_list(request):
+    articles = Article.objects.filter(status='published').order_by('-published_at')
     return render(request, 'articles/articles.html', {
         'title': 'South African Articles',
+        'articles': articles,
     })
+
+
 
 def article_detail(request, pk, slug):
     article = get_object_or_404(Article, pk=pk, slug=slug)
     article.view_count += 1
     article.save()
-    return render(request, 'articles/article-detail.html', {'article': article})
+
+    title = f"{article.title} | Mzansi Plug Articles"
+    return render(request, 'articles/article-detail.html', {'article': article , 'title': title })
 
 def tagged_articles(request, tag_slug):
     tag = get_object_or_404(Tag, slug=tag_slug)
 
     articles = Article.objects.filter(tags__slug__in=[tag_slug], status=Article.STATUS_PUBLISHED) 
-    
-    return render(request, 'articles/tagged-articles.html', {'tag': tag , 'articles': articles})
+
+    return render(request, 'articles/tagged-articles.html', {'tag': tag , 'articles': articles , 'title': tag})
+
+
+def category_articles(request , pk , category_slug):
+    print('PK', pk)
+    print(category_slug)
+    category = get_object_or_404(ArticleCategory, pk=pk , slug=category_slug)
+    print("CATEGORY", category)
+
+    articles = Article.objects.filter(slug=[category_slug], status=Article.STATUS_PUBLISHED) 
+
+    return render(request, 'articles/category-articles.html', {'category': category , 'articles': articles , 'title': category})
 

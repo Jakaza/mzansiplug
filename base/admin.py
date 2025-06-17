@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import (User, CompanyProfile, Category, Job, SalaryReport, 
                     SalaryCompany, SalaryRequest, Article, ArticleCategory,
-                    JobNotificationSub, Subject, PastPaper)
+                    JobNotificationSub, Subject, PastPaper , Bursary, Certification )
 from django.utils.html import format_html
 from .forms import JobAdminForm
 from django import forms
@@ -68,7 +68,7 @@ class SalaryRequestAdmin(admin.ModelAdmin):
 
 @admin.register(ArticleCategory)
 class ArticleCategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'article_count')
+    list_display = ('name', 'slug', 'pk' , 'article_count')
     prepopulated_fields = {'slug': ('name',)}
     
     def get_queryset(self, request):
@@ -161,3 +161,19 @@ class ArticleAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related('tags')
+    
+
+
+@admin.register(Bursary)
+class BursaryAdmin(admin.ModelAdmin):
+    list_display = ('title', 'provider', 'deadline', 'created_at')
+    search_fields = ('title', 'provider', 'description')
+    prepopulated_fields = {"slug": ("title",)}
+    list_filter = ('deadline', 'provider')
+
+
+@admin.register(Certification)
+class CertificationAdmin(admin.ModelAdmin):
+    list_display = ('title', 'provider', 'price_type', 'students_enrolled', 'created_at')
+    search_fields = ('title', 'provider')
+    list_filter = ('price_type',)

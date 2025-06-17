@@ -18,7 +18,7 @@
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item">
-                    <a href="index.html">Homepage</a>
+                    <a href="{% url 'index' %}">Homepage</a>
                   </li>
 
                   <li class="breadcrumb-item active" aria-current="page">
@@ -78,7 +78,7 @@
                   or no experience.
                 </p>
                 <a
-                  href="/entry-level-jobs.html"
+                href="{% url 'south-african-jobs' %}?job_type=internship"
                   class="btn"
                   style="background-color: #13547a; color: #fff"
                   >Browse Jobs</a
@@ -97,7 +97,7 @@
                   leading companies and organisations.
                 </p>
                 <a
-                  href="/graduate-internships.html"
+                href="{% url 'south-african-jobs' %}?job_type=internship"
                   class="btn"
                   style="background-color: #13547a; color: #fff"
                   >Explore Programs</a
@@ -116,7 +116,7 @@
                   matriculants. Find funding to support your studies.
                 </p>
                 <a
-                  href="/postgraduate-bursaries.html"
+                  href="{% url 'postgraduate-bursaries' %}"
                   class="btn"
                   style="background-color: #13547a; color: #fff"
                   >Postgraduate Bursaries & Funding</a

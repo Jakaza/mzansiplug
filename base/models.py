@@ -18,6 +18,9 @@ from taggit.managers import TaggableManager
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 
+from django.core.validators import FileExtensionValidator
+
+
 
 
 
@@ -477,3 +480,100 @@ class Article(models.Model):
             view_count=models.F('view_count') + 1
         )
         self.refresh_from_db()
+
+
+
+class Certification(models.Model):
+    TITLE_CHOICES = [
+        ('FREE', 'Free'),
+        ('PAID', 'Paid'),
+    ]
+
+    title = models.CharField(max_length=255)
+    provider = models.CharField(max_length=255, blank=True)  # e.g., Coursera, Google, etc.
+    description = models.TextField()
+    link = models.URLField(verbose_name="External Link")
+    image = models.ImageField(upload_to='certifications/', blank=True, null=True)
+    price_type = models.CharField(max_length=10, choices=TITLE_CHOICES, default='FREE')
+    price = models.DecimalField(max_digits=8, decimal_places=2, default=0.00)
+    students_enrolled = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.title
+
+
+
+
+class Bursary(models.Model):
+    title = models.CharField(
+        max_length=200,
+        unique=True,
+        verbose_name="Bursary Title",
+        help_text="Enter the official name of the bursary or funding opportunity."
+    )
+    slug = models.SlugField(
+        max_length=220,
+        unique=True,
+        blank=True,
+        help_text="Auto-generated from the title"
+    )
+    provider = models.CharField(
+        max_length=150,
+        verbose_name="Provider",
+        help_text="Organization or institution offering this bursary"
+    )
+    description = models.TextField(
+        verbose_name="Description",
+        help_text="Brief details about the bursary or funding"
+    )
+    eligibility = models.TextField(
+        blank=True,
+        verbose_name="Eligibility Requirements",
+        help_text="Who can apply for this bursary"
+    )
+    deadline = models.DateField(
+        blank=True,
+        null=True,
+        verbose_name="Application Deadline"
+    )
+    website_link = models.URLField(
+        blank=True,
+        null=True,
+        verbose_name="Provider Website Link",
+        help_text="Official website or application page"
+    )
+    application_pdf = models.FileField(
+        upload_to='bursaries/pdfs/',
+        blank=True,
+        null=True,
+        verbose_name="Downloadable PDF",
+        validators=[FileExtensionValidator(['pdf'])],
+        help_text="Optional brochure or application form in PDF format"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Bursary or Funding Opportunity"
+        verbose_name_plural = "Bursaries & Funding"
+        ordering = ['-deadline', 'title']
+
+    def __str__(self):
+        return self.title
+
+    def clean(self):
+        # Enforce at least a website or a PDF
+        if not self.website_link and not self.application_pdf:
+            raise ValidationError("You must provide at least a PDF or a website link.")
+        if self.deadline and self.deadline < timezone.now().date():
+            raise ValidationError("The deadline cannot be in the past.")
+        if not self.slug:
+            self.slug = slugify(self.title)
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)

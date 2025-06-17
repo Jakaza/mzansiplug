@@ -21,12 +21,19 @@ urlpatterns = [
     path('download/<int:paper_id>/<str:file_type>/', views.download_paper, name='download-paper'),
     path('careers/graduates-opportunities/', views.graduates_opportunities, name='graduates-opportunities'),
     path('careers/early-career-opportunities/', views.graduates_internships, name='graduates-internships'),
+    path('postgraduate-bursaries/', views.postgraduate_bursaries, name='postgraduate-bursaries'),
+    path('get-certificates/', views.get_certifications, name='get-certificates'),
 
 
     # Articles 
     path('articles/', views.article_list, name='south-african-articles'),
     path('articles/<int:pk>/<slug:slug>/', views.article_detail, name='article-detail'),
     path('articles/tag/<str:tag_slug>/', views.tagged_articles, name='tagged-articles'),
+    path('articles/category/<int:pk>/<str:category_slug>/', views.category_articles, name='category-articles'),
+
+
+    # Contact 
+    path('contact/', views.contact, name='contact'),
 
 ]
 

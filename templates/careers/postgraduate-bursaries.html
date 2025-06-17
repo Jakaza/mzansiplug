@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+    {% include 'partials/_head.html' %}
+
+  <body class="topics-listing-page" id="top">
+    <main>
+     
+      {% include 'partials/_navbar.html' %}
+
+      <header
+        class="site-header d-flex flex-column justify-content-center align-items-center"
+      >
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-lg-5 col-12">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="index.html">Homepage</a>
+                  </li>
+
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Bursaries & Funding
+                  </li>
+                </ol>
+              </nav>
+
+              <h2 class="text-white">Bursaries & Funding Opportunities</h2>
+              <p class="text-white mt-3">
+                Explore available bursaries and financial aid options for South
+                African students.
+              </p>
+            </div>
+          </div>
+        </div>
+      </header>
+    </main>
+
+    <!-- Here goes the content -->
+    <section style="padding: 15px 0">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <h3 class="mb-4">Available Opportunities</h3>
+      
+              {% if bursaries %}
+                <ul class="list-group mb-5">
+                  {% for bursary in bursaries %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      {{ bursary.title }}
+                      
+                      {% if bursary.website_link %}
+                        <a href="{{ bursary.website_link }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                          Visit Site
+                        </a>
+                      {% elif bursary.application_pdf %}
+                        <a href="{{ bursary.application_pdf.url }}" class="btn btn-outline-primary btn-sm" target="_blank">
+                          Download PDF
+                        </a>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p class="text-muted">No bursaries available at the moment. Please check back later.</p>
+              {% endif %}
+      
+              <div class="alert alert-info">
+                <strong>Need help applying?</strong> If you're unsure how to apply
+                for a bursary or need guidance, feel free to
+                <a href="{% url 'contact' %}" class="alert-link">contact us</a>.
+              </div>
+            </div>
+          </div>
+      
+          <hr class="my-5" />
+      
+          <div class="row mt-5">
+            <div class="col-12">
+              <h4 class="mb-4">Recommended for You</h4>
+            </div>
+      
+            <div class="col-md-6 col-lg-4 mb-4">
+              <div class="card h-100">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    How to Write a Great Bursary Motivation Letter
+                  </h5>
+                  <p class="card-text">
+                    Learn how to craft a compelling motivation letter that increases your chances of getting funded.
+                  </p>
+               
+                </div>
+              </div>
+            </div>
+      
+            <div class="col-md-6 col-lg-4 mb-4">
+              <div class="card h-100">
+                <div class="card-body">
+                  <h5 class="card-title">Past Exam Papers</h5>
+                  <p class="card-text">
+                    Prepare for your exams using free past papers for Grades 10–12.
+                  </p>
+                  <a href="{% url 'past-papers' %}" class="btn btn-outline-secondary btn-sm">Explore Papers</a>
+                </div>
+              </div>
+            </div>
+      
+            <div class="col-md-6 col-lg-4 mb-4">
+              <div class="card h-100">
+                <div class="card-body">
+                  <h5 class="card-title">NSFAS Application Help</h5>
+                  <p class="card-text">
+                    A step-by-step guide on how to successfully apply for NSFAS funding.
+                  </p>
+                 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+
+    {% include 'partials/_footer.html' %}
+
+  </body>
+</html>
