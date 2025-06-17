@@ -152,43 +152,21 @@
         <div class="container">
           <div class="row">
             <div class="col-12">
-              <h4 class="mb-4">Recommended for you</h4>
-
-              <ul class="list-unstyled">
-                <li class="mb-2">
-                  <a href="/article_detail.html" class="text-decoration-none">
-                    How to write a professional CV as a graduate
-                    <i class="bi bi-box-arrow-up-right ms-1"></i>
-                  </a>
-                </li>
-                <li class="mb-2">
-                  <a href="/article_detail.html" class="text-decoration-none">
-                    Top tips for getting your first job after school
-                    <i class="bi bi-box-arrow-up-right ms-1"></i>
-                  </a>
-                </li>
-                <li class="mb-2">
-                  <a href="/article_detail.html" class="text-decoration-none">
-                    Ways to upskill and get certified online for free
-                    <i class="bi bi-box-arrow-up-right ms-1"></i>
-                  </a>
-                </li>
-                <li class="mb-2">
-                  <a href="/article_detail.html" class="text-decoration-none">
-                    Best platforms to find internships and learnerships in South
-                    Africa
-                    <i class="bi bi-box-arrow-up-right ms-1"></i>
-                  </a>
-                </li>
-                <li class="mb-2">
-                  <a href="/article_detail.html" class="text-decoration-none">
-                    What to do if you're struggling to find a job after
-                    graduation
-                    <i class="bi bi-box-arrow-up-right ms-1"></i>
-                  </a>
-                </li>
-              </ul>
-
+                <h4 class="mb-4">Recommended Articles for Students</h4>
+                <ul class="list-unstyled">
+                  {% for article in recommended_articles %}
+                    <li class="mb-2">
+                      <a href="{% url 'article-detail' pk=article.pk slug=article.slug %}" class="text-decoration-none">
+                        {{ article.title }}
+                        <i class="bi bi-box-arrow-up-right ms-1"></i>
+                      </a>
+                    </li>
+                  {% empty %}
+                    <li>No articles available at the moment.</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              
               <div class="mt-5">
                 <h6>Explore by tags</h6>
                 <div class="d-flex flex-wrap gap-2 mt-2">
@@ -220,39 +198,51 @@
                 </div>
               </div>
 
-              <div class="mt-5">
-                <h6>Users also read</h6>
-                <div class="row g-3 mt-2">
-                  <div class="col-md-6">
-                    <div class="p-3 border rounded bg-light">
-                      <h6 class="mb-1">
-                        <a
-                          href="/article_detail.html"
-                          class="text-decoration-none"
-                          >How to prepare for a job interview</a
-                        >
-                      </h6>
-                      <small class="text-muted"
-                        >Interview Tips • 3 min read</small
-                      >
+          
+              <div class="container my-5">
+                <h4 class="mb-4">Latest Internship Opportunities</h4>
+                <div class="row">
+                  {% for job in internship_jobs %}
+                    <div class="col-lg-4 col-md-6 mb-4">
+                      <a href="{% url 'job-detail' pk=job.pk slug=job.slug %}" class="text-decoration-none text-dark d-block h-100">
+                        <div class="custom-block bg-white shadow-lg h-100 p-4 rounded-4 hover-shadow">
+                          <h5 class="mb-1">{{ job.title }}</h5>
+              
+                          <div class="d-flex justify-content-between mb-2">
+                            <small class="text-muted">{{ job.company.company_name }}</small>
+                            <small class="text-muted">
+                              <i class="bi bi-geo-alt"></i> {{ job.location }}
+                            </small>
+                          </div>
+              
+                          {% if job.categories.all %}
+                            <div class="mb-2">
+                              <span class="badge bg-dark bg-opacity-10 text-dark">
+                                {{ job.categories.first.name }}
+                              </span>
+                            </div>
+                          {% endif %}
+              
+                          <p class="text-truncate mb-3">
+                            {{ job.description|striptags|truncatechars:100 }}
+                          </p>
+              
+                          <div class="text-end">
+                            <small class="text-muted">{{ job.created_at|timesince }} ago</small>
+                          </div>
+                        </div>
+                      </a>
                     </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="p-3 border rounded bg-light">
-                      <h6 class="mb-1">
-                        <a
-                          href="/article_detail.html"
-                          class="text-decoration-none"
-                          >Best online courses to boost your skills</a
-                        >
-                      </h6>
-                      <small class="text-muted"
-                        >Online Learning • 4 min read</small
-                      >
-                    </div>
-                  </div>
+                  {% empty %}
+                    <p>No internships found at the moment.</p>
+                  {% endfor %}
                 </div>
               </div>
+              
+              
+              
+
+
             </div>
           </div>
         </div>

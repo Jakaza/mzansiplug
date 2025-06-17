@@ -19,8 +19,6 @@ from taggit.models import Tag
 
 
 
-
-
 # Home Views
 
 def index(request):
@@ -34,14 +32,21 @@ def index(request):
 
     categories = Category.objects.all().order_by('name')
 
+     # Get the most recent job for display in the "featured" section
+    latest_job = Job.objects.all().order_by('-created_at').first()
     top_article = Article.objects.filter(status='published').order_by('-view_count').first()
+    latest_articles = Article.objects.filter(status='published').order_by('-published_at')[:6]
+
 
     return render(request, 'index.html', {
         'categories': categories,
         'jobs': jobs,
+        'latest_job': latest_job, 
         'top_article': top_article,
         'selected_category': selected_category,
+        'latest_articles': latest_articles,
         'title': 'Welcome to MzansiPlug - South African Jobs and Salaries Platform',
+
     })
 
 
@@ -257,8 +262,21 @@ def salary_detail(request, pk , slug):
 # Careers Views 
 
 def career_list(request):
+
+
+    internship_jobs = Job.objects.filter(
+        job_type='internship'
+    ).order_by('-created_at')[:6]
+
+    articles = Article.objects.filter(
+        status=Article.STATUS_PUBLISHED,
+        tags__name__icontains='student'
+    ).order_by('-published_at').distinct()[:5]
+
     return render(request, 'careers/careers.html', {
         'title': 'South African Careers',
+        'recommended_articles': articles,
+        'internship_jobs': internship_jobs,
     })
 
 

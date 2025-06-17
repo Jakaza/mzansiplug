@@ -1,9 +1,10 @@
+{% load static %}
+
 <nav class="navbar navbar-expand-lg">
-  {% load static%}
   <style>
     .navbar-logo,
     .mzansi-plug-logo {
-      max-height: 50px; /* Adjust as needed */
+      max-height: 50px;
       width: auto;
       display: block;
     }
@@ -11,7 +12,7 @@
     @media (max-width: 767px) {
       .navbar-logo,
       .mzansi-plug-logo {
-        max-height: 30px; /* Adjust as needed */
+        max-height: 30px;
       }
 
       .person-icon {
@@ -48,42 +49,26 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-lg-5 me-lg-auto">
         <li class="nav-item">
-          <a class="nav-link click-scroll" href="{% url 'index' %}">Home</a>
+          <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}" href="{% url 'index' %}">Home</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'south-african-jobs' %}"
-            >Find Jobs</a
-          >
+          <a class="nav-link {% if request.resolver_match.url_name == 'south-african-jobs' %}active{% endif %}" href="{% url 'south-african-jobs' %}">Find Jobs</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'south-african-salaries' %}"
-            >Find salaries</a
-          >
+          <a class="nav-link {% if request.resolver_match.url_name == 'south-african-salaries' %}active{% endif %}" href="{% url 'south-african-salaries' %}">Find Salaries</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'south-african-careers' %}"
-            >Careers</a
-          >
+          <a class="nav-link {% if request.resolver_match.url_name == 'south-african-careers' %}active{% endif %}" href="{% url 'south-african-careers' %}">Careers</a>
         </li>
       </ul>
 
-      <!-- Employers/Post Jobs aligned right -->
       <ul class="navbar-nav ms-auto">
-        <!-- <li class="nav-item">
-          <a class="nav-link" href="/employers-index.html"
-            >Employers/Post Jobs</a
-          >
-        </li> -->
-
-        <li class="navbar-nav ms-auto">
-          <a class="nav-link" href="{% url 'south-african-articles' %}"
-            >Articles</a
-          >
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'south-african-articles' %}active{% endif %}" href="{% url 'south-african-articles' %}">Articles</a>
         </li>
-
       </ul>
     </div>
   </div>

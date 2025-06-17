@@ -51,7 +51,7 @@ https://templatemo.com/tm-590-topic-listing
 
       <section
         class="hero-section d-flex justify-content-center align-items-center"
-        id="section_1"
+        
       >
         <div class="container">
           <div class="row">
@@ -147,7 +147,7 @@ https://templatemo.com/tm-590-topic-listing
 
       {% include 'partials/_main_job_search.html' %}
 
-      <section class="timeline-section section-padding" id="section_3">
+      <section class="timeline-section section-padding" >
         <div class="section-overlay"></div>
 
         <div class="container">
@@ -251,13 +251,40 @@ https://templatemo.com/tm-590-topic-listing
           </div>
 
           <div class="row">
-            <!-- Article Card -->
-            {% include "partials/_article_card.html" %}
+            {% for article in latest_articles %}
+              <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 shadow-sm">
+                  <a href="{% url 'article-detail' pk=article.pk slug=article.slug %}">
+                    <img
+                      src="{{ article.cover_image_thumbnail.url }}"
+                      class="card-img-top"
+                      alt="{{ article.title }}"
+                    />
+                  </a>
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <a href="{% url 'article-detail' pk=article.pk slug=article.slug %}" class="text-decoration-none text-dark">
+                        {{ article.title|truncatechars:60 }}
+                      </a>
+                    </h5>
+                    <p class="card-text text-muted small">
+                      {{ article.excerpt|truncatechars:100 }}
+                    </p>
+                  </div>
+                  <div class="card-footer bg-white border-0">
+                    <small class="text-muted">Posted on {{ article.published_at|date:"F d, Y" }}</small>
+                  </div>
+                </div>
+              </div>
+            {% empty %}
+              <p>No articles available.</p>
+            {% endfor %}
           </div>
+          
         </div>
       </section>
 
-      <section class="faq-section section-padding" id="section_4">
+      <section class="faq-section section-padding" >
         <div class="container">
           <div class="row">
             <div class="col-lg-6 col-12">

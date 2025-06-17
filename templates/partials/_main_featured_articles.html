@@ -2,30 +2,54 @@
   {% load static %}
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-lg-4 col-12 mb-4 mb-lg-0">
-        <div class="custom-block bg-white shadow-lg">
-          <a href="topics-detail.html">
-            <div class="d-flex">
-              <div>
-                <h5 class="mb-2">Web Design</h5>
 
-                <p class="mb-0">
-                  When you search for free CSS templates, you will notice that
-                  TemplateMo is one of the best websites.
-                </p>
-              </div>
+      {% if latest_job %}
+<div class="col-lg-4 col-12 mb-4 mb-lg-0">
+  <div class="custom-block bg-white shadow-lg">
+    <a href="{% url 'job-detail' latest_job.id latest_job.slug %}">
+      <div class="d-flex">
+        <div>
+          <h5 class="mb-2">{{ latest_job.title }}</h5>
 
-              <span class="badge bg-design rounded-pill ms-auto">14</span>
-            </div>
+          <div class="d-flex justify-content-between mb-2 mt-2">
+            <small class="text-muted">{{ latest_job.external_company_name }}</small>
+            <small class="text-muted"
+              ><i class="bi bi-geo-alt"></i> {{ latest_job.location }}</small
+            >
+          </div>
 
-            <img
-              src="{% static 'images/topics/undraw_Remote_design_team_re_urdx.png' %}"
-              class="custom-block-image img-fluid"
-              alt=""
-            />
-          </a>
+
+
+          <p class="mb-3 mt-3">
+            {{ latest_job.description|striptags|truncatewords:50 }}
+          </p>
         </div>
+        <span class="badge bg-design rounded-pill ms-auto">
+          {{ latest_job.views }}
+        </span>
       </div>
+
+      
+      <p>Posted by <strong>{{ latest_job.company }}</strong></p>
+
+      {% if latest_job.categories.all %}
+      <div class="mb-2">
+        <span class="badge bg-dark bg-opacity-10 text-dark">
+          {{ latest_job.categories.all.0.name }}
+        </span>
+      </div>
+    {% endif %}
+      <p>{{ latest_job.internal_or_external|title }} Job Application</p>
+
+
+      <div class="text-end">
+        <small class="text-muted">{{ latest_job.created_at|timesince }} ago</small>
+      </div>
+
+    </a>
+  </div>
+</div>
+{% endif %}
 
 
       {% if top_article %}
