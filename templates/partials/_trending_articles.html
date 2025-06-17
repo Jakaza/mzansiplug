@@ -3,88 +3,100 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 col-12">
-          <h3 class="mb-4">Trending Articles</h3>
+          <h3 class="mb-4">Trending Articles and latest job </h3>
         </div>
-
+        {% if latest_job %}
         <div class="col-lg-6 col-md-6 col-12 mt-3 mb-4 mb-lg-0">
           <div class="custom-block bg-white shadow-lg">
-            <a href="topics-detail.html">
+            <a href="{% url 'job-detail' latest_job.id latest_job.slug %}">
               <div class="d-flex">
                 <div>
-                  <h5 class="mb-2">Investment</h5>
-
-                  <p class="mb-0">Lorem Ipsum dolor sit amet consectetur</p>
+                  <h5 class="mb-2">{{ latest_job.title }}</h5>
+  
+                  <div class="d-flex justify-content-between mb-2 mt-2">
+                    <small class="text-muted">{{ latest_job.external_company_name }}</small>
+                    <small class="text-muted"
+                      ><i class="bi bi-geo-alt"></i> {{ latest_job.location }}</small
+                    >
+                  </div>
+  
+  
+  
+                  <p class="mb-3 mt-3">
+                    {{ latest_job.description|striptags|truncatewords:50 }}
+                  </p>
                 </div>
-
-                <span class="badge bg-finance rounded-pill ms-auto"
-                  >30</span
-                >
+                <span class="badge bg-design rounded-pill ms-auto">
+                  {{ latest_job.views }}
+                </span>
               </div>
-
-              <img
-                src="{% static 'images/topics/undraw_Finance_re_gnv2.png' %}"
-                class="custom-block-image img-fluid"
-                alt=""
-              />
+  
+              
+              <p>Posted by <strong>{{ latest_job.company }}</strong></p>
+  
+              {% if latest_job.categories.all %}
+              <div class="mb-2">
+                <span class="badge bg-dark bg-opacity-10 text-dark">
+                  {{ latest_job.categories.all.0.name }}
+                </span>
+              </div>
+            {% endif %}
+              <p>{{ latest_job.internal_or_external|title }} Job Application</p>
+  
+  
+              <div class="text-end">
+                <small class="text-muted">{{ latest_job.created_at|timesince }} ago</small>
+              </div>
+  
             </a>
           </div>
         </div>
 
+        {% endif %}
+
+        {% if top_article %}
         <div class="col-lg-6 col-md-6 col-12 mt-lg-3">
           <div class="custom-block custom-block-overlay">
             <div class="d-flex flex-column h-100">
-              <img
-                src="{% static 'images/businesswoman-using-tablet-analysis.jpg' %}"
-                class="custom-block-image img-fluid"
-                alt=""
-              />
+              {% if top_article.cover_image %}
+              <img src="{{ top_article.cover_image.url }}" class="custom-block-image img-fluid" alt="{{ top_article.title }}">
+            {% else %}
+              <img src="{% static 'images/default-cover.jpg' %}" class="custom-block-image img-fluid" alt="{{ top_article.title }}">
+            {% endif %}
 
-              <div class="custom-block-overlay-text d-flex">
-                <div>
-                  <h5 class="text-white mb-2">Finance</h5>
-
-                  <p class="text-white">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing
-                    elit. Sint animi necessitatibus aperiam repudiandae nam
-                    omnis
-                  </p>
-
-                  <a
-                    href="topics-detail.html"
-                    class="btn custom-btn mt-2 mt-lg-3"
-                    >Learn More</a
-                  >
-                </div>
-
-                <span class="badge bg-finance rounded-pill ms-auto"
-                  >25</span
-                >
+            
+            <div class="custom-block-overlay-text d-flex">
+              <div>
+                {% if top_article.category %}
+                  <h5 class="text-white mb-2">{{ top_article.category.name }}</h5>
+                {% else %}
+                  <h5 class="text-white mb-2">Article</h5>
+                {% endif %}
+          
+                <p class="text-white">{{ top_article.excerpt|truncatewords:25 }}</p>
+                <a href="{% url 'article-detail' pk=top_article.pk slug=top_article.slug %}" class="btn custom-btn mt-2 mt-lg-3">Read Article</a>
               </div>
+              <span class="badge bg-finance rounded-pill ms-auto ">{{ top_article.view_count }} </span>
+            </div>
+          
+            <div class="social-share d-flex">
+              <p class="text-white me-4">Share:</p>
+              <ul class="social-icon">
+                <li class="social-icon-item"><a href="#" class="social-icon-link bi-twitter"></a></li>
+                <li class="social-icon-item"><a href="#" class="social-icon-link bi-facebook"></a></li>
+                <li class="social-icon-item"><a href="#" class="social-icon-link bi-pinterest"></a></li>
+              </ul>
+              <a href="#" class="custom-icon bi-bookmark ms-auto"></a>
+            </div>
 
-              <div class="social-share d-flex">
-                <p class="text-white me-4">Share:</p>
-
-                <ul class="social-icon">
-                  <li class="social-icon-item">
-                    <a href="#" class="social-icon-link bi-twitter"></a>
-                  </li>
-
-                  <li class="social-icon-item">
-                    <a href="#" class="social-icon-link bi-facebook"></a>
-                  </li>
-
-                  <li class="social-icon-item">
-                    <a href="#" class="social-icon-link bi-pinterest"></a>
-                  </li>
-                </ul>
-
-                <a href="#" class="custom-icon bi-bookmark ms-auto"></a>
-              </div>
 
               <div class="section-overlay"></div>
             </div>
           </div>
         </div>
+
+        {% endif %}
+
       </div>
     </div>
   </section>

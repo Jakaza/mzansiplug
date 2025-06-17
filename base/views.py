@@ -68,6 +68,9 @@ def job_list(request):
     # Base queryset
     jobs = Job.objects.all()
 
+    latest_job = Job.objects.all().order_by('-created_at').first()
+    top_article = Article.objects.filter(status='published').order_by('-view_count').first()
+
     # Filters
     if role:
         jobs = jobs.filter(
@@ -104,6 +107,8 @@ def job_list(request):
             'experience_level': experience_level,
         },
         'title': 'South African Jobs available for you to apply',
+        'top_article': top_article,
+        'latest_job': latest_job, 
     }
     return render(request, 'jobs/job_list.html', context)
 
@@ -371,8 +376,18 @@ def download_paper(request, paper_id, file_type='file'):
 
 
 def graduates_opportunities(request):
+
+    latest_articles = Article.objects.filter(status='published').order_by('-published_at')[:6]
+
+    articles = Article.objects.filter(
+        status=Article.STATUS_PUBLISHED,
+        tags__name__icontains='student'
+    ).order_by('-published_at').distinct()[:5]
+
     return render(request, 'careers/graduates.html', {
         'title': 'Graduate Opportunities in South Africa',
+        'latest_articles': latest_articles,
+        'recommended_articles': articles,
     })
 
 

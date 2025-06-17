@@ -129,32 +129,18 @@
         <!-- Recommended Links -->
         <div class="row mt-5">
           <div class="col-12">
-            <h4 class="mb-3">Recommended Resources</h4>
+            <h4 class="mb-4">Recommended Articles for Students</h4>
             <ul class="list-unstyled">
-              <li>
-                📄
-                <a href="/article-detail.html" class="text-decoration-none"
-                  >How to write a professional graduate CV →</a
-                >
-              </li>
-              <li>
-                🧠
-                <a href="/article-detail.html" class="text-decoration-none"
-                  >Top interview questions and how to answer them →</a
-                >
-              </li>
-              <li>
-                🏢
-                <a href="/article-detail.html" class="text-decoration-none"
-                  >South Africa’s top graduate employers →</a
-                >
-              </li>
-              <li>
-                🔗
-                <a href="/article-detail.html" class="text-decoration-none"
-                  >Free skills development platforms for job seekers →</a
-                >
-              </li>
+              {% for article in recommended_articles %}
+                <li class="mb-2">
+                  <a href="{% url 'article-detail' pk=article.pk slug=article.slug %}" class="text-decoration-none">
+                    {{ article.title }}
+                    <i class="bi bi-box-arrow-up-right ms-1"></i>
+                  </a>
+                </li>
+              {% empty %}
+                <li>No articles available at the moment.</li>
+              {% endfor %}
             </ul>
           </div>
         </div>
@@ -175,14 +161,34 @@
             </div>
 
             <div class="row">
-              <!-- Article Card -->
-              
-              {% include "partials/_article_card.html" %}
-       
-              {% include "partials/_article_card.html" %}
-            
-              {% include "partials/_article_card.html" %}
-
+              {% for article in latest_articles %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                  <div class="card h-100 shadow-sm">
+                    <a href="{% url 'article-detail' pk=article.pk slug=article.slug %}">
+                      <img
+                        src="{{ article.cover_image_thumbnail.url }}"
+                        class="card-img-top"
+                        alt="{{ article.title }}"
+                      />
+                    </a>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a href="{% url 'article-detail' pk=article.pk slug=article.slug %}" class="text-decoration-none text-dark">
+                          {{ article.title|truncatechars:60 }}
+                        </a>
+                      </h5>
+                      <p class="card-text text-muted small">
+                        {{ article.excerpt|truncatechars:100 }}
+                      </p>
+                    </div>
+                    <div class="card-footer bg-white border-0">
+                      <small class="text-muted">Posted on {{ article.published_at|date:"F d, Y" }}</small>
+                    </div>
+                  </div>
+                </div>
+              {% empty %}
+                <p>No articles available.</p>
+              {% endfor %}
             </div>
           </div>
         </section>
