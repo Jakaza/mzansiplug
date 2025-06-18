@@ -1,0 +1,58 @@
+{% extends "admin/base_site.html" %}
+{% block title %}Job Analytics{% endblock %}
+
+{% block content %}
+<h1>Job Analytics</h1>
+
+<canvas id="categoryChart" width="400" height="200"></canvas>
+<canvas id="viewsChart" width="400" height="200"></canvas>
+<canvas id="typeChart" width="400" height="200"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Views per Category
+  const categoryData = {
+    labels: {{ category_views|map(attribute='name')|safe }},
+    datasets: [{
+      label: 'Total Views per Category',
+      data: {{ category_views|map(attribute='total_views')|safe }},
+      backgroundColor: 'rgba(54, 162, 235, 0.6)'
+    }]
+  };
+
+  new Chart(document.getElementById('categoryChart'), {
+    type: 'bar',
+    data: categoryData
+  });
+
+  // Views per Day
+  const viewsData = {
+    labels: {{ views_per_day|map(attribute='day')|safe }},
+    datasets: [{
+      label: 'Views per Day',
+      data: {{ views_per_day|map(attribute='total_views')|safe }},
+      backgroundColor: 'rgba(75, 192, 192, 0.6)'
+    }]
+  };
+
+  new Chart(document.getElementById('viewsChart'), {
+    type: 'line',
+    data: viewsData
+  });
+
+  // Job Count by Type
+  const typeData = {
+    labels: {{ job_type_count|map(attribute='job_type')|safe }},
+    datasets: [{
+      label: 'Jobs by Type',
+      data: {{ job_type_count|map(attribute='count')|safe }},
+      backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56', '#4bc0c0', '#f77825']
+    }]
+  };
+
+  new Chart(document.getElementById('typeChart'), {
+    type: 'pie',
+    data: typeData
+  });
+</script>
+{% endblock %}

@@ -56,15 +56,22 @@
                 <div class="card h-100 shadow-sm">
                   {% if article.cover_image %}
                     <a href="{% url 'article-detail' pk=article.pk slug=article.slug %}">
-                        <img src="{{ article.cover_image.url }}" class="card-img-top" alt="Article Image" height="190px">
+                      <img
+  src="{{ article.cover_image.url }}"
+  class="card-img-top d-none d-md-block"
+  alt="Article Image"
+  height="190px"
+/>
+
                     </a>
                   {% else %}
-                    <img
-                      src="{% static 'images/default-article.jpg' %}"
-                      class="card-img-top"
-                      alt="Default Article Image"
-                      height="190px"
-                    />
+                  <img
+                  src="{% static 'images/default-article.jpg' %}"
+                  class="card-img-top d-none d-md-block"
+                  alt="Default Article Image"
+                  height="190px"
+                />
+                
                   {% endif %}
                   <div class="card-body">
                     <h5 class="card-title">

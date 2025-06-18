@@ -146,88 +146,32 @@
             </div>
           </div>
 
-          <div class="row">
-            <!-- Article Card -->
-            <div class="col-lg-4 col-md-6 mb-4">
-              <div class="card h-100 shadow-sm">
-                <img
-                  src="{% static 'images/articles/article1.jpg' %}"
-                  class="card-img-top"
-                  alt="Article Image"
-                />
-                <div class="card-body">
-                  <h5 class="card-title">
-                    <a
-                      href="article_detail.html"
-                      class="text-decoration-none text-dark"
-                      >5 Tips to Nail Your Next Interview</a
-                    >
-                  </h5>
-                  <p class="card-text text-muted small">
-                    Learn how to stand out during job interviews and increase
-                    your chances of getting hired.
-                  </p>
-                </div>
-                <div class="card-footer bg-white border-0">
-                  <small class="text-muted">Posted on May 30, 2025</small>
+          {% if related_articles %}
+            <div class="row">
+              {% for article in related_articles %}
+              <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 shadow-sm">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <a href="{% url 'article-detail' pk=article.pk slug=article.slug %}" class="text-decoration-none text-dark">
+                        {{ article.title|truncatechars:60 }}
+                      </a>
+                    </h5>
+                    <p class="card-text text-muted small">
+                      {{ article.meta_description|default:article.content|striptags|truncatechars:100 }}
+                    </p>
+                  </div>
+                  <div class="card-footer bg-white border-0">
+                    <small class="text-muted">Posted on {{ article.created_at|date:"M d, Y" }}</small>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            <!-- Repeat similar cards for more articles -->
-            <!-- ... -->
-            <div class="col-lg-4 col-md-6 mb-4">
-              <div class="card h-100 shadow-sm">
-                <img
-                src="{% static 'images/articles/article1.jpg' %}"
-                  class="card-img-top"
-                  alt="Article Image"
-                />
-                <div class="card-body">
-                  <h5 class="card-title">
-                    <a
-                      href="article_detail.html"
-                      class="text-decoration-none text-dark"
-                      >5 Tips to Nail Your Next Interview</a
-                    >
-                  </h5>
-                  <p class="card-text text-muted small">
-                    Learn how to stand out during job interviews and increase
-                    your chances of getting hired.
-                  </p>
-                </div>
-                <div class="card-footer bg-white border-0">
-                  <small class="text-muted">Posted on May 30, 2025</small>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-              <div class="card h-100 shadow-sm">
-                <img
-                src="{% static 'images/articles/article1.jpg' %}"
-                  class="card-img-top"
-                  alt="Article Image"
-                />
-                <div class="card-body">
-                  <h5 class="card-title">
-                    <a
-                      href="article_detail.html"
-                      class="text-decoration-none text-dark"
-                      >5 Tips to Nail Your Next Interview</a
-                    >
-                  </h5>
-                  <p class="card-text text-muted small">
-                    Learn how to stand out during job interviews and increase
-                    your chances of getting hired.
-                  </p>
-                </div>
-                <div class="card-footer bg-white border-0">
-                  <small class="text-muted">Posted on May 30, 2025</small>
-                </div>
-              </div>
+              {% endfor %}
             </div>
           </div>
-        </div>
+          {% endif %}
+          
+ 
       </section>
     </main>
 

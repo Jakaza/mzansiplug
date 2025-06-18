@@ -71,6 +71,8 @@ def job_list(request):
     latest_job = Job.objects.all().order_by('-created_at').first()
     top_article = Article.objects.filter(status='published').order_by('-view_count').first()
 
+    random_articles = Article.objects.order_by('?')[:3]
+
     # Filters
     if role:
         jobs = jobs.filter(
@@ -109,6 +111,7 @@ def job_list(request):
         'title': 'South African Jobs available for you to apply',
         'top_article': top_article,
         'latest_job': latest_job, 
+         'related_articles': random_articles,
     }
     return render(request, 'jobs/job_list.html', context)
 
@@ -123,8 +126,18 @@ def job_detail(request, pk, slug):
 
     title = f"{job.title} at {job.company.company_name} – {job.location} | Mzansi Plug Jobs"
 
+    # Get related jobs (by shared categories)
+    related_jobs = Job.objects.filter(
+        categories__in=job.categories.all()
+    ).exclude(id=job.id).distinct().order_by('-created_at')[:6] 
+
+    # Get related salary reports by shared categories
+    related_salaries = SalaryReport.objects.filter(
+        categories__in=job.categories.all()
+    ).distinct().order_by('-created_at')[:6]
+
     return render(request, 'jobs/job-detail.html', {'job': job ,  'job_url': job_url,
-        'site': current_site, 'title': title})
+        'site': current_site, 'title': title , 'related_jobs': related_jobs,  'related_salaries': related_salaries, })
 
 
 def apply_job(request,pk, slug):
@@ -458,8 +471,14 @@ def article_detail(request, pk, slug):
     article.view_count += 1
     article.save()
 
+      # Fetch related articles by category or tags (exclude self)
+    related_articles = Article.objects.filter(
+        Q(category=article.category) | Q(tags__in=article.tags.all()),
+        status=Article.STATUS_PUBLISHED
+    ).exclude(pk=article.pk).distinct().order_by('-published_at')[:6]
+
     title = f"{article.title} | Mzansi Plug Articles"
-    return render(request, 'articles/article-detail.html', {'article': article , 'title': title })
+    return render(request, 'articles/article-detail.html', {'article': article , 'title': title, 'related_articles': related_articles})
 
 def tagged_articles(request, tag_slug):
     tag = get_object_or_404(Tag, slug=tag_slug)

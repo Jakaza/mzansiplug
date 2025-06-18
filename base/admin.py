@@ -9,6 +9,13 @@ from django import forms
 from django.db.models import Count
 from taggit.models import Tag  # Added the missing import
 
+
+from django.urls import path
+from django.template.response import TemplateResponse
+from django.db.models import Count, Sum
+from django.utils.timezone import now, timedelta
+
+
 # Register your models here.
 
 @admin.register(User)
@@ -177,3 +184,5 @@ class CertificationAdmin(admin.ModelAdmin):
     list_display = ('title', 'provider', 'price_type', 'students_enrolled', 'created_at')
     search_fields = ('title', 'provider')
     list_filter = ('price_type',)
+
+

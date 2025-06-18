@@ -4,52 +4,52 @@
     <div class="row justify-content-center">
 
       {% if latest_job %}
-<div class="col-lg-4 col-12 mb-4 mb-lg-0">
-  <div class="custom-block bg-white shadow-lg">
-    <a href="{% url 'job-detail' latest_job.id latest_job.slug %}">
-      <div class="d-flex">
-        <div>
-          <h5 class="mb-2">{{ latest_job.title }}</h5>
+      <div class="col-lg-4 col-12 mb-4 mb-lg-0">
+        <div class="custom-block bg-white shadow-lg">
+          <a href="{% url 'job-detail' latest_job.id latest_job.slug %}">
+            <div class="d-flex">
+              <div>
+                <h5 class="mb-2">{{ latest_job.title }}</h5>
 
-          <div class="d-flex justify-content-between mb-2 mt-2">
-            <small class="text-muted">{{ latest_job.external_company_name }}</small>
-            <small class="text-muted"
-              ><i class="bi bi-geo-alt"></i> {{ latest_job.location }}</small
-            >
-          </div>
+                <div class="d-flex justify-content-between mb-2 mt-2">
+                  <small class="text-muted">{{ latest_job.external_company_name }}</small>
+                  <small class="text-muted"
+                    ><i class="bi bi-geo-alt"></i> {{ latest_job.location }}</small
+                  >
+                </div>
 
 
 
-          <p class="mb-3 mt-3">
-            {{ latest_job.description|striptags|truncatewords:50 }}
-          </p>
+                <p class="mb-3 mt-3">
+                  {{ latest_job.description|striptags|truncatewords:50 }}
+                </p>
+              </div>
+              <span class="badge bg-design rounded-pill ms-auto">
+                {{ latest_job.views }}
+              </span>
+            </div>
+
+            
+            <p>Posted by <strong>{{ latest_job.company }}</strong></p>
+
+            {% if latest_job.categories.all %}
+            <div class="mb-2">
+              <span class="badge bg-dark bg-opacity-10 text-dark">
+                {{ latest_job.categories.all.0.name }}
+              </span>
+            </div>
+          {% endif %}
+            <p>{{ latest_job.internal_or_external|title }} Job Application</p>
+
+
+            <div class="text-end">
+              <small class="text-muted">{{ latest_job.created_at|timesince }} ago</small>
+            </div>
+
+          </a>
         </div>
-        <span class="badge bg-design rounded-pill ms-auto">
-          {{ latest_job.views }}
-        </span>
       </div>
-
-      
-      <p>Posted by <strong>{{ latest_job.company }}</strong></p>
-
-      {% if latest_job.categories.all %}
-      <div class="mb-2">
-        <span class="badge bg-dark bg-opacity-10 text-dark">
-          {{ latest_job.categories.all.0.name }}
-        </span>
-      </div>
-    {% endif %}
-      <p>{{ latest_job.internal_or_external|title }} Job Application</p>
-
-
-      <div class="text-end">
-        <small class="text-muted">{{ latest_job.created_at|timesince }} ago</small>
-      </div>
-
-    </a>
-  </div>
-</div>
-{% endif %}
+      {% endif %}
 
 
       {% if top_article %}
