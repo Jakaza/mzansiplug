@@ -35,6 +35,10 @@ urlpatterns = [
 
     # Contact 
     path('contact/', views.contact, name='contact'),
+    path('about/', views.about, name='about-us'),
+    path('privacy-policy/', views.privacy_policy, name='privacy-policy'),
+    path('terms-and-conditions/', views.terms_and_conditions, name='terms-and-conditions'),
+    path('disclaimer/', views.disclaimer, name='disclaimer'),
 
 ]
 

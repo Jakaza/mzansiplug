@@ -498,3 +498,30 @@ def category_articles(request , pk , category_slug):
 
     return render(request, 'articles/category-articles.html', {'category': category , 'articles': articles , 'title': category})
 
+
+
+def about(request):
+    return render(request, 'company/about.html', {
+        'title': 'About Mzansi Plug',
+    })
+
+
+def contact(request):
+    return render(request, 'company/contact.html', {
+        'title': 'Contact Mzansi Plug',
+    })
+
+def privacy_policy(request):
+    return render(request, 'company/privacy-policy.html', {
+        'title': 'Privacy Policy - Mzansi Plug',
+    })
+
+def terms_and_conditions(request):
+    return render(request, 'company/terms-conditions.html', {
+        'title': 'Terms and Conditions - Mzansi Plug',
+    })
+
+def disclaimer(request):
+    return render(request, 'company/disclaimer.html', {
+        'title': 'Disclaimer - Mzansi Plug',
+    })

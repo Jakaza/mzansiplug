@@ -18,25 +18,34 @@
         <h6 class="site-footer-title mb-3">Quick Links</h6>
         <ul class="site-footer-links">
           <li class="site-footer-link-item">
+            <a href="{% url 'index' %}" class="site-footer-link">Home</a>
+          </li>
+          <li class="site-footer-link-item">
             <a href="{% url 'south-african-articles' %}" class="site-footer-link"> Articles </a>
           </li>
+
           <li class="site-footer-link-item">
-            <a href="/index.html" class="site-footer-link">Home</a>
-          </li>
-          <li class="site-footer-link-item">
-            <a href="/south-african-jobs.html" class="site-footer-link"
+            <a href="{% url 'south-african-jobs' %}" class="site-footer-link"
               >Find Jobs</a
             >
           </li>
           <li class="site-footer-link-item">
-            <a href="/salaries.html" class="site-footer-link">Find Salaries</a>
+            <a href="{% url 'south-african-salaries' %}" class="site-footer-link">Find Salaries</a>
           </li>
           <li class="site-footer-link-item">
-            <a href="/careers.html" class="site-footer-link">Careers</a>
+            <a href="{% url 'south-african-careers' %}" class="site-footer-link">Careers</a>
           </li>
           <li class="site-footer-link-item">
-            <a href="/contact.html" class="site-footer-link">Contact</a>
+            <a href="{% url 'south-african-articles' %}" class="site-footer-link">Articles</a>
           </li>
+          <li class="site-footer-link-item">
+            <a href="{% url 'past-papers' %}" class="site-footer-link">Download Previous Question Papers</a>
+          </li>
+
+          <li class="site-footer-link-item">
+            <a href="{% url 'disclaimer' %}" class="site-footer-link">Disclaimer</a>
+          </li>
+
         </ul>
       </div>
 
@@ -60,26 +69,42 @@
             www.mzansiplug.com
           </a>
         </p>
+
+        <ul class="site-footer-links">
+          <li class="site-footer-link-item">
+            <a href="{% url 'about-us' %}" class="site-footer-link">About Us</a>
+          </li>
+          <li class="site-footer-link-item">
+            <a href="{% url 'contact' %}" class="site-footer-link"> Contact </a>
+          </li>
+
+          <li class="site-footer-link-item">
+            <span>       <a href="{% url 'privacy-policy' %}" class="site-footer-link"
+              >Privacy Policy</a
+            ></span> & <span> 
+
+              <a href="{% url 'terms-and-conditions' %}" class="site-footer-link">Terms & Conditions</a>
+            </span>
+          </li>
+
+
+        </ul>
+
+
+       
       </div>
 
       <!-- Language and Copyright -->
       <div class="col-lg-3 col-md-4 col-12 mt-4 mt-lg-0 ms-auto">
         <div class="dropdown">
           <button
-            class="btn btn-secondary dropdown-toggle"
+            class="btn btn-secondary"
             type="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
             English
           </button>
-          <ul class="dropdown-menu">
-            <li><button class="dropdown-item" type="button">Zulu</button></li>
-            <li><button class="dropdown-item" type="button">Xhosa</button></li>
-            <li>
-              <button class="dropdown-item" type="button">Afrikaans</button>
-            </li>
-          </ul>
         </div>
 
         <p class="copyright-text mt-lg-5 mt-4">

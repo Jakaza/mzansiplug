@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+    {% include 'partials/_head.html' %}
+
+  <body class="topics-listing-page" id="top">
+    <main>
+   
+      {% include 'partials/_navbar.html' %}
+
+      <header
+        class="site-header d-flex flex-column justify-content-center align-items-center"
+      >
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-lg-5 col-12">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="index.html">Homepage</a>
+                  </li>
+
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Disclaimer
+                  </li>
+                </ol>
+              </nav>
+
+              <h2 class="text-white">Legal Disclaimer</h2>
+            </div>
+          </div>
+        </div>
+      </header>
+    </main>
+
+    <!-- Custom CSS for Disclaimer Page -->
+    <style>
+
+
+        .disclaimer-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        }
+
+        .disclaimer-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .disclaimer-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .disclaimer-header h3 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .disclaimer-header h3::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+
+        .disclaimer-intro {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+            border-left: 5px solid var(--accent-color);
+        }
+
+        .disclaimer-intro p {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .disclaimer-section-content {
+            background: white;
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .disclaimer-section-content:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .disclaimer-section-content h4 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .disclaimer-section-content h4 i {
+            color: var(--accent-color);
+            font-size: 1.3rem;
+        }
+
+        .disclaimer-section-content p {
+            color: var(--text-dark);
+            line-height: 1.7;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .disclaimer-section-content ul {
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .disclaimer-section-content ul li {
+            color: var(--text-dark);
+            line-height: 1.7;
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .disclaimer-section-content ul li::before {
+            content: '\f105';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #fff3cd, #ffeeba);
+            border: 1px solid #ffc107;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .warning-box h5 {
+            color: #856404;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .warning-box h5 i {
+            color: #ffc107;
+        }
+
+        .warning-box p {
+            color: #856404;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .important-notice {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .important-notice::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+
+        .important-notice h5 {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .important-notice h5 i {
+            color: var(--accent-color);
+        }
+
+        .important-notice p {
+            color: white;
+            margin: 0;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-info {
+            background: var(--bg-light);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            margin-top: 40px;
+            border: 2px dashed var(--accent-color);
+        }
+
+        .contact-info h5 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .contact-info p {
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        .contact-info a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .contact-info a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .disclaimer-section {
+                padding: 50px 0;
+            }
+            
+            .disclaimer-section-content {
+                padding: 25px;
+            }
+            
+            .disclaimer-header h3 {
+                font-size: 1.8rem;
+            }
+            
+            .disclaimer-intro,
+            .warning-box,
+            .important-notice {
+                padding: 20px;
+            }
+        }
+    </style>
+
+    <!-- Disclaimer Content -->
+    <section class="disclaimer-section">
+        <div class="container">
+            <div class="disclaimer-container">
+                <div class="disclaimer-header">
+                    <h3>Important Legal Disclaimer</h3>
+                    <p class="text-muted">Please read this disclaimer carefully before using Mzansi Plug services</p>
+                </div>
+
+                <div class="disclaimer-intro">
+                    <p><strong>Last Updated:</strong> June 2025</p>
+                    <p>This disclaimer governs your use of Mzansi Plug and outlines important information about our services, limitations, and your responsibilities as a user. By accessing and using our platform, you acknowledge that you have read, understood, and agree to be bound by this disclaimer.</p>
+                </div>
+
+                <div class="disclaimer-section-content">
+                    <h4><i class="fas fa-info-circle"></i>Nature of Our Service</h4>
+                    <p>Mzansi Plug operates as an intermediary platform that connects job seekers with employment opportunities and side hustle ideas. We serve as a marketplace and information hub, facilitating connections between users and potential employers or business opportunities.</p>
+                    <ul>
+                        <li>We aggregate and curate job listings from various sources across South Africa</li>
+                        <li>We provide guidance and resources for career development and entrepreneurship</li>
+                        <li>We maintain a community platform for sharing experiences and advice</li>
+                        <li>We do not directly employ users or guarantee employment outcomes</li>
+                    </ul>
+                </div>
+
+                <div class="disclaimer-section-content">
+                    <h4><i class="fas fa-shield-alt"></i>Verification and Due Diligence</h4>
+                    <p>While Mzansi Plug implements rigorous verification processes to ensure the authenticity of listings, we cannot guarantee the complete accuracy or legitimacy of every opportunity posted on our platform.</p>
+                    <ul>
+                        <li>We conduct preliminary verification of employers and opportunities</li>
+                        <li>Users are strongly advised to conduct their own due diligence before pursuing any opportunity</li>
+                        <li>We encourage users to verify employer credentials independently</li>
+                        <li>Report any suspicious or fraudulent activities to our support team immediately</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <h5><i class="fas fa-exclamation-triangle"></i>User Responsibility</h5>
+                    <p>Users are responsible for exercising caution and good judgment when interacting with potential employers or pursuing business opportunities. Never provide personal financial information, pay upfront fees, or engage in activities that seem suspicious or too good to be true.</p>
+                </div>
+
+                <div class="disclaimer-section-content">
+                    <h4><i class="fas fa-balance-scale"></i>Limitation of Liability</h4>
+                    <p>Mzansi Plug operates on a best-effort basis to provide accurate and helpful information. However, we cannot be held liable for:</p>
+                    <ul>
+                        <li>Employment decisions made by employers or recruitment agencies</li>
+                        <li>Financial losses resulting from business ventures or side hustles</li>
+                        <li>Disputes between users and employers or business partners</li>
+                        <li>Changes in employment terms, compensation, or job requirements</li>
+                        <li>Technical issues that may affect platform accessibility or functionality</li>
+                    </ul>
+                </div>
+
+                <div class="disclaimer-section-content">
+                    <h4><i class="fas fa-handshake"></i>Employment Relationships</h4>
+                    <p>Mzansi Plug does not create employment relationships between users and the platform. All employment agreements and business partnerships are established directly between users and third-party employers or business partners.</p>
+                    <ul>
+                        <li>We are not party to any employment contracts or business agreements</li>
+                        <li>Salary negotiations and employment terms are handled directly between parties</li>
+                        <li>We do not process payments or handle financial transactions between users and employers</li>
+                        <li>Labour disputes must be resolved through appropriate legal channels</li>
+                    </ul>
+                </div>
+
+                <div class="disclaimer-section-content">
+                    <h4><i class="fas fa-chart-line"></i>Income and Success Disclaimers</h4>
+                    <p>While we showcase success stories and provide income-generating ideas, we cannot guarantee financial success or specific earning outcomes.</p>
+                    <ul>
+                        <li>Individual results may vary based on skills, experience, and market conditions</li>
+                        <li>Success stories represent individual experiences and are not typical results</li>
+                        <li>Business opportunities carry inherent risks that users must evaluate independently</li>
+                        <li>Market conditions and economic factors can affect earning potential</li>
+                    </ul>
+                </div>
+
+                <div class="important-notice">
+                    <h5><i class="fas fa-star"></i>Our Commitment</h5>
+                    <p>Despite these limitations, Mzansi Plug is committed to maintaining the highest standards of service and continuously improving our verification processes. We actively monitor our platform, investigate user reports, and work diligently to remove fraudulent or misleading content. Your trust is important to us, and we strive to provide a safe and reliable platform for all South African job seekers and entrepreneurs.</p>
+                </div>
+
+                <div class="disclaimer-section-content">
+                    <h4><i class="fas fa-sync-alt"></i>Updates and Modifications</h4>
+                    <p>This disclaimer may be updated periodically to reflect changes in our services or legal requirements. Users will be notified of significant changes through the platform.</p>
+                    <ul>
+                        <li>Check this page regularly for updates to the disclaimer</li>
+                        <li>Continued use of the platform constitutes acceptance of updated terms</li>
+                        <li>Major changes will be communicated via email or platform notifications</li>
+                    </ul>
+                </div>
+
+                <div class="disclaimer-section-content">
+                    <h4><i class="fas fa-gavel"></i>Governing Law</h4>
+                    <p>This disclaimer and your use of Mzansi Plug are governed by the laws of the Republic of South Africa. Any disputes arising from the use of our platform will be subject to the jurisdiction of South African courts.</p>
+                </div>
+
+                <div class="contact-info">
+                    <h5><i class="fas fa-envelope"></i>Questions or Concerns?</h5>
+                    <p>If you have any questions about this disclaimer or need clarification on any aspect of our services, please don't hesitate to contact us at <a href="mailto:legal@mzansiplug.co.za">legal@mzansiplug.co.za</a> or through our contact page.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% include 'partials/_footer.html' %}
+
+  </body>
+</html>
