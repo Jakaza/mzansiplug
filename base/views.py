@@ -111,7 +111,7 @@ def job_list(request):
         'title': 'South African Jobs available for you to apply',
         'top_article': top_article,
         'latest_job': latest_job, 
-         'related_articles': random_articles,
+        'related_articles': random_articles,
     }
     return render(request, 'jobs/job_list.html', context)
 
