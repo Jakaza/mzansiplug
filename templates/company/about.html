@@ -34,101 +34,368 @@
       </header>
     </main>
 
+
+        <!-- Custom CSS for Disclaimer Page -->
+        <style>
+
+
+          .disclaimer-section {
+              padding: 80px 0;
+              background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+          }
+  
+          .disclaimer-container {
+              max-width: 900px;
+              margin: 0 auto;
+          }
+  
+          .disclaimer-header {
+              text-align: center;
+              margin-bottom: 50px;
+          }
+  
+          .disclaimer-header h3 {
+              font-size: 2.2rem;
+              font-weight: 700;
+              color: var(--primary-color);
+              margin-bottom: 15px;
+              position: relative;
+          }
+  
+          .disclaimer-header h3::after {
+              content: '';
+              position: absolute;
+              bottom: -10px;
+              left: 50%;
+              transform: translateX(-50%);
+              width: 60px;
+              height: 3px;
+              background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
+              border-radius: 2px;
+          }
+  
+          .disclaimer-intro {
+              background: white;
+              border-radius: 15px;
+              padding: 30px;
+              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+              margin-bottom: 40px;
+              border-left: 5px solid var(--accent-color);
+          }
+  
+          .disclaimer-intro p {
+              font-size: 1.1rem;
+              color: var(--text-dark);
+              line-height: 1.7;
+              margin: 0;
+          }
+  
+          .disclaimer-section-content {
+              background: white;
+              border-radius: 15px;
+              padding: 35px;
+              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+              margin-bottom: 30px;
+              transition: transform 0.3s ease, box-shadow 0.3s ease;
+          }
+  
+          .disclaimer-section-content:hover {
+              transform: translateY(-3px);
+              box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+          }
+  
+          .disclaimer-section-content h4 {
+              font-size: 1.5rem;
+              font-weight: 600;
+              color: var(--primary-color);
+              margin-bottom: 20px;
+              display: flex;
+              align-items: center;
+              gap: 12px;
+          }
+  
+          .disclaimer-section-content h4 i {
+              color: var(--accent-color);
+              font-size: 1.3rem;
+          }
+  
+          .disclaimer-section-content p {
+              color: var(--text-dark);
+              line-height: 1.7;
+              font-size: 1rem;
+              margin-bottom: 15px;
+          }
+  
+          .disclaimer-section-content ul {
+              padding-left: 0;
+              list-style: none;
+          }
+  
+          .disclaimer-section-content ul li {
+              color: var(--text-dark);
+              line-height: 1.7;
+              margin-bottom: 12px;
+              padding-left: 25px;
+              position: relative;
+          }
+  
+          .disclaimer-section-content ul li::before {
+              content: '\f105';
+              font-family: 'Font Awesome 6 Free';
+              font-weight: 900;
+              color: var(--accent-color);
+              position: absolute;
+              left: 0;
+              top: 0;
+          }
+  
+          .warning-box {
+              background: linear-gradient(135deg, #fff3cd, #ffeeba);
+              border: 1px solid #ffc107;
+              border-radius: 12px;
+              padding: 25px;
+              margin: 30px 0;
+          }
+  
+          .warning-box h5 {
+              color: #856404;
+              font-weight: 600;
+              margin-bottom: 15px;
+              display: flex;
+              align-items: center;
+              gap: 10px;
+          }
+  
+          .warning-box h5 i {
+              color: #ffc107;
+          }
+  
+          .warning-box p {
+              color: #856404;
+              margin: 0;
+              line-height: 1.6;
+          }
+  
+          .important-notice {
+              background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+              color: white;
+              border-radius: 15px;
+              padding: 30px;
+              margin: 40px 0;
+              position: relative;
+              overflow: hidden;
+          }
+  
+          .important-notice::before {
+              content: '';
+              position: absolute;
+              top: -50%;
+              right: -50%;
+              width: 100%;
+              height: 200%;
+              background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+              animation: float 20s linear infinite;
+          }
+  
+          @keyframes float {
+              0% { transform: translateY(0) rotate(0deg); }
+              100% { transform: translateY(-100px) rotate(360deg); }
+          }
+  
+          .important-notice h5 {
+              color: white;
+              font-weight: 600;
+              margin-bottom: 15px;
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              position: relative;
+              z-index: 1;
+          }
+  
+          .important-notice h5 i {
+              color: var(--accent-color);
+          }
+  
+          .important-notice p {
+              color: white;
+              margin: 0;
+              line-height: 1.6;
+              position: relative;
+              z-index: 1;
+          }
+  
+          .contact-info {
+              background: var(--bg-light);
+              border-radius: 15px;
+              padding: 25px;
+              text-align: center;
+              margin-top: 40px;
+              border: 2px dashed var(--accent-color);
+          }
+  
+          .contact-info h5 {
+              color: var(--primary-color);
+              font-weight: 600;
+              margin-bottom: 15px;
+          }
+  
+          .contact-info p {
+              color: var(--text-light);
+              margin: 0;
+          }
+  
+          .contact-info a {
+              color: var(--secondary-color);
+              text-decoration: none;
+              font-weight: 500;
+          }
+  
+          .contact-info a:hover {
+              color: var(--primary-color);
+              text-decoration: underline;
+          }
+  
+          @media (max-width: 768px) {
+              .disclaimer-section {
+                  padding: 50px 0;
+              }
+              
+              .disclaimer-section-content {
+                  padding: 25px;
+              }
+              
+              .disclaimer-header h3 {
+                  font-size: 1.8rem;
+              }
+              
+              .disclaimer-intro,
+              .warning-box,
+              .important-notice {
+                  padding: 20px;
+              }
+          }
+      </style>
+
     <!-- Here goes the content -->
 
 
-    <section class="section-padding">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-8 col-12 mb-4">
-              <h3 class="mb-3">Who We Are</h3>
+    <section class="disclaimer-section">
+      <div class="disclaimer-container">
+        <div class="row">
+          <div class="col-lg-12 col-12 mb-4">
+            <div class="disclaimer-header">
+              <h3>Who We Are</h3>
+            </div>
+    
+            <div class="disclaimer-intro">
               <p>
                 Mzansi Plug is a South African platform built to help people find real jobs and ways to earn money. We know it can be hard to find trusted work online, so we made a website that brings everything together in one place — for free.
               </p>
+            </div>
+    
+            <div class="disclaimer-section-content">
+              <h4><i class="fas fa-people-group"></i> Our Story</h4>
               <p>
                 Founded in 2023, we started because we saw too many South Africans struggling to find legitimate work opportunities online. Our team includes job seekers, career coaches, and tech experts who understand the challenges of unemployment in South Africa. We've helped over 15,000 job seekers connect with employers and have verified more than 3,000 job listings across the country.
               </p>
               <p>
                 What makes us different is that we're built by South Africans, for South Africans. We understand the local job market, the challenges of transport, the importance of community, and the need for opportunities that fit our unique circumstances.
               </p>
-      
-              <h3 class="mt-4 mb-3">How We Help South Africans</h3>
+            </div>
+    
+            <div class="disclaimer-section-content">
+              <h4><i class="fas fa-hands-helping"></i> How We Help South Africans</h4>
               <ul>
-                <li><strong>Verified Job Listings:</strong> We post real jobs from trusted sources, so you don't waste time on scams. Every job is checked by our team before it goes live. We work with over 500 verified employers including small businesses, NGOs, government departments, and established companies.</li>
-                <li><strong>Local Opportunities:</strong> Whether you're in Limpopo, Gauteng, KZN, or the Western Cape — we share jobs close to where you live. We also include transport information and highlight jobs that are taxi-accessible or offer transport allowances.</li>
-                <li><strong>Side Hustles:</strong> We also list part-time gigs, remote jobs, and hustles you can do to make extra money. This includes everything from weekend work, cleaning services, tutoring, online surveys, freelance writing, social media management, and seasonal work during holidays.</li>
-                <li><strong>Career Advice:</strong> We write easy-to-understand articles that guide you on how to apply for jobs, write a CV, or prepare for interviews. Our career section includes tips on dressing for interviews, answering common questions, negotiating salaries, and building professional networks.</li>
-                <li><strong>No Experience Needed:</strong> We include jobs for people with no work experience, so youth and new job seekers can get started. We specifically highlight entry-level positions, apprenticeships, learnership programs, and internships that provide training.</li>
-                <li><strong>Skills Development:</strong> We partner with training providers to share information about free and affordable courses that can help you get better jobs. This includes digital literacy, customer service, basic computer skills, and vocational training.</li>
-                <li><strong>Community Support:</strong> Our platform includes forums where job seekers can share experiences, ask questions, and support each other. We also share success stories to inspire and motivate our community.</li>
+                <li><strong>Verified Job Listings:</strong> Real jobs from trusted sources, verified by our team before they go live.</li>
+                <li><strong>Local Opportunities:</strong> Jobs shared by location with info on transport access.</li>
+                <li><strong>Side Hustles:</strong> Part-time gigs, surveys, weekend work, and seasonal jobs.</li>
+                <li><strong>Career Advice:</strong> CV writing, interview prep, salary tips, and more.</li>
+                <li><strong>No Experience Needed:</strong> Listings for youth and first-time job seekers.</li>
+                <li><strong>Skills Development:</strong> Info on free and affordable training courses.</li>
+                <li><strong>Community Support:</strong> Forums, Q&A, and success stories to stay inspired.</li>
               </ul>
-      
-              <h3 class="mt-4 mb-3">Industries We Cover</h3>
+            </div>
+    
+            <div class="disclaimer-section-content">
+              <h4><i class="fas fa-industry"></i> Industries We Cover</h4>
               <p>
-                We feature opportunities across all major sectors of the South African economy including retail, hospitality, security, healthcare, education, construction, agriculture, manufacturing, call centers, domestic work, garden services, and the growing digital economy. We also highlight seasonal opportunities like holiday work, festival staff, and agricultural harvesting.
-              </p>
-      
-              <h3 class="mt-4 mb-3">Our Mission</h3>
-              <p>
-                Our mission is to make it easier for every South African to find work, grow their income, and build a better future. We want to see young people succeed, families find support, and hustlers win.
-              </p>
-              <p>
-                We believe that everyone deserves a chance to work with dignity and earn a fair income. Our platform is designed to break down barriers that prevent people from accessing opportunities, whether those barriers are geographic, educational, or related to lack of experience.
-              </p>
-      
-              <h3 class="mt-4 mb-3">Why We Do It</h3>
-              <p>
-                Many websites make it hard to know what's real and what's fake. Mzansi Plug was started to change that — to build a trusted place where you can find useful opportunities without stress.
-              </p>
-              <p>
-                We've seen too many people lose money to job scams, waste time on fake opportunities, or give up on finding work because they don't know where to look. South Africa's unemployment rate is one of the highest in the world, but we believe there are more opportunities available than people realize — they're just not easy to find or access.
-              </p>
-              <p>
-                We also do this because we believe in the potential of South African people. We've seen what happens when someone gets their first job, starts their own hustle, or finds a way to support their family. It changes everything — not just for them, but for their community.
-              </p>
-      
-              <h3 class="mt-4 mb-3">How We Verify Jobs</h3>
-              <p>
-                Every job listing goes through our verification process. We check company details, contact employers directly, verify job requirements, and ensure there are no upfront fees required from job seekers. We also monitor for red flags like unrealistic salaries, vague job descriptions, or requests for personal banking information.
-              </p>
-      
-              <h3 class="mt-4 mb-3">Our Promise</h3>
-              <p>
-                We will always keep Mzansi Plug simple, free, and focused on helping our people. Whether you are a student, job seeker, or someone looking for a second income — you are welcome here.
-              </p>
-              <p>
-                We promise to never charge job seekers for access to opportunities. We will continue to verify every job listing. We will keep improving our platform based on your feedback. And we will always remember that behind every profile is a real person with real dreams and real needs.
-              </p>
-              <p>
-                We also promise to stay connected to our communities. We attend job fairs, partner with local organizations, and work with government employment programs to make sure we're reaching the people who need us most.
-              </p>
-      
-              <h3 class="mt-4 mb-3">Looking Forward</h3>
-              <p>
-                We're constantly working to improve Mzansi Plug. Soon we'll be adding features like job alerts via WhatsApp, CV building tools, interview scheduling, and partnerships with more training providers. We're also working on a mobile app to make it even easier to find and apply for jobs on your phone.
-              </p>
-      
-              <h3 class="mt-4 mb-3">Get Involved</h3>
-              <p>
-                If you're an employer looking to hire, we'd love to help you find great candidates. If you know of legitimate job opportunities, you can share them with us. If you have skills or experience that could help other job seekers, consider contributing to our advice section or mentoring someone in our community.
-              </p>
-      
-              <p class="mt-4">
-                Thank you for visiting Mzansi Plug. Let's build a better tomorrow, together. Because when one of us wins, we all win.
+                We feature opportunities in retail, hospitality, healthcare, education, agriculture, security, construction, call centers, and more. We also cover digital, freelance, and seasonal work across South Africa.
               </p>
             </div>
-            <div class="col-lg-4 col-12">
-              <img src="{% static 'images/mzansiplug-logo.png' %}" class="img-fluid rounded" alt="About Mzansi Plug">
+    
+            <div class="disclaimer-section-content">
+              <h4><i class="fas fa-bullseye"></i> Our Mission</h4>
+              <p>
+                To make it easier for South Africans to find work, grow income, and build better futures. We want to remove the barriers that prevent people from accessing real opportunities.
+              </p>
             </div>
+    
+            <div class="disclaimer-section-content">
+              <h4><i class="fas fa-question-circle"></i> Why We Do It</h4>
+              <p>
+                Because too many people waste time or money on fake job offers. Mzansi Plug was created to be the change — a trusted source of verified, useful opportunities.
+              </p>
+              <p>
+                We’ve seen how lives change when someone gets their first job or earns enough to support their family. We believe in the power of opportunity to uplift communities.
+              </p>
+            </div>
+    
+            <div class="disclaimer-section-content">
+              <h4><i class="fas fa-check-circle"></i> How We Verify Jobs</h4>
+              <p>
+                We verify every listing manually: checking company info, talking to employers, and screening for red flags like fake salaries or requests for banking details.
+              </p>
+            </div>
+    
+            <div class="important-notice">
+              <h5><i class="fas fa-handshake-angle"></i> Our Promise</h5>
+              <p>
+                Mzansi Plug will always be free for job seekers. We will verify every job, listen to your feedback, and continue improving. You are not just a user — you’re a member of our community.
+              </p>
+            </div>
+    
+            <div class="disclaimer-section-content">
+              <h4><i class="fas fa-lightbulb"></i> Looking Forward</h4>
+              <p>
+                We’re building more tools to help: WhatsApp alerts, mobile apps, CV builders, interview schedulers, and more training partnerships.
+              </p>
+            </div>
+    
+            <div class="disclaimer-section-content">
+              <h4><i class="fas fa-users"></i> Get Involved</h4>
+              <p>
+                Employers, mentors, and job referrers — you’re welcome too. Share opportunities, guide others, or partner with us to uplift our people.
+              </p>
+            </div>
+    
+            <div class="contact-info">
+              <h5>Contact Us</h5>
+              <p>Email: <a href="mailto:support@mzansiplug.co.za">support@mzansiplug.co.za</a></p>
+              <p>Instagram: <a href="#">@mzansiplug</a></p>
+            </div>
+    
+            <p class="mt-4">
+              Thank you for visiting Mzansi Plug. Let’s build a better tomorrow, together. When one of us wins, we all win.
+            </p>
           </div>
+    
+          <!-- <div class="col-lg-4 col-12">
+            <img src="{% static 'images/mzansiplug-logo.png' %}" class="img-fluid rounded" alt="About Mzansi Plug">
+          </div> -->
         </div>
-      </section>
-
+      </div>
+    </section>
+    
 
 
 
 
       {% include 'partials/_footer.html' %}
+
+
+
+
 
   </body>
 </html>

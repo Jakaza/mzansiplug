@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import (User, CompanyProfile, Category, Job, SalaryReport, 
                     SalaryCompany, SalaryRequest, Article, ArticleCategory,
-                    JobNotificationSub, Subject, PastPaper , Bursary, Certification )
+                    JobNotificationSub, Subject, PastPaper , Bursary, Certification  , ContactMessage, SubCategory)
 from django.utils.html import format_html
 from .forms import JobAdminForm
 from django import forms
@@ -46,6 +46,17 @@ class CompanyProfileAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
 
+
+@admin.register(SubCategory)
+class SubCategoryAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('name',)}
+
+
+
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = ("name", "email", "subject", "created_at")
+
 @admin.register(JobNotificationSub)
 class JobNotificationSubAdmin(admin.ModelAdmin):
     list_display = ("subscribe_email", "notification_count")
@@ -55,6 +66,7 @@ class JobAdmin(admin.ModelAdmin):
     form = JobAdminForm
     prepopulated_fields = {"slug": ("title",)}
     list_display = ("title", "company", "location", "internal_or_external", "created_at")
+    list_filter = ("categories", "internal_or_external", "job_type", "experience_level")
 
 @admin.register(SalaryCompany)
 class SalaryCompanyAdmin(admin.ModelAdmin):

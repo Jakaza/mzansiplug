@@ -12,6 +12,8 @@ from django.contrib import messages
 from django.views.decorators.http import require_POST
 from django.http import FileResponse
 from .models import PastPaper
+from .forms import ContactForm
+
 # import Http404
 from django.http import Http404
 
@@ -21,22 +23,25 @@ from taggit.models import Tag
 
 # Home Views
 
+from django.db.models import Count
+
 def index(request):
     category_slug = request.GET.get('category')
     selected_category = None
+
     if category_slug:
         selected_category = get_object_or_404(Category, slug=category_slug)
-        jobs = Job.objects.filter(category=selected_category).order_by('-created_at')[:6]
+        jobs = Job.objects.filter(categories=selected_category).order_by('-created_at')[:6]
     else:
         jobs = Job.objects.all().order_by('-created_at')[:6]
 
-    categories = Category.objects.all().order_by('name')
+    # Only include categories that have at least 1 job
+    categories = Category.objects.annotate(job_count=Count('jobs')).filter(job_count__gt=0).order_by('name')
 
-     # Get the most recent job for display in the "featured" section
-    latest_job = Job.objects.all().order_by('-created_at').first()
+    # Featured content
+    latest_job = Job.objects.order_by('-created_at').first()
     top_article = Article.objects.filter(status='published').order_by('-view_count').first()
     latest_articles = Article.objects.filter(status='published').order_by('-published_at')[:6]
-
 
     return render(request, 'index.html', {
         'categories': categories,
@@ -46,13 +51,7 @@ def index(request):
         'selected_category': selected_category,
         'latest_articles': latest_articles,
         'title': 'Welcome to MzansiPlug - South African Jobs and Salaries Platform',
-
     })
-
-
-def contact(request):
-    return render(request, 'contact.html')
-
 
 
 # Jobs Views
@@ -78,7 +77,8 @@ def job_list(request):
         jobs = jobs.filter(
             Q(title__icontains=role) |
             Q(description__icontains=role) |
-            Q(categories__name__icontains=role)
+            Q(categories__name__icontains=role) |
+            Q(subcategories__name__icontains=role)
         ).distinct()
     if location:
         jobs = jobs.filter(location__icontains=location)
@@ -506,10 +506,22 @@ def about(request):
     })
 
 
+
 def contact(request):
-    return render(request, 'company/contact.html', {
-        'title': 'Contact Mzansi Plug',
-    })
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your message has been sent successfully!")
+            return redirect('contact')
+        else:
+            messages.error(request, "There was an error. Please check the form.")
+    else:
+        form = ContactForm()
+    
+    return render(request, 'company/contact.html', {'form': form})
+
+
 
 def privacy_policy(request):
     return render(request, 'company/privacy-policy.html', {

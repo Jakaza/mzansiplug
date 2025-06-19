@@ -56,6 +56,21 @@ class Category(models.Model):
         return self.name
 
 
+class SubCategory(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(unique=True, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='subcategories')
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.name} ({self.category.name})"
+
+
+
 class JobNotificationSub(models.Model):
     subscribe_email = models.CharField(max_length=255)
     notification_count = models.PositiveIntegerField(default=0)
@@ -91,7 +106,8 @@ class Job(models.Model):
     location = models.CharField(max_length=200)
     description = RichTextField()
 
-    categories = models.ManyToManyField("Category", related_name="jobs")
+    categories = models.ManyToManyField(Category, related_name="jobs")
+    subcategories = models.ManyToManyField(SubCategory, related_name="jobs", blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -577,3 +593,14 @@ class Bursary(models.Model):
     def save(self, *args, **kwargs):
         self.full_clean()
         super().save(*args, **kwargs)
+
+
+class ContactMessage(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    subject = models.CharField(max_length=200)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Message from {self.name} - {self.subject}"
