@@ -40,13 +40,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'django.contrib.sites',
     # my apps
     'base.apps.BaseConfig',
     # Other apps
     'ckeditor',
     'taggit',
     'imagekit',
+    
 ]
+
+SITE_ID = 1
 
 AUTH_USER_MODEL = 'base.User'
 

@@ -1,13 +1,17 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
-from base.models import Category, Job, Article, CompanyProfile , SubCategory
+from base.models import Category, Job, Article, CompanyProfile , SubCategory , SalaryReport
 from django.utils.text import slugify
 from django.core.files.uploadedfile import SimpleUploadedFile
 from io import BytesIO
 from PIL import Image
 import tempfile
 from django.utils import timezone
+
+from django.test import TestCase, RequestFactory
+from django.urls import reverse
+from django.contrib.sites.models import Site
 
 
 User = get_user_model()
@@ -140,3 +144,82 @@ class JobListViewTests(TestCase):
         self.assertEqual(response.context['latest_job'], self.job)
         self.assertEqual(response.context['top_article'], self.article)
         self.assertEqual(len(response.context['related_articles']), 1)
+
+
+class JobDetailViewTest(TestCase):
+    def setUp(self):
+        # Create a CompanyProfile
+        self.user = User.objects.create_user(username='testuser', password='testpass')
+        self.company = CompanyProfile.objects.create(user=self.user, company_name="Test Company")
+
+        # Create Categories
+        self.cat1 = Category.objects.create(name="Engineering")
+        self.cat2 = Category.objects.create(name="IT")
+
+        # Create Job
+        self.job = Job.objects.create(
+            title="Senior Developer",
+            company=self.company,
+            location="Cape Town",
+            description="Job description here",
+            internal_or_external='internal',
+        )
+        self.job.categories.set([self.cat1, self.cat2])
+        self.job.save()
+
+        # Create another job to be a related job
+        self.related_job = Job.objects.create(
+            title="Junior Developer",
+            company=self.company,
+            location="Cape Town",
+            description="Another job",
+            internal_or_external='internal',
+        )
+        self.related_job.categories.set([self.cat1])
+        self.related_job.save()
+
+        # Create SalaryReport related to the same category
+        self.salary_report = SalaryReport.objects.create(
+            title="Developer Salary",
+            low_salary=30000,
+            average_salary=50000,
+            high_salary=70000,
+            salary_type='yearly',
+            overview="Salary overview"
+        )
+        self.salary_report.categories.set([self.cat1])
+        self.salary_report.save()
+
+        self.factory = RequestFactory()
+        self.site = Site.objects.get_current()
+
+
+    def test_job_detail_view(self):
+        url = reverse('job-detail', kwargs={'pk': self.job.pk, 'slug': self.job.slug})
+        
+        # Use self.client to get the page (simulate a real HTTP request)
+        response = self.client.get(url)
+        
+        self.assertEqual(response.status_code, 200)
+        
+        # Now you can check templates and context
+        self.assertIn('jobs/job-detail.html', [t.name for t in response.templates])
+        
+        self.job.refresh_from_db()
+        self.assertEqual(self.job.views, 1)
+        
+        self.assertEqual(response.context['job'], self.job)
+        
+        related_jobs = response.context['related_jobs']
+        self.assertIn(self.related_job, related_jobs)
+        self.assertNotIn(self.job, related_jobs)
+        
+        related_salaries = response.context['related_salaries']
+        self.assertIn(self.salary_report, related_salaries)
+        
+        expected_title = f"{self.job.title} at {self.job.company.company_name} – {self.job.location} | Mzansi Plug Jobs"
+        self.assertEqual(response.context['title'], expected_title)
+        
+        self.assertTrue(response.context['job_url'].startswith('http'))
+
+        
