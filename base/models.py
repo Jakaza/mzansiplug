@@ -20,6 +20,8 @@ from imagekit.processors import ResizeToFill
 
 from django.core.validators import FileExtensionValidator
 
+from datetime import timedelta
+
 
 
 
@@ -121,6 +123,7 @@ class Job(models.Model):
 
     salary = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     views = models.PositiveIntegerField(default=0)
+    deadline = models.DateField(default=timezone.now() + timedelta(days=180))
 
     class Meta:
         ordering = ['-created_at']

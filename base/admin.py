@@ -65,7 +65,7 @@ class JobNotificationSubAdmin(admin.ModelAdmin):
 class JobAdmin(admin.ModelAdmin):
     form = JobAdminForm
     prepopulated_fields = {"slug": ("title",)}
-    list_display = ("title", "company", "location", "internal_or_external", "created_at")
+    list_display = ("title", "company", "location", "internal_or_external", "created_at", "deadline")
     list_filter = ("categories", "internal_or_external", "job_type", "experience_level")
 
 @admin.register(SalaryCompany)

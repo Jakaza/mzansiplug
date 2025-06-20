@@ -31,9 +31,9 @@ def index(request):
 
     if category_slug:
         selected_category = get_object_or_404(Category, slug=category_slug)
-        jobs = Job.objects.filter(categories=selected_category).order_by('-created_at')[:6]
+        jobs = Job.objects.filter(categories=selected_category).order_by('-created_at')[:9]
     else:
-        jobs = Job.objects.all().order_by('-created_at')[:6]
+        jobs = Job.objects.all().order_by('-created_at')[:9]
 
     # Only include categories that have at least 1 job
     categories = Category.objects.annotate(job_count=Count('jobs')).filter(job_count__gt=0).order_by('name')
@@ -41,7 +41,7 @@ def index(request):
     # Featured content
     latest_job = Job.objects.order_by('-created_at').first()
     top_article = Article.objects.filter(status='published').order_by('-view_count').first()
-    latest_articles = Article.objects.filter(status='published').order_by('-published_at')[:6]
+    latest_articles = Article.objects.filter(status='published').order_by('-published_at')[:9]
 
     return render(request, 'index.html', {
         'categories': categories,
