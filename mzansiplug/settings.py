@@ -9,9 +9,11 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+from dotenv import load_dotenv
 from pathlib import Path
 import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +28,7 @@ SECRET_KEY = 'django-insecure-_dh9i9qamdp+12!sw&7+i7osh05k4#6@79i0ozq%w&y2fcg87m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["54.159.177.219", "127.0.0.1"]
+ALLOWED_HOSTS = ["54.159.177.219", "127.0.0.1" , "localhost"]
 
 
 
@@ -101,16 +103,56 @@ WSGI_APPLICATION = 'mzansiplug.wsgi.application'
 # }
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mzansiplug',
-        'USER': 'postgres',
-        'PASSWORD': 'Jakaza@p1017.',
-        'HOST': 'localhost',
-        'PORT': 5432,
+
+
+
+# Fetch environment variables for PostgreSQL
+POSTGRES_DB = os.getenv("DB_NAME")
+POSTGRES_PASSWORD = os.getenv("DB_PASSWORD")
+POSTGRES_USER = os.getenv("DB_USER")
+POSTGRES_HOST = os.getenv("DB_HOST")
+POSTGRES_PORT = 5432
+
+print(POSTGRES_DB, POSTGRES_PASSWORD, POSTGRES_USER, POSTGRES_HOST, POSTGRES_PORT)
+
+# Check if PostgreSQL environment variables are set
+POSTGRES_READY = (
+    POSTGRES_DB is not None
+    and POSTGRES_PASSWORD is not None
+    and POSTGRES_USER is not None
+    and POSTGRES_HOST is not None
+    and POSTGRES_PORT is not None
+)
+
+# Define the DATABASES setting based on the availability of PostgreSQL variables
+if POSTGRES_READY:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': POSTGRES_DB,
+            'USER': POSTGRES_USER,
+            'PASSWORD': POSTGRES_PASSWORD,
+            'HOST': POSTGRES_HOST,
+            'PORT': POSTGRES_PORT,
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'mzansiplug',
+            'USER': 'postgres',
+            'PASSWORD': 'Jakaza@p1017.',
+            'HOST': 'localhost',
+            'PORT': 5432,
+        }
+    }
+
+
+
+
+
+
 
 
 

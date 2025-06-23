@@ -19,11 +19,11 @@ urlpatterns = [
     path('careers/', views.career_list, name='south-african-careers'),
     path('careers/highschool', views.highschool, name='highschool'),
     path('careers/past-papers', views.past_papers, name='past-papers'),
-    path('download/<int:paper_id>/<str:file_type>/', views.download_paper, name='download-paper'),
+    path('careers/past-papers/download/<int:paper_id>/<str:file_type>/', views.download_paper, name='download-paper'),
     path('careers/graduates-opportunities/', views.graduates_opportunities, name='graduates-opportunities'),
     path('careers/early-career-opportunities/', views.graduates_internships, name='graduates-internships'),
-    path('postgraduate-bursaries/', views.postgraduate_bursaries, name='postgraduate-bursaries'),
-    path('get-certificates/', views.get_certifications, name='get-certificates'),
+    path('careers/postgraduate-bursaries/', views.postgraduate_bursaries, name='postgraduate-bursaries'),
+    path('careers/get-certificates/', views.get_certifications, name='get-certificates'),
 
 
     # Articles 
