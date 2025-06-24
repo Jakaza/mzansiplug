@@ -124,6 +124,7 @@ POSTGRES_READY = (
     and POSTGRES_PORT is not None
 )
 
+
 # Define the DATABASES setting based on the availability of PostgreSQL variables
 if POSTGRES_READY:
     DATABASES = {
@@ -200,46 +201,45 @@ USE_TZ = True
 
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-# Fetch environment variables for AWS S3
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
-AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME', default='us-east-1')
+
+CLOUDFLARE_R2_BUCKET_NAME = os.getenv('CLOUDFLARE_R2_BUCKET_NAME')
+CLOUDFLARE_R2_BUCKET_ENDPOINT= os.getenv('CLOUDFLARE_R2_BUCKET_ENDPOINT')
+CLOUDFLARE_R2_ACCESS_KEY= os.getenv('CLOUDFLARE_R2_ACCESS_KEY')
+CLOUDFLARE_R2_SECRET_KEY= os.getenv('CLOUDFLARE_R2_SECRET_KEY')
+
+
+# STATIC_URL = f"{CLOUDFLARE_R2_BUCKET_ENDPOINT}/{CLOUDFLARE_R2_BUCKET_NAME}/static/"
+MEDIA_URL = f"/media/"
 
 # Check if all necessary AWS S3 environment variables are set
-AWS_S3_READY = (
-    AWS_ACCESS_KEY_ID is not None
-    and AWS_SECRET_ACCESS_KEY is not None
-    and AWS_STORAGE_BUCKET_NAME is not None
-    and AWS_S3_REGION_NAME is not None
-)
-
-print(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME, AWS_S3_REGION_NAME)
-
-if AWS_S3_READY:
-    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-
-    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
-    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-    AWS_S3_OBJECT_PARAMETERS = {
-        'CacheControl': 'max-age=86400',
-    }
-else:
-    STATIC_URL = '/static/'
-    MEDIA_URL = '/media/'
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
+CLOUDFLARE_R2_CONFIG_OPTIONS = {
+    "bucket_name": "mzansiplug-bucket",
+    "default_acl": "public-read", 
+    "signature_version": "s3v4",
+    "endpoint_url": "https://7a2c4f23506401fc8ae2d33f59c076d0.r2.cloudflarestorage.com",
+    "access_key": "e86d8001257ec1891381f860260f3089",
+    "secret_key": "ea659719ab0e1ac1634005e7275f806b97944d4c5bafbadd6e53520a535fdaa8",
+}
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            **CLOUDFLARE_R2_CONFIG_OPTIONS,
+            "location": "media",
+        },
+    },
+    "staticfiles": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {**CLOUDFLARE_R2_CONFIG_OPTIONS,
+        "location": "static/css",
+        },
+    },
+}
 
-print("STATICFILES_STORAGE:", STATICFILES_STORAGE)
-print("DEFAULT_FILE_STORAGE:", DEFAULT_FILE_STORAGE)
+
 
 
 # STATIC_URL = '/static/'
