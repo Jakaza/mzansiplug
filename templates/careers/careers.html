@@ -209,7 +209,7 @@
                           <h5 class="mb-1">{{ job.title }}</h5>
               
                           <div class="d-flex justify-content-between mb-2">
-                            <small class="text-muted">{{ job.external_company_name }}</small>
+                            <small class="text-muted">{{ job.company.company_name }}</small>
                             <small class="text-muted">
                               <i class="bi bi-geo-alt"></i> {{ job.location }}
                             </small>
@@ -226,18 +226,10 @@
                           <p class="text-truncate mb-3">
                             {{ job.description|striptags|truncatechars:100 }}
                           </p>
-
-
-                          <div class="d-flex justify-content-between mb-2">
-                            <small>
-                              <small class="text-muted">Posted by <strong>{{job.company.company_name}}</strong></small>
-                            </small>
-                            
-                              <small class="text-muted">{{ job.created_at|timesince }} ago</small>
-                          
+              
+                          <div class="text-end">
+                            <small class="text-muted">{{ job.created_at|timesince }} ago</small>
                           </div>
-
-
                         </div>
                       </a>
                     </div>
