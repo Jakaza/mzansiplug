@@ -29,7 +29,6 @@ jobs:
         ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_PUBLIC_IP << 'EOF'
           echo "🔁 Pulling latest code..."
           cd /home/ubuntu/mzansiplug
-          git reset --hard
           git pull origin main
 
           echo "⚙️ Activating virtual environment..."
