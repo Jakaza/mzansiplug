@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 # import storage.CloudflareStaticStorage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -106,11 +107,11 @@ WSGI_APPLICATION = 'mzansiplug.wsgi.application'
 
 
 # Fetch environment variables for PostgreSQL
-POSTGRES_DB = os.getenv("DB_NAME")
-POSTGRES_PASSWORD = os.getenv("DB_PASSWORD")
-POSTGRES_USER = os.getenv("DB_USER")
-POSTGRES_HOST = os.getenv("DB_HOST")
-POSTGRES_PORT = 5432
+POSTGRES_DB = config("DB_NAME", default=None)
+POSTGRES_USER = config("DB_USER", default=None)
+POSTGRES_PASSWORD = config("DB_PASSWORD", default=None)
+POSTGRES_HOST = config("DB_HOST", default=None)
+POSTGRES_PORT = config("DB_PORT", default="5432")
 
 print(POSTGRES_DB, POSTGRES_PASSWORD, POSTGRES_USER, POSTGRES_HOST, POSTGRES_PORT)
 
@@ -191,12 +192,11 @@ USE_TZ = True
 STATIC_URL = "/static/"
 MEDIA_URL = '/media/'
 
-CLOUDFLARE_NAME=os.getenv("CLOUDFLARE_R2_BUCKET_NAME")
-CLOUDFLARE_ENDPOINT=os.getenv("CLOUDFLARE_R2_BUCKET_ENDPOINT")
-CLOUDFLARE_STATIC_ENDPOINT=os.getenv("CLOUDFLARE_R2_BUCKET_STATIC_ENDPOINT")
-CLOUDFLARE_ACCESS_KEY=os.getenv("CLOUDFLARE_R2_ACCESS_KEY")
-CLOUDFLARE_SECRET_KEY=os.getenv("CLOUDFLARE_R2_SECRET_KEY")
-
+CLOUDFLARE_NAME = config("CLOUDFLARE_R2_BUCKET_NAME", default=None)
+CLOUDFLARE_ENDPOINT = config("CLOUDFLARE_R2_BUCKET_ENDPOINT", default=None)
+CLOUDFLARE_STATIC_ENDPOINT = config("CLOUDFLARE_R2_BUCKET_STATIC_ENDPOINT", default=None)
+CLOUDFLARE_ACCESS_KEY = config("CLOUDFLARE_R2_ACCESS_KEY", default=None)
+CLOUDFLARE_SECRET_KEY = config("CLOUDFLARE_R2_SECRET_KEY", default=None)
 
 CLOUDFLARE_R2_MEDIA_OPTIONS  = {
     "bucket_name": CLOUDFLARE_NAME,
