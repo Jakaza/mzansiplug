@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+# import storage.CloudflareStaticStorage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +27,7 @@ SECRET_KEY = 'django-insecure-_dh9i9qamdp+12!sw&7+i7osh05k4#6@79i0ozq%w&y2fcg87m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["54.159.177.219", "127.0.0.1"]
+ALLOWED_HOSTS = ["54.159.177.219", "127.0.0.1", "localhost"]
 
 
 
@@ -146,16 +147,8 @@ else:
             'PORT': 5432,
         }
     }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mzansiplug',
-        'USER': 'postgres',
-        'PASSWORD': 'Jakaza@p1017.',
-        'HOST': 'localhost',
-        'PORT': 5432,
-    }
-}
+
+
 
 
 
@@ -194,11 +187,59 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+
+STATIC_URL = "/static/"
+MEDIA_URL = '/media/'
+
+CLOUDFLARE_NAME=os.getenv("CLOUDFLARE_R2_BUCKET_NAME")
+CLOUDFLARE_ENDPOINT=os.getenv("CLOUDFLARE_R2_BUCKET_ENDPOINT")
+CLOUDFLARE_STATIC_ENDPOINT=os.getenv("CLOUDFLARE_R2_BUCKET_STATIC_ENDPOINT")
+CLOUDFLARE_ACCESS_KEY=os.getenv("CLOUDFLARE_R2_ACCESS_KEY")
+CLOUDFLARE_SECRET_KEY=os.getenv("CLOUDFLARE_R2_SECRET_KEY")
+
+
+CLOUDFLARE_R2_MEDIA_OPTIONS  = {
+    "bucket_name": CLOUDFLARE_NAME,
+    "default_acl": "public-read",  # "private"
+    "signature_version": "s3v4",
+    "endpoint_url": "https://7a2c4f23506401fc8ae2d33f59c076d0.r2.cloudflarestorage.com",
+    "access_key": CLOUDFLARE_ACCESS_KEY,
+    "secret_key": CLOUDFLARE_SECRET_KEY,
+    "location": "media",
+}
+
+CLOUDFLARE_R2_STATIC_OPTIONS  = {
+    "bucket_name": CLOUDFLARE_NAME,
+    "default_acl": "public-read",  # "private"
+    "signature_version": "s3v4",
+    "endpoint_url": CLOUDFLARE_STATIC_ENDPOINT,
+    "access_key": CLOUDFLARE_ACCESS_KEY,
+    "secret_key": CLOUDFLARE_SECRET_KEY,
+    "location": "static",
+}
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storage.backends.s3boto3.S3Boto3Storage",
+        "OPTIONS": CLOUDFLARE_R2_MEDIA_OPTIONS ,
+    },
+    "staticfiles": {
+        "BACKEND": "base.storage.CloudflareStaticStorage",
+    },
+}
+
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = "public-read"
+
+# STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
+
+
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
