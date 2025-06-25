@@ -51,6 +51,7 @@ def index(request):
         'selected_category': selected_category,
         'latest_articles': latest_articles,
         'title': 'Welcome to MzansiPlug - South African Jobs and Salaries Platform',
+        'description': 'MzansiPlug is a South African platform that connects you with verified jobs, side hustles, and free learning resources to grow your career, find south african salaries and side hustles, payslips and know how much companies pay people.'
     })
 
 
@@ -112,6 +113,7 @@ def job_list(request):
         'top_article': top_article,
         'latest_job': latest_job, 
         'related_articles': random_articles,
+        'description': 'Browse and apply for verified jobs in South Africa based on your skills, location, and experience level with MzansiPlug.'
     }
     return render(request, 'jobs/job_list.html', context)
 
