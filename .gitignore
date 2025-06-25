@@ -9,6 +9,8 @@ build/
 *.manifest
 *.spec
 
+mzansiplug/settings.py
+
 # Django
 *.log
 *.pot
