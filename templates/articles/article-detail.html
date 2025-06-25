@@ -62,7 +62,7 @@
           {% endif %}
         </div>
 
-        <div class="article-content">
+        <div class="article-content dark-text" style="color: black !important;">
           {{ article.content|safe }}
         </div>
 
@@ -118,7 +118,7 @@
                     {{ article.title|truncatechars:60 }}
                   </a>
                 </h5>
-                <p class="card-text text-muted small">
+                <p class="card-text  small">
                   {{ article.meta_description|default:article.content|striptags|truncatechars:100 }}
                 </p>
               </div>

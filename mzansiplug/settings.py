@@ -220,7 +220,7 @@ CLOUDFLARE_R2_STATIC_OPTIONS  = {
 
 STORAGES = {
     "default": {
-        "BACKEND": "storage.backends.s3boto3.S3Boto3Storage",
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
         "OPTIONS": CLOUDFLARE_R2_MEDIA_OPTIONS ,
     },
     "staticfiles": {
