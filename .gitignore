@@ -66,3 +66,4 @@ celerybeat-schedule
 # macOS folder attributes
 .AppleDouble
 .LSOverride
+mzansiplug/__pycache__/settings.cpython-313.pyc
