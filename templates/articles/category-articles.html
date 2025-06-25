@@ -56,7 +56,7 @@
                 <div class="card h-100 shadow-sm">
                   {% if article.cover_image %}
                     <a href="{% url 'article-detail' pk=article.pk slug=article.slug %}">
-                        <img src="{{ article.cover_image.url }}" class="card-img-top" alt="Article Image" height="190px">
+                        <img src="{{ article.cover_image.url }}" loading='lazy'  class="card-img-top" alt="Article Image" height="190px">
                     </a>
                   {% else %}
                     <img
@@ -64,6 +64,7 @@
                       class="card-img-top"
                       alt="Default Article Image"
                       height="190px"
+                      loading='lazy' 
                     />
                   {% endif %}
                   <div class="card-body">

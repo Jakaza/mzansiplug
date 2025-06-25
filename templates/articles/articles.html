@@ -57,10 +57,12 @@
                   {% if article.cover_image %}
                     <a href="{% url 'article-detail' pk=article.pk slug=article.slug %}">
                       <img
+                      loading='lazy' 
   src="{{ article.cover_image.url }}"
   class="card-img-top d-none d-md-block"
   alt="Article Image"
   height="190px"
+  
 />
 
                     </a>
@@ -70,6 +72,7 @@
                   class="card-img-top d-none d-md-block"
                   alt="Default Article Image"
                   height="190px"
+                  loading='lazy' 
                 />
                 
                   {% endif %}
