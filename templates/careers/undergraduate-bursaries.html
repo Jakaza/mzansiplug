@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+    {% include 'partials/_head.html' %}
+
+  <body class="topics-listing-page" id="top">
+    <main>
+     
+      {% include 'partials/_navbar.html' %}
+
+      <header
+        class="site-header d-flex flex-column justify-content-center align-items-center"
+      >
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-lg-5 col-12">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item white-text">
+                    <a style="color: rgb(208, 208, 208);" href="{% url 'index' %}">Homepage</a>
+                  </li>
+
+
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Bursaries & Funding
+                  </li>
+                </ol>
+              </nav>
+
+              <h2 class="text-white">Bursaries & Funding Opportunities</h2>
+              <p class="text-white mt-3">
+                Explore available bursaries and financial aid options for South
+                African students.
+              </p>
+            </div>
+          </div>
+        </div>
+      </header>
+    </main>
+
+    <!-- Here goes the content -->
+    <section style="padding: 15px 0">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <h3 class="mb-4">Available Opportunities</h3>
+      
+              {% if bursaries %}
+                <ul class="list-group mb-5">
+                  {% for bursary in bursaries %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      {{ bursary.title }}
+                      
+                      {% if bursary.website_link %}
+                        <a href="{{ bursary.website_link }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                          Visit Site
+                        </a>
+                      {% elif bursary.application_pdf %}
+                        <a href="{{ bursary.application_pdf.url }}" class="btn btn-outline-primary btn-sm" target="_blank">
+                          Download PDF
+                        </a>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p class="text-muted">No bursaries available at the moment. Please check back later.</p>
+              {% endif %}
+      
+              <div class="alert alert-info">
+                <strong>Need help applying?</strong> If you're unsure how to apply
+                for a bursary or need guidance, feel free to
+                <a href="{% url 'contact' %}" class="alert-link">contact us</a>.
+              </div>
+            </div>
+          </div>
+      
+          <hr class="my-5" />
+      
+          {% if recommended_articles %}
+          <div class="row mt-5">
+            <div class="col-12">
+              <h4 class="mb-4">Recommended for You</h4>
+            </div>
+          
+            {% for article in recommended_articles %}
+            <div class="col-md-6 col-lg-4 mb-4">
+              <a href="{% url 'article-detail' pk=article.pk slug=article.slug %}" class="text-decoration-none text-dark">
+                <div class="card h-100">
+                  {% if article.cover_image_thumbnail %}
+                    <img src="{{ article.cover_image_thumbnail.url }}" class="card-img-top" alt="{{ article.title }}">
+                  {% endif %}
+                  <div class="card-body">
+                    <h5 class="card-title">{{ article.title }}</h5>
+                    <p class="card-text">
+                      {{ article.excerpt|truncatewords:20 }}
+                    </p>
+                    <span class="badge bg-light text-dark">{{ article.category.name }}</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+          
+          <br>
+          {% if top_certifications %}
+<div class="row mt-5">
+  <div class="col-12">
+    <h4 class="mb-4">Top Certifications Students Are Taking</h4>
+  </div>
+
+  {% for cert in top_certifications %}
+  <div class="col-md-6 col-lg-4 mb-4">
+    <a href="{{ cert.link }}" target="_blank" rel="noopener" class="text-decoration-none text-dark">
+      <div class="card h-100">
+        {% if cert.image %}
+          <img src="{{ cert.image.url }}"
+          style=" padding: 65px; object-fit: cover;"
+          class="card-img-top" alt="{{ cert.title }}">
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ cert.title }}</h5>
+          <p class="card-text">{{ cert.description|truncatewords:20 }}</p>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <span class="badge bg-primary-subtle text-primary">{{ cert.provider }}</span>
+            <small class="text-muted">{{ cert.students_enrolled }} enrolled</small>
+          </div>
+          {% if cert.price_type == 'FREE' %}
+            <span class="badge bg-success mt-2">Free</span>
+          {% else %}
+            <span class="badge bg-warning mt-2">R{{ cert.price }}</span>
+          {% endif %}
+        </div>
+      </div>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+
+        </div>
+      </section>
+      
+    {% include 'partials/_footer.html' %}
+
+  </body>
+</html>

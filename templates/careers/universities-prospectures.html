@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    
+{% include 'partials/_head.html' %}
+
+  <body class="topics-listing-page" id="top">
+    <main>
+     
+        {% include 'partials/_navbar.html' %}
+
+      <header
+        class="site-header d-flex flex-column justify-content-center align-items-center"
+      >
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-lg-5 col-12">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+             
+                    <li class="breadcrumb-item white-text">
+                        <a style="color: rgb(208, 208, 208);" href="{% url 'index' %}">Homepage</a>
+                      </li>
+
+                  <li class="breadcrumb-item active" aria-current="page">
+                    University Prospectuses
+                    <span id="yearRange">2023–2026</span>
+                  </li>
+                </ol>
+              </nav>
+
+              <h2 class="text-white">University Prospectuses</h2>
+              <p class="text-white mt-3">
+                Explore available prospectuses for South African universities and
+                colleges.
+              </p>
+            </div>
+          </div>
+        </div>
+      </header>
+    </main>
+
+    <!-- Here goes the content -->
+
+    <!-- Replace the placeholder content area in your template with this -->
+
+    {% load static %}
+    <section class="py-5">
+      <div class="container">
+        <div class="row justify-content-center mb-4">
+          <div class="col-lg-6 text-center">
+            <form method="get">
+              <input
+                type="text"
+                name="q"
+                class="form-control"
+                placeholder="Search by university or year..."
+                value="{{ query }}"
+              />
+            </form>
+          </div>
+        </div>
+    
+        <div class="row g-4">
+          {% for item in prospectuses %}
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="custom-block bg-white p-3 h-100 d-flex flex-column justify-content-between">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  {% if item.university.logo %}
+                    <img src="{{ item.university.logo.url }}" alt="{{ item.university.name }} Logo" style="height: 30px;">
+                  {% endif %}
+                  <h6 class="mb-0">{{ item.university.name }}</h6>
+                </div>
+                <p class="mb-0 small text-muted">{{ item.title }}</p>
+                <a href="{{ item.file.url }}" class="btn btn-primary btn-sm mt-3" download>
+                  Download PDF
+                </a>
+              </div>
+            </div>
+          {% empty %}
+            <div class="col-12">
+              <div class="alert alert-warning text-center">No prospectuses found.</div>
+            </div>
+          {% endfor %}
+        </div>
+    
+        <div class="col-12 mt-5 text-center">
+          <div class="alert alert-info" role="alert">
+            Can't find the prospectus you're looking for?
+            <a href="{% url 'contact' %}">Contact us</a> and we'll try to add it!
+          </div>
+        </div>
+      </div>
+    </section>
+    
+
+    <section class="recommendations-section">
+      <div class="container">
+        <h3 class="mb-4">South African Universities & Colleges</h3>
+        <div class="row g-4">
+          {% for university in universities %}
+            <div class="col-lg-4 col-md-6">
+              <div class="card h-100 p-3">
+                <div class="d-flex align-items-center mb-2 gap-2">
+                  {% if university.logo %}
+                    <img src="{{ university.logo.url }}" alt="{{ university.name }} logo" style="height: 32px; width: auto;">
+                  {% endif %}
+                  <h5 class="mb-0">{{ university.name }}</h5>
+                </div>
+    
+                <p class="mt-2">
+                  {% if university.description %}
+                    {{ university.description|truncatewords:18 }}
+                  {% else %}
+                    Explore available programs and faculties.
+                  {% endif %}
+                </p>
+    
+                {% if university.website %}
+                  <a href="{{ university.website }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                    Visit Website
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          {% empty %}
+            <div class="col-12">
+              <p class="text-muted">No universities found.</p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    
+
+    <section class="certifications-section mt-5">
+      <div class="container">
+        <h3 class="mb-4">Recommended Certifications</h3>
+        <div class="row g-4">
+          {% for cert in certifications %}
+            <div class="col-lg-4 col-md-6">
+              <div class="card h-100 p-3">
+                <div class="d-flex align-items-center mb-2 gap-2">
+                  {% if cert.image %}
+                    <img src="{{ cert.image.url }}" alt="{{ cert.title }} logo" style="height: 32px; width: auto;">
+                  {% endif %}
+                  <h5 class="mb-0">{{ cert.title }}</h5>
+                </div>
+    
+                <p class="mt-2">
+                  {{ cert.description|truncatewords:18 }}
+                </p>
+    
+                <a href="{{ cert.link }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                  Visit Provider
+                </a>
+              </div>
+            </div>
+          {% empty %}
+            <div class="col-12">
+              <p class="text-muted">No certifications found.</p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    
+    
+
+    {% include 'partials/_footer.html' %}
+
+  </body>
+</html>

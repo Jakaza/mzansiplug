@@ -3,7 +3,7 @@ from django.db.models import Prefetch
 from django.db.models import Q
 from django.db.models import F
 import os
-from .models import Job , Category , ArticleCategory , SalaryReport , SalaryCompany , SalaryRequest , Certification , JobNotificationSub , Bursary , Subject , PastPaper , Article
+from .models import Job , Category , ArticleCategory, Prospectus, University , SalaryReport , SalaryCompany , SalaryRequest , Certification , JobNotificationSub , Bursary , Subject , PastPaper , Article
 from django.shortcuts import get_object_or_404 , get_list_or_404
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.admin.views.decorators import staff_member_required
@@ -445,11 +445,49 @@ def graduates_internships(request):
 
 def postgraduate_bursaries(request):
     bursaries = Bursary.objects.all()
+
+    recommended_articles = Article.objects.filter(
+        status='published'
+    ).filter(
+        Q(tags__name__icontains='student') |
+        Q(tags__name__icontains='nsfas') |
+        Q(tags__name__icontains='bursary')
+    ).distinct().order_by('-view_count')[:6]
+
+    top_certifications = Certification.objects.order_by('-students_enrolled')[:6]
+
+
     return render(request, 'careers/postgraduate-bursaries.html', {
         'title': 'Postgraduate Bursaries in South Africa',
-        'bursaries': bursaries
+        'bursaries': bursaries,
+        'recommended_articles': recommended_articles,
+        'top_certifications': top_certifications,
     })
 
+def undergraduate_bursaries(request):
+    bursaries = Bursary.objects.all()
+
+    recommended_articles = Article.objects.filter(
+        status='published'
+    ).filter(
+        Q(tags__name__icontains='student') |
+        Q(tags__name__icontains='nsfas') |
+        Q(tags__name__icontains='bursary')
+    ).distinct().order_by('-view_count')[:6]
+
+    top_certifications = Certification.objects.order_by('-students_enrolled')[:6]
+
+
+    return render(request, 'careers/undergraduate-bursaries.html', {
+        'title': 'Postgraduate Bursaries in South Africa',
+        'bursaries': bursaries,
+        'recommended_articles': recommended_articles,
+        'top_certifications': top_certifications,
+    })
+
+
+
+    
 
 
 def get_certifications(request):
@@ -569,3 +607,29 @@ def disclaimer(request):
     return render(request, 'company/disclaimer.html', {
         'title': 'Disclaimer - Mzansi Plug',
     })
+
+
+def university_prospectus(request):
+
+    universities = University.objects.order_by('?')[:12]
+    certifications = Certification.objects.order_by('?')[:6]
+
+    query = request.GET.get('q', '')
+    prospectuses = Prospectus.objects.select_related('university').filter(
+        Q(university__name__icontains=query) |
+        Q(university__acronym__icontains=query) |
+        Q(title__icontains=query) |
+        Q(year__icontains=query)
+    )
+
+    return render(request, 'careers/universities-prospectures.html', {
+        'title': 'University Prospectus - Mzansi Plug',
+        'prospectuses': prospectuses,
+        'query': query,
+        'universities': universities,
+        'certifications': certifications
+    })
+
+
+def custom_404(request, exception):
+    return render(request, '404.html', status=404)

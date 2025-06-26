@@ -607,3 +607,47 @@ class ContactMessage(models.Model):
 
     def __str__(self):
         return f"Message from {self.name} - {self.subject}"
+    
+
+
+class University(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    acronym = models.CharField(max_length=20, blank=True, help_text="e.g., TUT, UJ, UCT")
+    slug = models.SlugField(max_length=255, unique=True, blank=True)
+    logo = models.ImageField(upload_to='university_logos/', blank=True, null=True)
+
+    website = models.URLField(blank=True)
+    description = models.TextField(blank=True)
+
+    class Meta:
+        verbose_name = _("University")
+        verbose_name_plural = _("Universities")
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+class Prospectus(models.Model):
+    university = models.ForeignKey(University, on_delete=models.CASCADE, related_name='prospectuses')
+    title = models.CharField(max_length=255, help_text="e.g. 2025 Undergraduate Prospectus")
+    year = models.PositiveIntegerField()
+    file = models.FileField(
+        upload_to='prospectuses/',
+        validators=[FileExtensionValidator(allowed_extensions=['pdf'])],
+        help_text="Upload PDF format only"
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = _("Prospectus")
+        verbose_name_plural = _("Prospectuses")
+        ordering = ['-year', 'university']
+
+    def __str__(self):
+        return f"{self.university.name} - {self.title}"

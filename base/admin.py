@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import (User, CompanyProfile, Category, Job, SalaryReport, 
                     SalaryCompany, SalaryRequest, Article, ArticleCategory,
+                    University , Prospectus,
                     JobNotificationSub, Subject, PastPaper , Bursary, Certification  , ContactMessage, SubCategory)
 from django.utils.html import format_html
 from .forms import JobAdminForm
@@ -198,3 +199,11 @@ class CertificationAdmin(admin.ModelAdmin):
     list_filter = ('price_type',)
 
 
+@admin.register(University)
+class UniversityAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('name',)}
+
+@admin.register(Prospectus)
+class ProspectusAdmin(admin.ModelAdmin):
+    list_display = ('university', 'title', 'year', 'created_at')
+    list_filter = ('university', 'year')

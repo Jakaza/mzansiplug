@@ -23,7 +23,9 @@ urlpatterns = [
     path('careers/graduates-opportunities/', views.graduates_opportunities, name='graduates-opportunities'),
     path('careers/early-career-opportunities/', views.graduates_internships, name='graduates-internships'),
     path('postgraduate-bursaries/', views.postgraduate_bursaries, name='postgraduate-bursaries'),
+    path('undergraduate-bursaries/', views.undergraduate_bursaries, name='undergraduate-bursaries'),
     path('get-certificates/', views.get_certifications, name='get-certificates'),
+    path('careers/universities-prospectures/', views.university_prospectus, name='university-prospectus'),
 
 
     # Articles 
