@@ -220,7 +220,7 @@ CLOUDFLARE_R2_STATIC_OPTIONS  = {
 
 import os
 
-USE_CLOUD_STORAGE = True
+USE_CLOUD_STORAGE = config("USE_CLOUD_STORAGE", default="false").lower() == "true"
 
 if USE_CLOUD_STORAGE:
     STORAGES = {

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load querystring %}
 <html lang="en">
   {% include 'partials/_head.html' %}
 
@@ -25,7 +26,13 @@
                 </ol>
               </nav>
 
-              <h3 class="text-white">Discover your earning potential</h3>
+              <h3 class="text-white">Discover Salaries in South Africa</h3>
+
+              <p class=" white-text" style="color: white;" >
+                Search average salaries by job title, industry, or location.
+                Make informed career and hiring decisions.
+              </p>
+
             </div>
           </div>
         </div>
@@ -39,11 +46,6 @@
         <div class="container">
           <div class="row justify-content-center text-center">
             <div class="col-lg-10 col-md-10">
-              <h2 class="mb-3">Discover Salaries in South Africa</h2>
-              <p class="lead text-muted">
-                Search average salaries by job title, industry, or location.
-                Make informed career and hiring decisions.
-              </p>
               <form method="get" action="{% url 'south-african-salaries' %}" class="row g-3 mt-4 justify-content-center">
                 <div class="col-md-3">
                   <input
@@ -74,7 +76,7 @@
                   </select>
                 </div>
                 <div class="col-md-2">
-                  <button type="submit" class="btn btn-primary btn-lg w-100">Search</button>
+                  <button style="background-color: #2c5282;" type="submit" class="btn text-white  btn-lg w-100">Search</button>
                 </div>
               </form>
               
@@ -124,16 +126,63 @@
         {% endif %}
         
         </div>
+
+        <div class="col-lg-12 col-12 mt-4">
+          {% if page_obj.has_other_pages %}
+          <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+        
+              <!-- Prev -->
+              {% if page_obj.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="?{% querystring request.GET 'page' page_obj.previous_page_number %}" aria-label="Previous">
+                    &laquo; Prev
+                  </a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <span class="page-link">&laquo; Prev</span>
+                </li>
+              {% endif %}
+        
+              <!-- Page Numbers -->
+              {% for page_num in page_obj.paginator.page_range %}
+                {% if page_obj.number == page_num %}
+                  <li class="page-item active"><span class="page-link">{{ page_num }}</span></li>
+                {% elif page_num > page_obj.number|add:'-3' and page_num < page_obj.number|add:'3' %}
+                  <li class="page-item">
+                    <a class="page-link" href="?{% querystring request.GET 'page' page_num %}">{{ page_num }}</a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+        
+              <!-- Next -->
+              {% if page_obj.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?{% querystring request.GET 'page' page_obj.next_page_number %}" aria-label="Next">
+                    Next &raquo;
+                  </a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <span class="page-link">Next &raquo;</span>
+                </li>
+              {% endif %}
+        
+            </ul>
+          </nav>
+          {% endif %}
+        </div>
+        
+
       </section>
 
       <section class="salary-insight-cta section-padding bg-light">
         <div class="container text-center">
-          <h3 class="mb-3">Not sure what to expect for your salary?</h3>
+          <h3 class="mb-3">Want to Know What You Should Be Earning?</h3>
           <p class="text-muted">
-            Compare your role with others, research pay trends, and get ahead in
-            your job search or hiring journey.
+            Tell us your job title and location, and we’ll research salary trends for your role. Whether you’re job hunting or negotiating pay, we’ve got you covered.
           </p>
-
 
 
           
@@ -177,15 +226,14 @@
       class="btn btn-primary w-100"
       style="background-color: #13547a; color: #fff"
     >
-      Request Salary Insight
+      Request Salary Insight 
     </button>
   </div>
 </form>
 
 
           <p class="text-muted mt-3 small">
-            Our team will research and get back to you with insights customized to
-            your role.
+            Our team reviews every request and updates salary data to reflect current market conditions for your role.
           </p>
         </div>
       </section>
@@ -194,204 +242,56 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-12 col-12">
-              <h5 class="mb-4">RECOMMENDED JOBS</h5>
+              <h5 class="mb-4">Availabe jobs to apply </h5>
             </div>
-
-            <!-- Job 1: Retail Assistant -->
+      
+            {% for job in available_jobs %}
             <div class="col-lg-4 col-md-6 mb-4">
-              <a
-                href="job-detail.html"
-                class="text-decoration-none text-dark d-block h-100"
-              >
-                <div
-                  class="custom-block bg-white shadow-lg h-100 p-4 rounded-4 hover-shadow"
-                >
-                  <h5 class="mb-1">Retail Assistant (Part-time)</h5>
+              <a href="{% url 'job-detail' job.id job.slug %}" class="text-decoration-none text-dark d-block h-100">
+                <div class="custom-block bg-white shadow-lg h-100 p-4 rounded-4 hover-shadow">
+                  <h5 class="mb-1">{{ job.title }}</h5>
                   <div class="d-flex justify-content-between mb-2">
-                    <small class="text-muted">Mr Price</small>
-                    <small class="text-muted"
-                      ><i class="bi bi-geo-alt"></i> Durban</small
-                    >
+                    <small class="text-muted">
+                      {% if job.internal_or_external == 'external' %}
+                        {{ job.external_company_name }}
+                      {% else %}
+                        {{ job.company.company_name }}
+                      {% endif %}
+                    </small>
+                    <small class="text-muted">
+                      <i class="bi bi-geo-alt"></i> {{ job.location|default:"Remote" }}
+                    </small>
                   </div>
                   <div class="mb-2">
-                    <span
-                      class="badge bg-secondary bg-opacity-10 text-secondary"
-                      >Retail</span
-                    >
+                    {% with job.categories.all|first as cat %}
+                      {% if cat %}
+                        <span class="badge bg-primary bg-opacity-10 text-primary">{{ cat.name }}</span>
+                      {% endif %}
+                    {% endwith %}
                   </div>
                   <p class="text-truncate mb-3">
-                    Help customers, stock shelves and assist with sales at a
-                    leading clothing retailer...
+                    {{ job.description|striptags|truncatewords:15 }}
                   </p>
                   <div class="text-end">
-                    <small class="text-muted">1 day ago</small>
+                    <small class="text-muted">{{ job.created_at|timesince }} ago</small>
                   </div>
                 </div>
               </a>
             </div>
+            {% empty %}
+            <p>No recommended jobs available right now.</p>
+            {% endfor %}
+          </div>
 
-            <!-- Job 2: Call Centre Learnership -->
-            <div class="col-lg-4 col-md-6 mb-4">
-              <a
-                href="job-detail.html"
-                class="text-decoration-none text-dark d-block h-100"
-              >
-                <div
-                  class="custom-block bg-white shadow-lg h-100 p-4 rounded-4 hover-shadow"
-                >
-                  <h5 class="mb-1">Call Centre Learnership</h5>
-                  <div class="d-flex justify-content-between mb-2">
-                    <small class="text-muted">Capita SA</small>
-                    <small class="text-muted"
-                      ><i class="bi bi-geo-alt"></i> Johannesburg</small
-                    >
-                  </div>
-                  <div class="mb-2">
-                    <span class="badge bg-primary bg-opacity-10 text-primary"
-                      >Learnership</span
-                    >
-                  </div>
-                  <p class="text-truncate mb-3">
-                    12-month paid training for matriculants. Gain experience
-                    while earning a stipend...
-                  </p>
-                  <div class="text-end">
-                    <small class="text-muted">2 days ago</small>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <!-- Job 3: Online English Tutor -->
-            <div class="col-lg-4 col-md-6 mb-4">
-              <a
-                href="job-detail.html"
-                class="text-decoration-none text-dark d-block h-100"
-              >
-                <div
-                  class="custom-block bg-white shadow-lg h-100 p-4 rounded-4 hover-shadow"
-                >
-                  <h5 class="mb-1">Online English Tutor</h5>
-                  <div class="d-flex justify-content-between mb-2">
-                    <small class="text-muted">Cambly</small>
-                    <small class="text-muted"
-                      ><i class="bi bi-geo-alt"></i> Remote</small
-                    >
-                  </div>
-                  <div class="mb-2">
-                    <span class="badge bg-info bg-opacity-10 text-info"
-                      >Education</span
-                    >
-                  </div>
-                  <p class="text-truncate mb-3">
-                    Teach conversational English online. Great for students with
-                    strong communication skills...
-                  </p>
-                  <div class="text-end">
-                    <small class="text-muted">Just now</small>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <!-- Job 4: Data Capturer (Remote) -->
-            <div class="col-lg-4 col-md-6 mb-4">
-              <a
-                href="job-detail.html"
-                class="text-decoration-none text-dark d-block h-100"
-              >
-                <div
-                  class="custom-block bg-white shadow-lg h-100 p-4 rounded-4 hover-shadow"
-                >
-                  <h5 class="mb-1">Data Capturer (Remote)</h5>
-                  <div class="d-flex justify-content-between mb-2">
-                    <small class="text-muted">EduData</small>
-                    <small class="text-muted"
-                      ><i class="bi bi-geo-alt"></i> Work from Home</small
-                    >
-                  </div>
-                  <div class="mb-2">
-                    <span class="badge bg-success bg-opacity-10 text-success"
-                      >Admin</span
-                    >
-                  </div>
-                  <p class="text-truncate mb-3">
-                    Work remotely capturing student records. No prior experience
-                    needed, training provided...
-                  </p>
-                  <div class="text-end">
-                    <small class="text-muted">3 hours ago</small>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <!-- Job 5: Junior IT Intern -->
-            <div class="col-lg-4 col-md-6 mb-4">
-              <a
-                href="job-detail.html"
-                class="text-decoration-none text-dark d-block h-100"
-              >
-                <div
-                  class="custom-block bg-white shadow-lg h-100 p-4 rounded-4 hover-shadow"
-                >
-                  <h5 class="mb-1">Junior IT Intern</h5>
-                  <div class="d-flex justify-content-between mb-2">
-                    <small class="text-muted">BCX</small>
-                    <small class="text-muted"
-                      ><i class="bi bi-geo-alt"></i> Pretoria</small
-                    >
-                  </div>
-                  <div class="mb-2">
-                    <span class="badge bg-dark bg-opacity-10 text-dark"
-                      >IT Internship</span
-                    >
-                  </div>
-                  <p class="text-truncate mb-3">
-                    A paid IT internship for young tech enthusiasts wanting to
-                    enter the digital field...
-                  </p>
-                  <div class="text-end">
-                    <small class="text-muted">4 days ago</small>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <!-- Job 6: Assistant Library Clerk -->
-            <div class="col-lg-4 col-md-6 mb-4">
-              <a
-                href="job-detail.html"
-                class="text-decoration-none text-dark d-block h-100"
-              >
-                <div
-                  class="custom-block bg-white shadow-lg h-100 p-4 rounded-4 hover-shadow"
-                >
-                  <h5 class="mb-1">Library Clerk (Student Job)</h5>
-                  <div class="d-flex justify-content-between mb-2">
-                    <small class="text-muted">City of Cape Town</small>
-                    <small class="text-muted"
-                      ><i class="bi bi-geo-alt"></i> Cape Town</small
-                    >
-                  </div>
-                  <div class="mb-2">
-                    <span class="badge bg-warning bg-opacity-10 text-warning"
-                      >Public Sector</span
-                    >
-                  </div>
-                  <p class="text-truncate mb-3">
-                    Assist with shelving and issuing books at public libraries
-                    during school holidays...
-                  </p>
-                  <div class="text-end">
-                    <small class="text-muted">5 days ago</small>
-                  </div>
-                </div>
-              </a>
-            </div>
+          <div class="col-12 text-center mt-4">
+            <a href="{% url 'south-african-jobs' %}" target="_blank" rel="noopener" class="text-decoration-none fw-semibold">
+              View All Jobs 
+              <i class="bi bi-box-arrow-up-right ms-1"></i>
+            </a>
           </div>
         </div>
       </section>
+      
     </main>
 
     {% include 'partials/_footer.html' %}

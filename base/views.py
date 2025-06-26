@@ -15,6 +15,11 @@ from .models import PastPaper
 from .forms import ContactForm
 from django.core.paginator import Paginator
 
+from django.utils.html import strip_tags
+from django.core.validators import validate_slug
+from django.core.exceptions import ValidationError
+import re
+
 # import Http404
 from django.http import Http404
 
@@ -145,7 +150,7 @@ def job_detail(request, pk, slug):
     ).distinct().order_by('-created_at')[:6]
 
     return render(request, 'jobs/job-detail.html', {'job': job ,  'job_url': job_url,
-        'site': current_site, 'title': title , 'related_jobs': related_jobs,  'related_salaries': related_salaries, })
+        'site': current_site,'title': title , 'related_jobs': related_jobs,  'related_salaries': related_salaries, })
 
 
 def apply_job(request,pk, slug):
@@ -176,6 +181,8 @@ def job_notification_subscription(request):
 
 
 
+def is_safe_input(text):
+    return re.match(r'^[\w\s\-,.()&]+$', text)
 
 # Salaries Views
 def submit_salary_request(request):
@@ -185,6 +192,14 @@ def submit_salary_request(request):
 
         if not job_title:
             messages.error(request, "Job title is required.")
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+        
+        if len(job_title) > 100 or len(location) > 100:
+            messages.error(request, "Input is too long.")
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+        
+        if not is_safe_input(job_title) or (location and not is_safe_input(location)):
+            messages.error(request, "Invalid characters detected in input.")
             return redirect(request.META.get('HTTP_REFERER', '/'))
 
         # Check if a request already exists with the same or similar job title
@@ -205,6 +220,7 @@ def submit_salary_request(request):
 
 def salary_list(request):
     salaries = SalaryReport.objects.prefetch_related('companies', 'categories').all()
+    available_jobs = Job.objects.order_by('?')[:6]
 
     title_query = request.GET.get('title')
     location_query = request.GET.get('location')
@@ -229,12 +245,20 @@ def salary_list(request):
             Q(companies__in=matching_companies)
         ).distinct()
 
-    categories = Category.objects.all()
+    paginator = Paginator(salaries, 9)  # 10 reports per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    categories = Category.objects.annotate(
+        num_reports=Count('salary_reports')
+        ).filter(num_reports__gt=0)
 
     return render(request, 'salaries/salaries.html', {
         'title': 'Latest Salaries in South Africa – Compare Wages by Industry & Role',
-        'salaries': salaries,
+        'salaries': page_obj,
+        'page_obj': page_obj,
         'categories': categories,
+         'available_jobs': available_jobs,
     })
 
 
