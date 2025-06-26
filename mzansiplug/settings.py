@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django.contrib.sites',
+    'django.contrib.sitemaps',
     # my apps
     'base.apps.BaseConfig',
     # Other apps
@@ -50,6 +51,8 @@ INSTALLED_APPS = [
     'taggit',
     'imagekit',
     'storages',
+
+    
     
 ]
 
