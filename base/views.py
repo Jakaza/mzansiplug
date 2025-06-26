@@ -13,6 +13,7 @@ from django.views.decorators.http import require_POST
 from django.http import FileResponse
 from .models import PastPaper
 from .forms import ContactForm
+from django.core.paginator import Paginator
 
 # import Http404
 from django.http import Http404
@@ -100,8 +101,13 @@ def job_list(request):
     else:
         jobs = jobs.order_by('-created_at')  # default sorting
 
+    paginator = Paginator(jobs, 9)  # 9 jobs per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'jobs': jobs,
+        'jobs': page_obj,  # Send paginated jobs
+        'page_obj': page_obj,
         'filters': {
             'role': role,
             'location': location,

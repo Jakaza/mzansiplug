@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 {% load static %}
+
+{% load querystring %}
+
 <html lang="en">
   {% include 'partials/_head.html' %}
 
@@ -37,12 +40,9 @@
 <section style="padding: 15px 0">
   <div class="container">
     <div class="row">
-      <div class="col-lg-12 col-12 text-center">
-        <h3 class="mb-4">Jobs in South Africa</h3>
-      </div>
       <div class="container mt-3">
         <div class="search-section">
-          <h4>Find Jobs</h4>
+          <h4>Searhc Jobs here</h4>
           <form method="get" class="row search-form gx-3 gy-2 align-items-center">
             <div class="col-md-4">
               <input
@@ -123,6 +123,61 @@
           </nav>
         </div>
       </div>
+
+      <div class="col-lg-12 col-12 mt-4">
+        <div class="col-lg-12 col-12 mt-4">
+          {% if page_obj.has_other_pages %}
+          <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+        
+              <!-- Prev button -->
+              {% if page_obj.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="?{% querystring request.GET 'page' page_obj.previous_page_number %}" aria-label="Previous">
+                    &laquo; Prev
+                  </a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <span class="page-link" aria-label="Previous">&laquo; Prev</span>
+                </li>
+              {% endif %}
+        
+              <!-- Page numbers -->
+              {% for page_num in page_obj.paginator.page_range %}
+                {% if page_obj.number == page_num %}
+                  <li class="page-item active">
+                    <span class="page-link">{{ page_num }}</span>
+                  </li>
+                {% elif page_num > page_obj.number|add:'-3' and page_num < page_obj.number|add:'3' %}
+                  <li class="page-item">
+                    <a class="page-link" href="?{% querystring request.GET 'page' page_num %}">{{ page_num }}</a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+        
+              <!-- Next button -->
+              {% if page_obj.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?{% querystring request.GET 'page' page_obj.next_page_number %}" aria-label="Next">
+                    Next &raquo;
+                  </a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <span class="page-link" aria-label="Next">Next &raquo;</span>
+                </li>
+              {% endif %}
+        
+            </ul>
+          </nav>
+          {% endif %}
+        </div>
+        
+      </div>
+      
+
+
     </div>
   </div>
 </section>
