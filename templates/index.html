@@ -22,12 +22,12 @@
       rel="stylesheet"
     />
 
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/bootstrap.min_v0.1.css' %}" rel="stylesheet" />
 
     <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet" />
 
     <link
-      href="{% static 'css/templatemo-topic-listing.css' %}"
+      href="{% static 'css/templatemo-topic-listing_v0.1.css' %}"
       rel="stylesheet"
     />
     <!--
@@ -139,7 +139,7 @@ https://templatemo.com/tm-590-topic-listing
         });
       </script>
 
-      {% include 'partials/_main_featured_articles.html' %}
+  
 
       <br />
 
@@ -253,11 +253,13 @@ https://templatemo.com/tm-590-topic-listing
               <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100 shadow-sm">
                   <a href="{% url 'article-detail' pk=article.pk slug=article.slug %}">
+                    {% if article.cover_image_thumbnail %}
                     <img
                       src="{{ article.cover_image_thumbnail.url }}"
                       class="card-img-top"
                       alt="{{ article.title }}"
                     />
+                  {% endif %}
                   </a>
                   <div class="card-body">
                     <h5 class="card-title">

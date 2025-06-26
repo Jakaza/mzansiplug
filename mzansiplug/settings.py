@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-_dh9i9qamdp+12!sw&7+i7osh05k4#6@79i0ozq%w&y2fcg87m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["54.159.177.219", "127.0.0.1", "mzansiplug.com", "www.mzansiplug.com"]
+ALLOWED_HOSTS = ["54.159.177.219", "127.0.0.1", "localhost",  "mzansiplug.com", "www.mzansiplug.com"]
 
 
 
@@ -218,23 +218,38 @@ CLOUDFLARE_R2_STATIC_OPTIONS  = {
     "location": "static",
 }
 
-STORAGES = {
-    "default": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-        "OPTIONS": CLOUDFLARE_R2_MEDIA_OPTIONS ,
-    },
-    "staticfiles": {
-        "BACKEND": "base.storage.CloudflareStaticStorage",
-    },
-}
+import os
 
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = "public-read"
+USE_CLOUD_STORAGE = False
 
-# STATIC_URL = 'static/'
+if USE_CLOUD_STORAGE:
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+            "OPTIONS": CLOUDFLARE_R2_MEDIA_OPTIONS,
+        },
+        "staticfiles": {
+            "BACKEND": "base.storage.CloudflareStaticStorage",
+        },
+    }
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_DEFAULT_ACL = "public-read"
+
+    STATIC_URL = CLOUDFLARE_R2_MEDIA_OPTIONS.get("custom_domain", "") + "/static/"
+else:
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
+
+    STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'static'
+    BASE_DIR / 'static',
 ]
 
 

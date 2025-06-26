@@ -7,33 +7,33 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 :root {
-    /* Brand-Aligned Bootstrap Palette */
-    --bs-primary: #2c5282;
-    /* Matches --primary-color */
-    --bs-secondary: #4299e1;
-    /* Matches --secondary-color */
-    --bs-info: #3182ce;
-    /* Distinct blue for info blocks */
-    --bs-success: #38a169;
-    --bs-danger: #e53e3e;
-    --bs-warning: #2a4365;
-    /* No yellow - deep blue fallback */
-
-    --bs-light: #f7fafc;
-    --bs-dark: #1a202c;
-
-    /* Muted Accents - use sparingly */
-    --bs-teal: #319795;
-    --bs-cyan: #63b3ed;
+    /* 🔵 Blue-based professional palette */
+    --bs-blue: #2c5282;
+    /* Primary - Navy Blue */
+    --bs-indigo: #2a4365;
+    /* Darker shade for depth/hover */
     --bs-purple: #5b5f97;
+    /* Optional subtle accent (avoid overuse) */
     --bs-pink: #c53078;
-    --bs-orange: #2c5282;
-    --bs-yellow: #2c5282;
+    /* Optional for special cases (minimal) */
     --bs-red: #e53e3e;
+    /* For errors only */
+    --bs-orange: #2c5282;
+    /* Neutralized to match primary */
+    --bs-yellow: #2c5282;
+    /* Neutralized to match primary */
+    --bs-green: #38a169;
+    /* For success states only */
+    --bs-teal: #319795;
+    /* Optional muted info accent */
+    --bs-cyan: #4299e1;
+    /* Secondary Blue */
 
-    /* Grays */
+    /* ⚪ Neutrals */
     --bs-white: #ffffff;
     --bs-black: #1a202c;
+
+    /* Grayscale */
     --bs-gray: #4a5568;
     --bs-gray-dark: #2d3748;
     --bs-gray-100: #f7fafc;
@@ -46,11 +46,22 @@
     --bs-gray-800: #2d3748;
     --bs-gray-900: #1a202c;
 
-    /* RGB Support */
+    /* Brand Core */
+    --bs-primary: #2c5282;
+    --bs-secondary: #4299e1;
+    --bs-success: #38a169;
+    --bs-info: #4299e1;
+    --bs-warning: #2a4365;
+    /* fallback */
+    --bs-danger: #e53e3e;
+    --bs-light: #f7fafc;
+    --bs-dark: #1a202c;
+
+    /* RGB Equivalents */
     --bs-primary-rgb: 44, 82, 130;
     --bs-secondary-rgb: 66, 153, 225;
     --bs-success-rgb: 56, 161, 105;
-    --bs-info-rgb: 49, 130, 206;
+    --bs-info-rgb: 66, 153, 225;
     --bs-warning-rgb: 42, 67, 101;
     --bs-danger-rgb: 229, 62, 62;
     --bs-light-rgb: 247, 250, 252;
@@ -58,12 +69,13 @@
     --bs-white-rgb: 255, 255, 255;
     --bs-black-rgb: 26, 32, 44;
 
-    /* Body + Utility */
+    /* Body Settings */
     --bs-body-color: #4a5568;
     --bs-body-bg: #f7fafc;
     --bs-body-color-rgb: 74, 85, 104;
     --bs-body-bg-rgb: 247, 250, 252;
 
+    /* Fonts */
     --bs-font-sans-serif: 'Open Sans', sans-serif;
     --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --bs-body-font-family: var(--bs-font-sans-serif);
@@ -71,11 +83,12 @@
     --bs-body-font-weight: 400;
     --bs-body-line-height: 1.5;
 
+    /* UI Styles */
+    --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0));
     --bs-border-width: 1px;
     --bs-border-style: solid;
     --bs-border-color: #e2e8f0;
     --bs-border-color-translucent: rgba(0, 0, 0, 0.08);
-
     --bs-border-radius: 0.375rem;
     --bs-border-radius-sm: 0.25rem;
     --bs-border-radius-lg: 0.5rem;
@@ -83,12 +96,11 @@
     --bs-border-radius-2xl: 2rem;
     --bs-border-radius-pill: 50rem;
 
+    /* Links & Code */
     --bs-link-color: #2c5282;
     --bs-link-hover-color: #2a4365;
     --bs-code-color: #c53078;
     --bs-highlight-bg: #edf2f7;
-
-    --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0));
 }
 
 *,

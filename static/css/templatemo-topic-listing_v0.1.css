@@ -9,14 +9,14 @@ https://templatemo.com/tm-590-topic-listing
 /*---------------------------------------
   CUSTOM PROPERTIES ( VARIABLES )             
 -----------------------------------------*/
+
+
 :root {
     --white-color: #ffffff;
     --primary-color: #2c5282;
-    /* Professional navy blue */
-    --secondary-color: #4299e1;
-    /* Lighter corporate blue */
+    --primary2-color: #3c5a7f;
+    --secondary-color: #13547a;
     --section-bg-color: #f7fafc;
-    /* Very light gray */
     --custom-btn-bg-color: #2c5282;
     --custom-btn-bg-hover-color: #2a4365;
     --dark-color: #1a202c;
@@ -28,25 +28,15 @@ https://templatemo.com/tm-590-topic-listing
     --title-font-family: 'Montserrat', sans-serif;
 
     --h1-font-size: 42px;
-    /* Main headings (Hero) */
     --h2-font-size: 32px;
-    /* Section titles */
     --h3-font-size: 26px;
-    /* Sub-section titles */
     --h4-font-size: 22px;
-    /* Card titles / medium emphasis */
     --h5-font-size: 18px;
-    /* Smaller headings / labels */
     --h6-font-size: 16px;
-    /* Minor headings */
     --p-font-size: 15px;
-    /* Body text - ideal for readability */
     --menu-font-size: 15px;
-    /* Navbar items */
     --btn-font-size: 16px;
-    /* Buttons - readable but balanced */
     --copyright-font-size: 14px;
-    /* Footer text */
 
     --border-radius-large: 100px;
     --border-radius-medium: 20px;
@@ -160,7 +150,7 @@ strong {
 }
 
 .section-overlay {
-    background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
+    background-image: linear-gradient(15deg, #13547a 0%, #13547aa9 100%);
     position: absolute;
     top: 0;
     left: 0;
@@ -261,10 +251,24 @@ strong {
     SITE HEADER              
   -----------------------------------------*/
 .site-header {
-    background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
+    /* background-image: linear-gradient(to bottom, #13547a 0%, #4465ab 100%); */
+    background-image: linear-gradient(to bottom, #0f3d69 0%, #134e85 100%);
+    /* background-image: linear-gradient(to bottom, #13547a 0%, #80d0c7 100%); */
+    /* background-image: linear-gradient(to bottom, #13547a 0%, #80d0c7 100%); */
     padding-top: 150px;
     padding-bottom: 80px;
 }
+
+@media (max-width: 768px) {
+    .site-header {
+        padding-top: 100px;
+        padding-bottom: 25px !important;
+    }
+
+
+
+}
+
 
 .site-header .container {
     height: 100%;
@@ -297,7 +301,7 @@ strong {
 }
 
 .sticky-wrapper.is-sticky .navbar {
-    background-color: var(--secondary-color);
+    background-color: #13547a;
 }
 
 .navbar {
@@ -499,7 +503,7 @@ strong {
     HERO        
   -----------------------------------------*/
 .hero-section {
-    background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
+    background-image: linear-gradient(to bottom, #13547a 0%, #80d0c7 100%);
     position: relative;
     overflow: hidden;
     padding-top: 150px;
@@ -537,7 +541,7 @@ strong {
     TOPICS              
   -----------------------------------------*/
 .featured-section {
-    background-color: var(--secondary-color);
+    /* background-color: var(--secondary-color); */
     border-radius: 0 0 100px 100px;
     padding-bottom: 100px;
 }
