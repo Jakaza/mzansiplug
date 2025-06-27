@@ -56,23 +56,36 @@
     rel="stylesheet"
   />
 
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "MzansiPlug",
-      "url": "https://www.mzansiplug.com",
-      "logo": "https://pub-0324bcfe1aad402d8432e0e33dd00337.r2.dev/static/images/mzansiplug-logo.webp", 
-      "sameAs": [
-        "https://www.facebook.com/mzansiplug",
-        "https://www.twitter.com/mzansiplug",
-        "https://www.instagram.com/mzansiplug"
-      ],
-      "description": "MzansiPlug is a free South African platform that connects job seekers with verified jobs, side hustles, and learning opportunities."
-    }
-    </script>
-    
+  <!-- Favicon for modern browsers -->
+<link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon-32x32.png' %}">
+<link rel="icon" type="image/png" sizes="48x48" href="{% static 'images/favicon-48x48.png' %}">
+<link rel="icon" type="image/png" sizes="64x64" href="{% static 'images/favicon-64x64.png' %}">
+<link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+
+<!-- Apple Touch Icon -->
+<link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/logo-512x512.png' %}">
+
+<!-- Android/Chrome -->
+<link rel="icon" type="image/png" sizes="192x192" href="{% static 'images/logo-512x512.png' %}">
+
+<!-- Microsoft Tile -->
+<meta name="msapplication-TileImage" content="{% static 'images/logo-512x512.png' %}">
+<meta name="msapplication-TileColor" content="#ffffff">
+
+<!-- Web Manifest (optional) -->
+<!-- If you later create a PWA -->
+<!-- <link rel="manifest" href="{% static 'site.webmanifest' %}"> -->
+
+<!-- Google Structured Data (Logo Rich Result) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "url": "https://www.mzansiplug.co.za",
+  "logo": "https://www.mzansiplug.co.za/static/images/logo-512x512.png"
+}
+</script>
 
 
-
+  
 </head>
