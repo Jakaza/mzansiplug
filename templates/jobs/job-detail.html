@@ -42,8 +42,26 @@
                   >Apply Now</a
                 >
                 {% endif %}
+                
+                
 
-                <a href="#top" class="custom-icon bi-bookmark smoothscroll"></a>
+                <a href="#"
+                class="custom-icon bi-bookmark smoothscroll save-job-icon"
+                data-job-id="{{ job.id }}"
+                data-job-title="{{ job.title }}"
+                data-job-url="{{ job_url }}"
+                title="Bookmark this job"
+                ></a>
+
+                <style>
+                
+                .save-job-icon.bi-bookmark-fill {
+  color: #2b6cb0;
+}
+
+                </style>
+
+
               </div>
             </div>
 
@@ -64,7 +82,7 @@
           <div class="row">
             <!-- Job Details -->
             <div class="col-lg-8 col-12">
-              <h4 class="job-title mb-0">{{ job.title }}</h4>
+              <!-- <h4 class="job-title mb-0">{{ job.title }}</h4> -->
 
               <div class="job-thumb job-thumb-detail">
                 <!-- Job Meta Info -->
@@ -104,8 +122,87 @@
 
                 <!-- Description -->
                 <!-- <h4 class="mt-4 mb-2"></h4> -->
-                <div>
-                  <p style="font-size: 16px !important;">{{ job.description|safe }}</p>
+                <style>
+                  .richtext-content h1,
+        .richtext-content h2,
+        .richtext-content h3,
+        .richtext-content h4,
+        .richtext-content h5 {
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            line-height: 1.3;
+            color: #1a202c;
+        }
+        
+        .richtext-content h1 { font-size: 2rem; }
+        .richtext-content h2 { font-size: 1.75rem; }
+        .richtext-content h3 { font-size: 1.5rem; }
+        .richtext-content h4 { font-size: 1.25rem; }
+        
+        .richtext-content p {
+            margin-bottom: 1.25rem;
+            font-size: 1.05rem;
+            color: #2d3748;
+        }
+        
+        .richtext-content a {
+            color: #2b6cb0;
+            text-decoration: underline;
+        }
+        .richtext-content a:hover {
+            color: #2c5282;
+            text-decoration: none;
+        }
+        
+        .richtext-content ul,
+        .richtext-content ol {
+            padding-left: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+        
+        .richtext-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .richtext-content blockquote {
+            border-left: 4px solid #e2e8f0;
+            background-color: #f7fafc;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: #4a5568;
+        }
+        
+        .richtext-content img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            display: block;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        
+        .richtext-content pre,
+        .richtext-content code {
+            background: #f1f1f1;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            padding: 0.4em 0.6em;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            overflow-x: auto;
+        }
+        
+        .richtext-content strong {
+            font-weight: 600;
+        }
+        
+        .richtext-content em {
+            font-style: italic;
+        }
+        
+                </style>
+
+                <div class="richtext-content">
+                  {{ job.description|safe }}
                 </div>
 
                 <!-- Requirements (Optional logic if you split requirements later) -->
@@ -135,9 +232,83 @@
 
                   <a
                     href="#"
-                    class="custom-btn custom-border-btn btn mt-2 ms-lg-4 ms-3"
+               
+                    class="custom-btn custom-border-btn btn mt-2 ms-lg-4 ms-3 save-job-btn"
+                    data-job-id="{{ job.id }}"
+                    data-job-title="{{ job.title }}"
+                    data-job-url="{{ job_url }}"
                     >Save this job</a
                   >
+
+                  <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                      const jobId = "{{ job.id }}";
+                      const jobTitle = "{{ job.title }}";
+                      const jobUrl = "{{ job_url }}";
+                  
+                      const saveButton = document.querySelector(".save-job-btn");
+                      const saveIcon = document.querySelector(".save-job-icon");
+                  
+                      function markAsSaved(el) {
+                        if (!el) return;
+                        el.classList.add("saved");
+                        el.setAttribute("aria-disabled", "true");
+                        el.style.pointerEvents = "none";
+                  
+                        // Update button text if it's a full button
+                        if (el.classList.contains("save-job-btn")) {
+                          el.textContent = "Job Saved";
+                          el.classList.add("btn-secondary");
+                          el.classList.remove("custom-border-btn");
+                        }
+                  
+                        // Update icon (e.g. filled icon class if using Bootstrap Icons)
+                        if (el.classList.contains("save-job-icon")) {
+                          el.classList.remove("bi-bookmark");
+                          el.classList.add("bi-bookmark-fill");
+                        }
+                      }
+                  
+                      function isJobAlreadySaved(id) {
+                        const saved = JSON.parse(localStorage.getItem("savedJobs") || "[]");
+                        return saved.some(job => job.id === id);
+                      }
+                  
+                      function saveJobToLocalStorage(job) {
+                        let saved = JSON.parse(localStorage.getItem("savedJobs") || "[]");
+                  
+                        if (!saved.some(j => j.id === job.id)) {
+                          saved.push(job);
+                          localStorage.setItem("savedJobs", JSON.stringify(saved));
+                        }
+                      }
+                  
+                      // Check if already saved on page load
+                      if (isJobAlreadySaved(jobId)) {
+                        markAsSaved(saveButton);
+                        markAsSaved(saveIcon);
+                      }
+                  
+                      // Handle clicks
+                      [saveButton, saveIcon].forEach((el) => {
+                        if (!el) return;
+                        el.addEventListener("click", function (e) {
+                          e.preventDefault();
+                  
+                          if (!isJobAlreadySaved(jobId)) {
+                            saveJobToLocalStorage({
+                              id: jobId,
+                              title: jobTitle,
+                              url: jobUrl,
+                            });
+                  
+                            markAsSaved(el);
+                          }
+                        });
+                      });
+                    });
+                  </script>
+                  
 
                   <div class="job-detail-share d-flex align-items-center">
                     <p class="mb-0 me-lg-4 me-3">Share:</p>
@@ -203,7 +374,7 @@
                 </div>
 
                 <h6 class="mt-3 mb-2">About the Company</h6>
-                <p>{{ job.company.description|truncatechars:150 }}</p>
+                <p style="font-size: 16px;">{{ job.company.description|truncatechars:180 }}</p>
 
                 {% if job.internal_or_external == 'external' %}
                 <p><strong>Application Type:</strong> External</p>

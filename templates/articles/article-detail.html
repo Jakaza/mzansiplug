@@ -63,7 +63,88 @@
           {% endif %}
         </div>
 
-        <div class="article-content dark-text" style="color: black !important;">
+
+     
+        <style>
+          .richtext-content h1,
+.richtext-content h2,
+.richtext-content h3,
+.richtext-content h4,
+.richtext-content h5 {
+    font-weight: 600;
+    margin: 2rem 0 1rem;
+    line-height: 1.3;
+    color: #1a202c;
+}
+
+.richtext-content h1 { font-size: 2rem; }
+.richtext-content h2 { font-size: 1.75rem; }
+.richtext-content h3 { font-size: 1.5rem; }
+.richtext-content h4 { font-size: 1.25rem; }
+
+.richtext-content p {
+    margin-bottom: 1.25rem;
+    font-size: 1.05rem;
+    color: #2d3748;
+}
+
+.richtext-content a {
+    color: #2b6cb0;
+    text-decoration: underline;
+}
+.richtext-content a:hover {
+    color: #2c5282;
+    text-decoration: none;
+}
+
+.richtext-content ul,
+.richtext-content ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.richtext-content li {
+    margin-bottom: 0.5rem;
+}
+
+.richtext-content blockquote {
+    border-left: 4px solid #e2e8f0;
+    background-color: #f7fafc;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: #4a5568;
+}
+
+.richtext-content img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    display: block;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.richtext-content pre,
+.richtext-content code {
+    background: #f1f1f1;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    padding: 0.4em 0.6em;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    overflow-x: auto;
+}
+
+.richtext-content strong {
+    font-weight: 600;
+}
+
+.richtext-content em {
+    font-style: italic;
+}
+
+        </style>
+
+        <div class="article-content richtext-content dark-text" style="color: black !important;">
           {{ article.content|safe }}
         </div>
 
