@@ -5,12 +5,31 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta name="description" content="Discover the latest jobs and career opportunities in South Africa with MzansiPlug. Explore salary insights, job listings, and career advice tailored for South Africans." />
+    <meta name="author" content="MzansiPlug Team" />
+
+    <meta name="keywords" content="South African jobs, jobs in South Africa, South Africa careers, salary insights South Africa, job listings SA, Mzansi jobs, career advice South Africa" />
+
+
 
     <title>
       Welcome to MzansiPlug - South African Jobs and Salaries Platform
     </title>
+
+    <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.mzansiplug.co.za/" />
+  <meta property="og:title" content="MzansiPlug | South African Jobs, Careers & Salary Insights" />
+  <meta property="og:description" content="Discover the latest jobs and career opportunities in South Africa with MzansiPlug. Explore salary insights, job listings, and career advice tailored for South Africans." />
+  <meta property="og:image" content="https://www.mzansiplug.co.za/static/images/preview-image.jpg" />
+
+   <!-- Twitter -->
+   <meta name="twitter:card" content="summary_large_image" />
+   <meta name="twitter:url" content="https://www.mzansiplug.co.za/" />
+   <meta name="twitter:title" content="MzansiPlug | South African Jobs, Careers & Salary Insights" />
+   <meta name="twitter:description" content="Discover the latest jobs and career opportunities in South Africa with MzansiPlug. Explore salary insights, job listings, and career advice tailored for South Africans." />
+   <meta name="twitter:image" content="https://www.mzansiplug.co.za/static/images/preview-image.jpg" />
+
 
     <!-- CSS FILES -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -256,23 +275,39 @@ https://templatemo.com/tm-590-topic-listing
             {% for article in latest_articles %}
               <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100 shadow-sm">
-                  <a href="{% url 'article-detail' pk=article.pk slug=article.slug %}">
-                    {% if article.cover_image_thumbnail %}
-                    <img
-                      src="{{ article.cover_image_thumbnail.url }}"
-                      class="card-img-top"
-                      alt="{{ article.title }}"
-                    />
+                  {% if article.cover_image %}
+                    <a href="{% url 'article-detail' pk=article.pk slug=article.slug %}">
+                      <img
+                      loading='lazy' 
+                        src="{{ article.cover_image.url }}"
+                        class="card-img-top d-none d-md-block"
+                        alt="Article Image"
+                        height="190px"
+                        
+                      />
+
+                    </a>
+                  {% else %}
+                  <img
+                  src="{% static 'images/default-article.jpg' %}"
+                  class="card-img-top d-none d-md-block"
+                  alt="Default Article Image"
+                  height="190px"
+                  loading='lazy' 
+                />
+                
                   {% endif %}
-                  </a>
                   <div class="card-body">
                     <h5 class="card-title">
-                      <a href="{% url 'article-detail' pk=article.pk slug=article.slug %}" class="text-decoration-none text-dark">
-                        {{ article.title|truncatechars:60 }}
+                      <a
+                        href="{% url 'article-detail' pk=article.pk slug=article.slug %}"
+                        class="text-decoration-none text-dark"
+                      >
+                        {{ article.title }}
                       </a>
                     </h5>
                     <p class="card-text text-muted small">
-                      {{ article.excerpt|truncatechars:100 }}
+                      {{ article.excerpt|truncatewords:25 }}
                     </p>
                   </div>
                   <div class="card-footer bg-white border-0">
@@ -281,7 +316,9 @@ https://templatemo.com/tm-590-topic-listing
                 </div>
               </div>
             {% empty %}
-              <p>No articles available.</p>
+              <div class="col-12">
+                <p>No articles available yet.</p>
+              </div>
             {% endfor %}
           </div>
           

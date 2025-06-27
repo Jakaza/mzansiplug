@@ -59,12 +59,12 @@
                     <a href="{% url 'article-detail' pk=article.pk slug=article.slug %}">
                       <img
                       loading='lazy' 
-  src="{{ article.cover_image.url }}"
-  class="card-img-top d-none d-md-block"
-  alt="Article Image"
-  height="190px"
-  
-/>
+                        src="{{ article.cover_image.url }}"
+                        class="card-img-top d-none d-md-block"
+                        alt="Article Image"
+                        height="190px"
+                        
+                      />
 
                     </a>
                   {% else %}

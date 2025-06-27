@@ -130,6 +130,8 @@ class TagifyWidget(forms.TextInput):
         return super().format_value(value)
 
 
+from django.core.exceptions import ValidationError
+
 class ArticleAdminForm(forms.ModelForm):
     class Meta:
         model = Article
@@ -138,16 +140,43 @@ class ArticleAdminForm(forms.ModelForm):
             'tags': TagifyWidget(),
         }
 
-    def clean_tags(self):
-        tag_str = self.cleaned_data.get('tags')
-        if isinstance(tag_str, str):
-            tag_list = [tag.strip() for tag in tag_str.split(',') if tag.strip()]
-            return tag_list
-        return tag_str
+    def clean_title(self):
+        title = self.cleaned_data.get('title', '')
+        if len(title) > 200:
+            raise ValidationError('Title cannot exceed 200 characters.')
+        return title
+
+    def clean_excerpt(self):
+        excerpt = self.cleaned_data.get('excerpt', '')
+        if len(excerpt) > 300:
+            raise ValidationError('Excerpt cannot exceed 300 characters.')
+        return excerpt
+
+    def clean_meta_title(self):
+        meta_title = self.cleaned_data.get('meta_title', '')
+        if len(meta_title) > 70:
+            raise ValidationError('Meta Title cannot exceed 70 characters.')
+        return meta_title
+
+    def clean_meta_description(self):
+        meta_description = self.cleaned_data.get('meta_description', '')
+        if len(meta_description) > 160:
+            raise ValidationError('Meta Description cannot exceed 160 characters.')
+        return meta_description
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Add help text showing max length, no live count but at least users know the limit
+        self.fields['title'].help_text = "Max 200 characters"
+        self.fields['excerpt'].help_text = "Max 300 characters"
+        self.fields['meta_title'].help_text = "Max 70 characters"
+        self.fields['meta_description'].help_text = "Max 160 characters"
+   
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
     form = ArticleAdminForm
+    
     list_display = ('title', 'author', 'status', 'published_at', 'view_count', 'display_tags')
     list_filter = ('status', 'published_at', 'is_featured', 'category')
     search_fields = ('title', 'content', 'author__username', 'tags__name')

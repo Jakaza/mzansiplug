@@ -1,6 +1,7 @@
 from django import forms
-from .models import Job
+from .models import Job , Article
 from .models import ContactMessage
+from django.core.exceptions import ValidationError
 
 
 JOB_DESCRIPTION_TEMPLATE = """

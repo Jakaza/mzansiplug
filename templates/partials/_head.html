@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <meta name="description" content="" />
   <meta name="author" content="MzansiPlug Team" />
 
   {% if job %}
@@ -15,13 +14,28 @@
   />
   <meta property="og:url" content="{{ job_url }}" />
   <meta property="og:type" content="website" />
-  <meta name="keywords" content="{{ keywords|default:'jobs, South Africa, mzansiplug, careers, side hustles, online courses' }}">
-  <meta name="description" content="{{ description|default:'Mzansiplug is a South African number 1 job site. Search for jobs across South Africa. Find work. Recruit the ideal candidates. PNet your job portal.' }}">
+  <meta name="keywords" content="{{ keywords|default:'South African jobs, jobs in South Africa, South Africa careers, salary insights South Africa, job listings SA, Mzansi jobs, career advice South Africa' }}">
+  <meta name="description" content="{{ description|default:'Discover the latest jobs and career opportunities in South Africa with MzansiPlug. Explore salary insights, job listings, and career advice tailored for South Africans.' }}">
   {% if job.company.logo %}
   <meta property="og:image" content="{{ job.company.logo.url }}" />
   {% endif %} {% endif %}
 
   <title>{{ title }}</title>
+
+   <!-- Open Graph / Facebook -->
+   <meta property="og:type" content="website" />
+   <meta property="og:url" content="https://www.mzansiplug.co.za/" />
+   <meta property="og:title" content="MzansiPlug | South African Jobs, Careers & Salary Insights" />
+   <meta property="og:description" content="Discover the latest jobs and career opportunities in South Africa with MzansiPlug. Explore salary insights, job listings, and career advice tailored for South Africans." />
+   <meta property="og:image" content="https://www.mzansiplug.co.za/static/images/preview-image.jpg" />
+ 
+   <!-- Twitter -->
+   <meta name="twitter:card" content="summary_large_image" />
+   <meta name="twitter:url" content="https://www.mzansiplug.co.za/" />
+   <meta name="twitter:title" content="MzansiPlug | South African Jobs, Careers & Salary Insights" />
+   <meta name="twitter:description" content="Discover the latest jobs and career opportunities in South Africa with MzansiPlug. Explore salary insights, job listings, and career advice tailored for South Africans." />
+   <meta name="twitter:image" content="https://www.mzansiplug.co.za/static/images/preview-image.jpg" />
+ 
 
   <!-- CSS FILES -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
