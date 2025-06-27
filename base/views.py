@@ -31,6 +31,16 @@ from taggit.models import Tag
 
 from django.db.models import Count
 
+from django.http import HttpResponse
+
+def robots_txt(request):
+    lines = [
+        "User-agent: *",
+        "Allow: /",
+        "Sitemap: https://mzansiplug.co.za/sitemap.xml"
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
+
 def index(request):
     category_slug = request.GET.get('category')
     selected_category = None

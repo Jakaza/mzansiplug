@@ -4,6 +4,8 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
 
+    path('robots.txt', views.robots_txt, name='robot'),
+
     # Jobs
     path('jobs/', views.job_list, name='south-african-jobs'),
     path('jobs/<int:pk>/<slug:slug>/', views.job_detail, name='job-detail'),
