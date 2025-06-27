@@ -57,8 +57,8 @@ def index(request):
     # Featured content
     latest_job = Job.objects.order_by('-created_at').first()
     top_article = Article.objects.filter(status='published').order_by('-view_count').first()
-    latest_articles = Article.objects.filter(status='published').order_by('-published_at')[:9]
-
+    latest_articles = Article.objects.filter(status='published').order_by('?')[:6]
+    
     return render(request, 'index.html', {
         'categories': categories,
         'jobs': jobs,
