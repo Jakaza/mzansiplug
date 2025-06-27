@@ -162,24 +162,39 @@
               {% for article in latest_articles %}
                 <div class="col-lg-4 col-md-6 mb-4">
                   <div class="card h-100 shadow-sm">
-                    <a href="{% url 'article-detail' pk=article.pk slug=article.slug %}">
-                      {% if article.cover_image_thumbnail %}
+                    {% if article.cover_image %}
+                      <a href="{% url 'article-detail' pk=article.pk slug=article.slug %}">
                         <img
-                          src="{{ article.cover_image_thumbnail.url }}"
-                          class="card-img-top"
-                          alt="{{ article.title }}"
-                          loading="lazy"
+                        loading='lazy' 
+                          src="{{ article.cover_image.url }}"
+                          class="card-img-top d-none d-md-block"
+                          alt="Article Image"
+                          height="190px"
+                          
                         />
-                      {% endif %}
-                    </a>
+  
+                      </a>
+                    {% else %}
+                    <img
+                    src="{% static 'images/default-article.jpg' %}"
+                    class="card-img-top d-none d-md-block"
+                    alt="Default Article Image"
+                    height="190px"
+                    loading='lazy' 
+                  />
+                  
+                    {% endif %}
                     <div class="card-body">
                       <h5 class="card-title">
-                        <a href="{% url 'article-detail' pk=article.pk slug=article.slug %}" class="text-decoration-none text-dark">
-                          {{ article.title|truncatechars:60 }}
+                        <a
+                          href="{% url 'article-detail' pk=article.pk slug=article.slug %}"
+                          class="text-decoration-none text-dark"
+                        >
+                          {{ article.title }}
                         </a>
                       </h5>
                       <p class="card-text text-muted small">
-                        {{ article.excerpt|truncatechars:100 }}
+                        {{ article.excerpt|truncatewords:25 }}
                       </p>
                     </div>
                     <div class="card-footer bg-white border-0">
@@ -188,9 +203,12 @@
                   </div>
                 </div>
               {% empty %}
-                <p>No articles available.</p>
+                <div class="col-12">
+                  <p>No articles available yet.</p>
+                </div>
               {% endfor %}
             </div>
+
           </div>
         </section>
       </div>
