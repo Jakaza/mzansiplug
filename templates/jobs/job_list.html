@@ -66,14 +66,14 @@
               <select class="form-control" name="sort">
                 <option value="">Sort by</option>
                 <option value="date" {% if filters.sort == 'date' %}selected{% endif %}>Newest</option>
-                <option value="salary_high" {% if filters.sort == 'salary_high' %}selected{% endif %}>Salary - High to Low</option>
-                <option value="salary_low" {% if filters.sort == 'salary_low' %}selected{% endif %}>Salary - Low to High</option>
                 <option value="views" {% if filters.sort == 'views' %}selected{% endif %}>Most Viewed</option>
+                <option value="deadline" {% if filters.sort == 'deadline' %}selected{% endif %}>Deadline Soonest</option>
               </select>
             </div>
             <div class="col-md-2">
               <button type="submit" class="btn btn-primary w-100">Search</button>
             </div>
+            
           </form>
           <br>
 
