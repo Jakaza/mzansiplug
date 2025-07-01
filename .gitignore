@@ -21,6 +21,11 @@ db.sqlite3/*
 media/
 staticfiles/
 
+static/
+static/*
+static
+
+
 # Environments
 env/
 venv/
