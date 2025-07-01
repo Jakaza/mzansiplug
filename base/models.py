@@ -24,18 +24,7 @@ from datetime import timedelta
 
 
 
-
-
-
-class User(AbstractUser):
-    is_company = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.username
-
-
 class CompanyProfile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     company_name = models.CharField(max_length=255)
     website = models.URLField(blank=True)
     logo = models.ImageField(upload_to='company_logos/', blank=True)
@@ -43,6 +32,18 @@ class CompanyProfile(models.Model):
 
     def __str__(self):
         return self.company_name
+
+
+class User(AbstractUser):
+    is_company = models.BooleanField(default=False)
+    company = models.ForeignKey(CompanyProfile, on_delete=models.SET_NULL, null=True, blank=True, related_name='users')
+
+    def __str__(self):
+        return self.username
+
+
+
+
 
 
 class Category(models.Model):

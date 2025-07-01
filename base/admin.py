@@ -23,6 +23,19 @@ from django.utils.timezone import now, timedelta
 class UserAdmin(BaseUserAdmin):
     model = User
 
+    list_display = ('username', 'email', 'is_staff', 'is_company', 'company')
+    list_filter = ('is_company', 'company')
+
+    fieldsets = BaseUserAdmin.fieldsets + (
+        ('Company Info', {'fields': ('is_company', 'company')}),
+    )
+
+    add_fieldsets = BaseUserAdmin.add_fieldsets + (
+        ('Company Info', {'fields': ('is_company', 'company')}),
+    )
+
+    search_fields = ('username', 'email', 'company__company_name')
+
 @admin.register(PastPaper)
 class PastPaperAdmin(admin.ModelAdmin):
     list_display = ('subject', 'paper_number', 'grade', 'exam_month', 'exam_year', 'file')
@@ -32,16 +45,28 @@ class SubjectAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug')
     prepopulated_fields = {'slug': ('name',)}
 
+class UserInline(admin.TabularInline):
+    model = User
+    fields = ('username', 'email', 'is_staff', 'is_company')
+    extra = 1
+    show_change_link = True
+
 @admin.register(CompanyProfile)
 class CompanyProfileAdmin(admin.ModelAdmin):
-    list_display = ('company_name', 'user', 'logo_preview')
+    list_display = ('company_name', 'user_count', 'logo_preview')
     readonly_fields = ('logo_preview',)
+    inlines = [UserInline]
+
+    def user_count(self, obj):
+        return obj.users.count()
+    user_count.short_description = 'Users'
 
     def logo_preview(self, obj):
         if obj.logo:
             return format_html('<img src="{}" width="100" height="100" style="object-fit: contain;" />', obj.logo.url)
         return "No logo"
     logo_preview.short_description = 'Logo Preview'
+
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
