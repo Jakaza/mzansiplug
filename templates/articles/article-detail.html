@@ -55,13 +55,31 @@
           </p>
         </div>
 
-        <div class="mb-5">
-          {% if article.cover_image %}
-            <img src="{{ article.cover_image.url }}" loading='lazy'  height="350px" class=" rounded" alt="{{ article.title }}">
-          {% else %}
-            <img src="{% static 'images/default-cover.jpg' %}" loading='lazy'  height="350px" class=" rounded" alt="{{ article.title }}">
-          {% endif %}
-        </div>
+
+<style>
+  .responsive-img {
+  width: 100%;
+  height: auto;
+  max-width: 500px; /* adjust this value to suit your layout */
+  display: block;
+  border-radius: 8px;
+}
+</style>
+
+<div class="mb-5">
+  {% if article.cover_image %}
+    <img src="{{ article.cover_image.url }}" 
+         loading="lazy" 
+         class="img-fluid responsive-img rounded" 
+         alt="{{ article.title }}">
+  {% else %}
+    <img src="{% static 'images/default-cover.jpg' %}" 
+         loading="lazy" 
+         class="img-fluid responsive-img rounded" 
+         alt="{{ article.title }}">
+  {% endif %}
+</div>
+
 
 
      
