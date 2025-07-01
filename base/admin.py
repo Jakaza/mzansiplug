@@ -17,6 +17,11 @@ from django.db.models import Count, Sum
 from django.utils.timezone import now, timedelta
 
 
+admin.site.site_header = "MzansiPlug Admin"
+admin.site.site_title = "MzansiPlug Portal"
+admin.site.index_title = "Welcome to MzansiPlug Admin Dashboard"
+
+
 # Register your models here.
 
 @admin.register(User)
