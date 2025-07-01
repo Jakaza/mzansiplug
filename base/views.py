@@ -107,14 +107,13 @@ def job_list(request):
     # Sorting
     if sort == 'date':
         jobs = jobs.order_by('-created_at')
-    elif sort == 'salary_high':
-        jobs = jobs.order_by('-salary')
-    elif sort == 'salary_low':
-        jobs = jobs.order_by('salary')
     elif sort == 'views':
         jobs = jobs.order_by('-views')
+    elif sort == 'deadline':
+        jobs = jobs.order_by('deadline')
     else:
-        jobs = jobs.order_by('-created_at')  # default sorting
+        jobs = jobs.order_by('-created_at')  # Default
+
 
     paginator = Paginator(jobs, 9)  # 9 jobs per page
     page_number = request.GET.get('page')
