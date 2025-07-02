@@ -39,6 +39,24 @@ class UserAdmin(BaseUserAdmin):
         ('Company Info', {'fields': ('is_company', 'company')}),
     )
 
+
+    # 🔐 Staff can only change themselves
+    def has_change_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return True
+        if obj is None:
+            return True
+        return obj == request.user
+
+    # ❌ Staff cannot delete users
+    def has_delete_permission(self, request, obj=None):
+        return request.user.is_superuser
+
+    # ❌ Staff cannot add new users
+    def has_add_permission(self, request):
+        return request.user.is_superuser
+
+
     search_fields = ('username', 'email', 'company__company_name')
 
 @admin.register(PastPaper)
