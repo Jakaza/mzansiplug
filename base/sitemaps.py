@@ -1,6 +1,6 @@
 from django.contrib.sitemaps import Sitemap
 from django.shortcuts import reverse
-from base.models import Job, SalaryReport as Salary, Article, Certification
+from base.models import Job, SalaryReport as Salary, Article, Certification 
 
 class StaticViewSitemap(Sitemap):
     priority = 0.8
