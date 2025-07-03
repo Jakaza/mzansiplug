@@ -104,7 +104,7 @@ class Job(models.Model):
     ]
 
     title = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=250, unique=True, blank=True)
+    slug = models.SlugField(max_length=250, blank=True)
     company = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE, related_name="jobs")
     location = models.CharField(max_length=200)
     description = RichTextField()
