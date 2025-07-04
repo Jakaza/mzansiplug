@@ -67,14 +67,8 @@
         </li>
       </ul>
 
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link {% if request.resolver_match.url_name == 'south-african-articles' %}active{% endif %}" href="{% url 'south-african-articles' %}">Articles</a>
-        </li>
-      </ul>
-
-
-      <!-- 👨‍💼 Desktop Dropdown (visible on lg and up) -->
+      <!-- Dropdown: Candidate Menu -->
+<!-- 👨‍💼 Desktop Dropdown (visible on lg and up) -->
 <ul class="navbar-nav ms-3 d-none d-lg-flex">
   <li class="nav-item dropdown">
     <a
@@ -88,6 +82,8 @@
       <i class="bi bi-person-circle me-1" style="font-size: 1.2rem;"></i>
       {% if request.user.is_authenticated %}
         {{ request.user.first_name|default:request.user.username }}
+      {% else %}
+        Account
       {% endif %}
     </a>
 
@@ -119,8 +115,6 @@
     <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Sign Up</a></li>
   {% endif %}
 </ul>
-
-      
 
     </div>
   </div>

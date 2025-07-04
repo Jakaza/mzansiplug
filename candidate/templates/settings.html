@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+  {% include 'partials/_head.html' %}
+    
+
+  <body class="topics-listing-page" id="top">
+    <main>
+
+      {% include 'partials/_candidate_navbar.html' %}
+
+      <header style="padding: 100px 0 0 0; "
+        class="site-header d-flex flex-column justify-content-center align-items-center"
+      >
+        <div class="container">
+       
+          <div class="search-section">
+            <h4>Searhc Jobs here</h4>
+            <form method="get" class="row search-form gx-3 gy-2 align-items-center">
+              <div class="col-md-4">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Job Role (e.g., Software Engineer)"
+                  name="role"
+                  value="{{ filters.role }}"
+                />
+              </div>
+              <div class="col-md-4">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Location (optional)"
+                  name="location"
+                  value="{{ filters.location }}"
+                />
+              </div>
+              <div class="col-md-3">
+                <button type="submit" class="btn btn-primary w-100">Search</button>
+              </div>
+              
+            </form>
+            <br>
+  
+            {% if request.GET.role or request.GET.location or request.GET.sort or request.GET.job_type or request.GET.experience_level %}
+            <form method="get" action="">
+              <a href="{% url 'south-african-jobs' %}" class="btn btn-outline-danger">Clear Search</a>
+            </form>
+          {% endif %}
+          </div>
+
+        </div>
+      </header>
+    </main>
+
+    <!-- Here goes the content -->
+
+    <section class="container py-5">
+      <div class="row">
+        <div class="col-12 mb-4">
+          <h3 class="text-dark">Settings</h3>
+          <p class="text-muted">Manage your account settings and personal information.</p>
+        </div>
+    
+        <!-- Mzansiplug Proposal Settings -->
+        <div class="col-12 mb-4">
+          <div class="border rounded p-4 shadow-sm bg-white">
+            <div class="d-flex align-items-center mb-2">
+              <i class="bi-stars me-2 text-warning fs-4"></i>
+              <h5 class="mb-0">Mzansiplug Proposal Settings</h5>
+            </div>
+    
+            <div class="form-check form-switch mb-3 mt-3">
+              <input class="form-check-input" type="checkbox" id="topMatchSwitch" checked>
+              <label class="form-check-label" for="topMatchSwitch">
+                Allow Mzansiplug to propose you as a top match
+              </label>
+            </div>
+            <p class="text-muted ms-4">
+              We connect you with roles that match your skills and career goals. This improves your chances to stand out.
+              <a href="#" class="text-decoration-underline">How does this proposal work?</a>
+            </p>
+    
+            <div class="form-check form-switch mt-4">
+              <input class="form-check-input" type="checkbox" id="historySwitch" checked>
+              <label class="form-check-label" for="historySwitch">
+                Allow recruiters to see your application history
+              </label>
+            </div>
+            <p class="text-muted ms-4">
+              Recruiters can see the jobs you've applied for on Mzansiplug over the past 12 weeks. This helps them get a clearer picture of your career interests and offer relevant job opportunities.
+            </p>
+          </div>
+        </div>
+    
+        <!-- Manage Account -->
+        <div class="col-12 mb-4">
+          <div class="border rounded p-4 shadow-sm bg-white">
+            <div class="d-flex align-items-center mb-2">
+              <i class="bi-gear-fill me-2 text-secondary fs-4"></i>
+              <h5 class="mb-0">Manage your account</h5>
+            </div>
+            <p class="text-muted">Update your personal information, education, work experience and skills.</p>
+            <a href="{% url 'profile-details' %}" class="btn btn-outline-primary btn-sm">Manage Account</a>
+          </div>
+        </div>
+    
+        <!-- Account Details -->
+        <div class="col-12">
+          <div class="border rounded p-4 shadow-sm bg-white">
+            <div class="d-flex align-items-center mb-2">
+              <i class="bi-person-circle me-2 text-info fs-4"></i>
+              <h5 class="mb-0">Your account details</h5>
+            </div>
+    
+            <div class="row mt-3">
+              <div class="col-md-6 mb-3">
+                <label class="form-label text-muted">Email address</label>
+                <p class="fw-semibold text-dark mb-0">AIINVIGILATE@GMAIL.COM</p>
+              </div>
+    
+              <div class="col-md-6 mb-3">
+                <label class="form-label text-muted">Password</label>
+                <p class="fw-semibold text-dark mb-0">************</p>
+              </div>
+    
+              <div class="col-12 mt-2">
+                <a href="{% url 'change-password' %}" class="btn btn-outline-info btn-sm me-2">Edit Details</a>
+                <!-- <a href="#" class="btn btn-outline-danger btn-sm">Delete my account</a> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    
+
+
+    {% include 'partials/_footer.html' %}
+
+  </body>
+</html>

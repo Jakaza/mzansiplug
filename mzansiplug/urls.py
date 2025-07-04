@@ -18,6 +18,7 @@ sitemaps_dict = {
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('base.urls')),
+    path('candidate/', include('candidate.urls')),
 
     # ✅ Sitemap route
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps_dict}, name='django.contrib.sitemaps.views.sitemap'),

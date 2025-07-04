@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-_dh9i9qamdp+12!sw&7+i7osh05k4#6@79i0ozq%w&y2fcg87m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["54.159.177.219", "127.0.0.1", "localhost",  "mzansiplug.com", "www.mzansiplug.com"]
 
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     # my apps
     'base.apps.BaseConfig',
+    'candidate.apps.CandidateConfig',
     # Other apps
     'ckeditor',
     'taggit',
@@ -59,6 +60,17 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 AUTH_USER_MODEL = 'base.User'
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # or your provider
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'aiinvigilate@gmail.com'
+EMAIL_HOST_PASSWORD = 'vvzi jybf kbud uhag'
+DEFAULT_FROM_EMAIL = 'MzansiPlug <aiinvigilate@gmail.com>'
+
 
 
 
@@ -129,7 +141,7 @@ POSTGRES_READY = (
 
 
 # Define the DATABASES setting based on the availability of PostgreSQL variables
-if POSTGRES_READY:
+if False:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',

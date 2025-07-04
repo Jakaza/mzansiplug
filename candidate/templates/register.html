@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+  {% include 'partials/_head.html' %}
+
+  <body class="topics-listing-page" id="top">
+    <main>
+
+      {% include 'partials/_candidate_navbar.html' %}
+
+      <header style="padding: 100px 0 0 0;" class="site-header d-flex flex-column justify-content-center align-items-center">
+        <div class="container">
+        </div>
+      </header>
+
+      <style>
+        form {
+  background-color: #f9f9f9;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1.5px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: #2c5282;
+  outline: none;
+}
+
+.error {
+  color: #d9534f !important;
+  font-size: 0.875rem;
+  margin-top: 4px;
+}
+
+.btn-primary {
+  background-color: #2c5282;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+      </style>
+
+      <section class="container py-5">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <h4 class="mb-4 text-center text-md-start">Register as Candidate</h4>
+            <form method="post" novalidate>
+              {% csrf_token %}
+
+              <!-- Manually render fields -->
+              <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">Username</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                  <div style="color: #d9534f;" class="error">{{ form.username.errors }}</div>
+                {% endif %}
+              </div>
+
+              <div class="form-group">
+                <label for="{{ form.email.id_for_label }}">Email</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                  <div  style="color: #d9534f;" class="error">{{ form.email.errors }}</div>
+                {% endif %}
+              </div>
+
+              <div class="form-group">
+                <label for="{{ form.password1.id_for_label }}">Password</label>
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                  <div style="color: #d9534f;" class="error">{{ form.password1.errors }}</div>
+                {% endif %}
+              </div>
+
+              <div class="form-group">
+                <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                  <div style="color: #d9534f;" class="error">{{ form.password2.errors }}</div>
+                {% endif %}
+              </div>
+
+              <button type="submit" class="btn btn-primary mt-3">Create Account</button>
+              
+              <p style="padding: 15px 0;">Already have an account?  <a href="{% url 'login' %}" >Login</a></p>
+            
+            </form>
+    
+          </div>
+        </div>
+      </section>
+
+      {% include 'partials/_footer.html' %}
+
+    </main>
+  </body>
+</html>

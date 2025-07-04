@@ -35,12 +35,25 @@ class CompanyProfile(models.Model):
 
 
 class User(AbstractUser):
+
+    USER_TYPE_CHOICES = (
+        ('admin', 'Admin'),
+        ('candidate', 'Candidate'),
+        ('employer', 'Employer'),
+    )
+    user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES, default='candidate')
+
+    def is_candidate(self):
+        return self.user_type == 'candidate'
+
+    def is_admin_user(self):
+        return self.user_type == 'admin'
+
     is_company = models.BooleanField(default=False)
     company = models.ForeignKey(CompanyProfile, on_delete=models.SET_NULL, null=True, blank=True, related_name='users')
 
     def __str__(self):
         return self.username
-
 
 
 

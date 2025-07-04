@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+  {% include 'partials/_head.html' %}
+    
+
+  <body class="topics-listing-page" id="top">
+    <main>
+
+      {% include 'partials/_candidate_navbar.html' %}
+
+      <header style="padding: 100px 0 0 0; "
+        class="site-header d-flex flex-column justify-content-center align-items-center"
+      >
+        <div class="container">
+       
+          <div class="search-section">
+            <h4>Searhc Jobs here</h4>
+            <form method="get" class="row search-form gx-3 gy-2 align-items-center">
+              <div class="col-md-4">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Job Role (e.g., Software Engineer)"
+                  name="role"
+                  value="{{ filters.role }}"
+                />
+              </div>
+              <div class="col-md-4">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Location (optional)"
+                  name="location"
+                  value="{{ filters.location }}"
+                />
+              </div>
+              <div class="col-md-3">
+                <button type="submit" class="btn btn-primary w-100">Search</button>
+              </div>
+              
+            </form>
+            <br>
+  
+            {% if request.GET.role or request.GET.location or request.GET.sort or request.GET.job_type or request.GET.experience_level %}
+            <form method="get" action="">
+              <a href="{% url 'south-african-jobs' %}" class="btn btn-outline-danger">Clear Search</a>
+            </form>
+          {% endif %}
+          </div>
+
+        </div>
+      </header>
+    </main>
+
+    <!-- Here goes the content -->
+
+    <section class="container py-5">
+      <div class="row">
+        <div class="col-12 mb-4">
+          <h3 class="text-dark">Hi,</h3>
+          <p class="text-muted">Here is your job search at a glance.</p>
+        </div>
+    
+        <!-- Recommended Jobs -->
+        <div class="col-12 mb-4">
+          <div class="border rounded p-4 shadow-sm bg-white">
+            <div class="d-flex align-items-center mb-2">
+              <i class="bi-briefcase-fill me-2 text-primary fs-4"></i>
+              <h5 class="mb-0">My recommended jobs</h5>
+            </div>
+            <div class="alert alert-info mt-3 mb-0">
+              Nothing here yet. We will compile personalised recommendations based on your search activity.
+            </div>
+          </div>
+        </div>
+    
+        <!-- Saved Jobs -->
+        <div class="col-12 mb-4">
+          <div class="border rounded p-4 shadow-sm bg-white">
+            <div class="d-flex align-items-center mb-2">
+              <i class="bi-heart-fill me-2 text-danger fs-4"></i>
+              <h5 class="mb-0">No saved jobs</h5>
+            </div>
+            <p class="text-muted">Streamline your job search by ❤️ jobs you want to apply for.</p>
+            <div class="alert alert-info mt-2 mb-0">
+              Can't find a job you’ve saved? It means you haven’t saved any job .
+            </div>
+          </div>
+        </div>
+    
+        <!-- Applications -->
+        <!-- <div class="col-12">
+          <div class="border rounded p-4 shadow-sm bg-white">
+            <div class="d-flex align-items-center mb-2">
+              <i class="bi-send-fill me-2 text-warning fs-4"></i>
+              <h5 class="mb-0">You haven't sent any applications recently.</h5>
+            </div>
+            <p class="text-muted">Keep track of the current status of your applications.</p>
+          </div>
+        </div> -->
+      </div>
+    </section>
+    
+    {% include 'partials/_footer.html' %}
+
+  </body>
+</html>
