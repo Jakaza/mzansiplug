@@ -31,8 +31,6 @@ DEBUG = False
 
 ALLOWED_HOSTS = ["54.159.177.219", "127.0.0.1", "localhost",  "mzansiplug.com", "www.mzansiplug.com"]
 
-
-
 # Application definition
 
 INSTALLED_APPS = [
