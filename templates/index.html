@@ -105,101 +105,283 @@
         }
       </style>
 
-      <section
-        class="hero-section d-flex justify-content-center align-items-center"
-        
-      >
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-8 col-12 mx-auto">
-              <h2 class="text-white text-center"> Discover Jobs. Build Your Future. Hustles & Income Streams. All in one place</h2>
-          
-              <h3 class="text-center text-white">Empowering South Africans Through Work & Opportunity</h3>
+<style>
+  :root {
+      --primary-color: #0066cc;
+      --secondary-color: #2c5282;
+      --accent-color: #00d4aa;
+      --dark-color: #1a1a1a;
+      --light-color: #f8f9fa;
+      --text-dark: #333;
+      --text-light: #666;
+      --gradient-primary: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+      --gradient-secondary: linear-gradient(135deg, #ff6b35 0%, #e55a2b 100%);
+      --gradient-hero: linear-gradient(135deg, rgba(0,102,204,0.9) 0%, rgba(0,68,153,0.9) 50%, rgba(255,107,53,0.8) 100%);
+  }
+  
+  * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+  }
+  
+  body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      color: var(--text-dark);
+      overflow-x: hidden;
+  }
+  
+  /* Navigation */
 
-              <!-- <form
-                method="get"
-                class="custom-form mt-4 pt-2 mb-lg-0 mb-5 position-relative"
-                role="search"
-                autocomplete="off"
-              >
-                <div class="input-group input-group-lg">
-                  <span
-                    class="input-group-text bi-search"
-                    id="basic-addon1"
-                  ></span>
-                  <input
-                    name="keyword"
-                    type="search"
-                    class="form-control"
-                    id="searchInput"
-                    placeholder="Courses, Jobs , Articles..."
-                    aria-label="Search"
-                  />
-                  <button type="submit" class="btn btn-primary">Search</button>
-                </div>
-
-                <ul
-                  class="list-group position-absolute w-100 z-index-1 mt-1"
-                  id="suggestions"
-                  style="display: none"
-                ></ul>
-              </form> -->
-              <br>
-              <p style="font-size: 18px;" class="text-white text-center">
-                MzansiPlug is South Africa’s trusted platform for discovering verified job listings, business opportunities, and community-driven income solutions. Our mission is to simplify how people connect with employment, training, and entrepreneurial resources—nationwide.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <script>
-        const suggestionsData = [
-          { name: "Web Development", link: "#web-dev" },
-          { name: "Graphic Design", link: "#graphic-design" },
-          { name: "Digital Marketing", link: "#digital-marketing" },
-          { name: "Finance Management", link: "#finance" },
-          { name: "UI/UX Design", link: "#ui-ux" },
-          { name: "Web Development and software", link: "#web-dev" },
-        ];
-
-        const searchInput = document.getElementById("searchInput");
-        const suggestionsList = document.getElementById("suggestions");
-
-        searchInput.addEventListener("input", function () {
-          const value = this.value.toLowerCase();
-          suggestionsList.innerHTML = "";
-          if (value === "") {
-            suggestionsList.style.display = "none";
-            return;
-          }
-
-          const filtered = suggestionsData.filter((item) =>
-            item.name.toLowerCase().includes(value)
-          );
-
-          if (filtered.length > 0) {
-            filtered.forEach((item) => {
-              const li = document.createElement("li");
-              li.className = "list-group-item list-group-item-action";
-              li.innerHTML = `<a href="${item.link}" class="text-decoration-none">${item.name}</a>`;
-              suggestionsList.appendChild(li);
-            });
-            suggestionsList.style.display = "block";
-          } else {
-            suggestionsList.style.display = "none";
-          }
-        });
-
-        // Optional: Hide on click outside
-        document.addEventListener("click", function (e) {
-          if (!document.querySelector(".custom-form").contains(e.target)) {
-            suggestionsList.style.display = "none";
-          }
-        });
-      </script>
 
   
+  /* Hero Section */
+  .hero-section {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+  }
+  
+  .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:rgba(255,255,255,0.1)"/><stop offset="100%" style="stop-color:rgba(255,255,255,0)"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"/><circle cx="800" cy="300" r="150" fill="url(%23a)"/><circle cx="600" cy="700" r="120" fill="url(%23a)"/></svg>');
+      animation: float 20s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+  }
+  
+  .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 1rem 0;
+  }
+  
+  .hero-title {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      color: white;
+      margin-bottom: 1.5rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      animation: slideInUp 1s ease-out;
+  }
+  
+  .hero-subtitle {
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 2rem;
+      font-weight: 500;
+      animation: slideInUp 1s ease-out 0.2s both;
+  }
+  
+  .hero-description {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 3rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.8;
+      animation: slideInUp 1s ease-out 0.4s both;
+  }
+  
+  @keyframes slideInUp {
+      from {
+          opacity: 0;
+          transform: translateY(30px);
+      }
+      to {
+          opacity: 1;
+          transform: translateY(0);
+      }
+  }
+  
+  .hero-cta {
+      animation: slideInUp 1s ease-out 0.6s both;
+  }
+  
+  .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+  }
+  
+  .btn-primary-custom {
+      background: var(--gradient-secondary);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+  }
+  
+  .btn-primary-custom::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s ease;
+  }
+  
+  .btn-primary-custom:hover::before {
+      left: 100%;
+  }
+  
+  .btn-primary-custom:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+      color: white;
+  }
+  
+  .btn-outline-custom {
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      color: white;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      background: transparent;
+  }
+  
+  .btn-outline-custom:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: white;
+      color: white;
+      transform: translateY(-2px);
+  }
+  
+ 
+
+  
+  
+  /* FAQ Section */
+
+  .accordion {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  }
+  
+
+  .accordion-button {
+      background: white;
+      color: var(--text-dark);
+      font-weight: 600;
+      padding: 1.5rem;
+      border: none;
+      font-size: 1.1rem;
+  }
+  
+  .accordion-body {
+      padding: 1.5rem;
+      color: var(--text-light);
+      line-height: 1.6;
+  }
+  
+  /* Contact Section */
+  
+  .contact-info h3 {
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+  }
+  
+  .contact-info p {
+      margin-bottom: 1rem;
+      opacity: 0.9;
+  }
+  
+
+  
+  .map-container {
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+  
+  .map-container img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+  }
+  
+  .map-container:hover img {
+      transform: scale(1.05);
+  }
+  
+  
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+      .hero-title {
+          font-size: 2.5rem;
+      }
+      
+      .hero-subtitle {
+          font-size: 1.2rem;
+      }
+      
+      .hero-description {
+          font-size: 1rem;
+      }
+    
+  }
+  
+
+</style>
+
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section" style="padding-bottom: 50px;">
+      <div class="container">
+          <div class="row justify-content-center">
+              <div class="col-lg-10 col-12">
+                  <div class="hero-content">
+                      <h1 class="hero-title">
+                          Discover Jobs.<br>
+                          <span style="color: var(--accent-color);">Build Your Future.</span><br>
+                          Hustles & Income Streams.
+                      </h1>
+                      <h2 class="hero-subtitle">
+                          Empowering South Africans Through Work & Opportunity
+                      </h2>
+                      <p class="hero-description">
+                          MzansiPlug is South Africa's most trusted platform for discovering verified job listings, 
+                          business opportunities, and community-driven income solutions. We simplify how people 
+                          connect with employment, training, and entrepreneurial resources nationwide.
+                      </p>
+                      <div class="hero-cta">
+              
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
 
       <br />
 
