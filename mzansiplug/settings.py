@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 from decouple import config
+import os
 # import storage.CloudflareStaticStorage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -220,8 +221,6 @@ CLOUDFLARE_R2_STATIC_OPTIONS  = {
     "secret_key": CLOUDFLARE_SECRET_KEY,
     "location": "static",
 }
-
-import os
 
 USE_CLOUD_STORAGE = True
 
