@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-_dh9i9qamdp+12!sw&7+i7osh05k4#6@79i0ozq%w&y2fcg87m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["54.159.177.219", "127.0.0.1", "localhost",  "mzansiplug.com", "www.mzansiplug.com"]
 
@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'storages',
 
     
-    
+     
 ]
 
 SITE_ID = 1

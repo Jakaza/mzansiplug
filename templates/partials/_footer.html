@@ -1,156 +1,491 @@
-<style>
-  .site-footer-link {
+
+  <!-- .site-footer-link {
   color: #004085; /* Dark blue (accessible) */
   text-decoration: underline;
-}
+} -->
 
-.site-footer-link:hover {
-  color: #001d3d; /* Even darker on hover */
-}
+   <style>
+        .site-footer {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #ffffff;
+            padding: 60px 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
 
-.site-footer-link {
-  font-size: 1.1rem; /* Increase font size */
-  text-decoration: underline;
-  text-underline-offset: 4px; /* space between text and underline */
-}
+        .site-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #007bff, #0056b3, #007bff);
+        }
 
-.site-footer-link {
-  font-size: 1.1rem;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  /* color: #ffffff; Ensure good contrast */
-}
+        .site-footer-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            position: relative;
+            padding-bottom: 10px;
+        }
 
-.site-footer-link:hover {
-  color: #0095ff; /* Optional hover color */
-}
+        .site-footer-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, #007bff, #0056b3);
+            border-radius: 2px;
+        }
 
-.site-footer-link-item {
-  margin-bottom: 5px;
-}
-</style>
+        .site-footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
 
-<footer class="site-footer section-padding">
-  {% load static %}
-  <div class="container">
-    <div class="row">
-      <!-- Logo -->
-      <div class="col-lg-3 col-12 mb-4 pb-2">
-        <a class="navbar-brand" href="index.html">
-          <img
-            src="{% static 'images/mzansiplug-logo-s.webp'%}"
-            alt="Mzansi Plug Logo"
-            class="navbar-logo mzansi-plug-logo"
-          />
-        </a>
-      </div>
+        .site-footer-link-item {
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
 
-      <!-- Quick Links -->
-      <div class="col-lg-3 col-md-4 col-6">
-        <h3 class="site-footer-title mb-3">Quick Links</h3>
-        <ul class="site-footer-links">
-          <li class="site-footer-link-item">
-            <a href="{% url 'index' %}" class="site-footer-link">Home</a>
-          </li>
-          <li class="site-footer-link-item">
-            <a href="{% url 'south-african-articles' %}" class="site-footer-link"> Articles </a>
-          </li>
+        .site-footer-link {
+            color: #e8e9ea;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+            padding: 5px 0;
+        }
 
-          <li class="site-footer-link-item">
-            <a href="{% url 'south-african-jobs' %}" class="site-footer-link"
-              >Find Jobs</a
-            >
-          </li>
-          <li class="site-footer-link-item">
-            <a href="{% url 'south-african-salaries' %}" class="site-footer-link">Find Salaries</a>
-          </li>
-          <li class="site-footer-link-item">
-            <a href="{% url 'south-african-careers' %}" class="site-footer-link">Careers</a>
-          </li>
-          <li class="site-footer-link-item">
-            <a href="{% url 'south-african-articles' %}" class="site-footer-link">Articles</a>
-          </li>
-          <li class="site-footer-link-item">
-            <a href="{% url 'past-papers' %}" class="site-footer-link">Download Previous Question Papers</a>
-          </li>
+        .site-footer-link:hover {
+            color: #007bff;
+            text-decoration: none;
+            transform: translateX(5px);
+        }
 
-          <li class="site-footer-link-item">
-            <a href="{% url 'disclaimer' %}" class="site-footer-link">Disclaimer</a>
-          </li>
+        .site-footer-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #007bff, #0056b3);
+            transition: width 0.3s ease;
+        }
 
-        </ul>
-      </div>
+        .site-footer-link:hover::before {
+            width: 100%;
+        }
 
-      <!-- Contact Info -->
-      <div class="col-lg-3 col-md-4 col-6 mb-4 mb-lg-0">
-        <h3 class="site-footer-title mb-3">Contact Info</h3>
-        <p class="text-white d-flex mb-1">
-          <a href="tel:+27171170422" class="text-primary fw-semibold text-decoration-underline">
-            071 177 0422
-          </a>
-          
-        </p>
-        <p class="text-white d-flex">
-          <a href="mailto:info@mzansiplug.com" class="site-footer-link">
-            info@mzansiplug.com
-          </a>
-        </p>
-        <p class="text-white d-flex">
-          <a
-            href="https://www.mzansiplug.com"
-            target="_blank"
-            class="site-footer-link"
-          >
-            www.mzansiplug.com
-          </a>
-        </p>
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 8px 0;
+            transition: all 0.3s ease;
+        }
 
-        <ul class="site-footer-links">
-          <li class="site-footer-link-item">
-            <a href="{% url 'about-us' %}" class="site-footer-link">About Us</a>
-          </li>
-          <li class="site-footer-link-item">
-            <a href="{% url 'contact' %}" class="site-footer-link"> Contact </a>
-          </li>
+        .contact-info-item:hover {
+            transform: translateX(5px);
+        }
 
-          <li class="site-footer-link-item">
-            <span>       <a href="{% url 'privacy-policy' %}" class="site-footer-link"
-              >Privacy Policy</a
-            ></span> & <span> 
+        .contact-info-item i {
+            font-size: 1.2rem;
+            margin-right: 12px;
+            color: #007bff;
+            width: 20px;
+            text-align: center;
+        }
 
-              <a href="{% url 'terms-and-conditions' %}" class="site-footer-link">Terms & Conditions</a>
-            </span>
-          </li>
+        .contact-info-item a {
+            color: #e8e9ea;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
 
+        .contact-info-item a:hover {
+            color: #007bff;
+        }
 
-        </ul>
+        .navbar-logo {
+            max-height: 60px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
 
+        .navbar-logo:hover {
+            transform: scale(1.05);
+        }
 
-       
-      </div>
+        .social-links {
+            margin-top: 20px;
+        }
 
-      <!-- Language and Copyright -->
-      <div class="col-lg-3 col-md-4 col-12 mt-4 mt-lg-0 ms-auto">
-        <div class="dropdown">
-          <button
-            class="btn btn-secondary"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            English
-          </button>
+        .social-link {
+            display: inline-block;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 45px;
+            margin-right: 10px;
+            color: #ffffff;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .social-link:hover {
+            background: #007bff;
+            color: #ffffff;
+            transform: translateY(-3px);
+            border-color: #007bff;
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .newsletter-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .newsletter-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            border-radius: 8px;
+            padding: 12px 15px;
+        }
+
+        .newsletter-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .newsletter-input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            color: #ffffff;
+        }
+
+        .btn-newsletter {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-newsletter:hover {
+            background: linear-gradient(135deg, #0056b3, #004085);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .language-selector {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            border-radius: 8px;
+            padding: 8px 15px;
+            margin-bottom: 20px;
+        }
+
+        .language-selector:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        .copyright-section {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .copyright-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .footer-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #007bff;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            .site-footer {
+                padding: 40px 0 20px;
+            }
+            
+            .footer-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .newsletter-section {
+                padding: 20px;
+            }
+        }
+    </style>
+ 
+    <footer class="site-footer">
+        {% load static %}
+        <div class="container">
+            <!-- Newsletter Section -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="newsletter-section">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <h4 style="color: white;" class="mb-2">Stay Updated with MzansiPlug</h4>
+                                <p style="color: white;" class="mb-0">Get the latest job opportunities, career insights, and educational resources delivered to your inbox.</p>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input type="email" class="form-control newsletter-input" placeholder="Enter your email address">
+                                    <button class="btn btn-newsletter" type="button">
+                                        <i class="fas fa-paper-plane me-2"></i>Subscribe
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Stats -->
+            <div class="footer-stats">
+                <div class="stat-item">
+                    <span class="stat-number">10K+</span>
+                    <span class="stat-label">Job Opportunities</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">5K+</span>
+                    <span class="stat-label">Career Resources</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">1M+</span>
+                    <span class="stat-label">Monthly Visitors</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Universities</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Logo and About -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <a class="navbar-brand d-block mb-3" href="{% url 'index' %}">
+                        <img src="{% static 'images/mzansiplug-logo-s.webp' %}" alt="Mzansi Plug Logo" class="navbar-logo">
+                    </a>
+                    <p class="text-light mb-3">Empowering South African careers through comprehensive job listings, salary insights, educational resources, and professional development opportunities.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <!-- Job & Career Services -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h3 class="site-footer-title">Job Services</h3>
+                    <ul class="site-footer-links">
+                        <li class="site-footer-link-item">
+                            <a href="{% url 'south-african-jobs' %}" class="site-footer-link">
+                                <i class="fas fa-briefcase me-2"></i>Find Jobs
+                            </a>
+                        </li>
+                        <li class="site-footer-link-item">
+                            <a href="{% url 'south-african-salaries' %}" class="site-footer-link">
+                                <i class="fas fa-dollar-sign me-2"></i>Salary Guide
+                            </a>
+                        </li>
+                        <li class="site-footer-link-item">
+                            <a href="{% url 'south-african-careers' %}" class="site-footer-link">
+                                <i class="fas fa-chart-line me-2"></i>Career Paths
+                            </a>
+                        </li>
+                        <li class="site-footer-link-item">
+                            <a href="{% url 'job-notification-subscription' %}" class="site-footer-link">
+                                <i class="fas fa-bell me-2"></i>Job Alerts
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Education & Training -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h3 class="site-footer-title">Education</h3>
+                    <ul class="site-footer-links">
+                        <li class="site-footer-link-item">
+                            <a href="{% url 'past-papers' %}" class="site-footer-link">
+                                <i class="fas fa-file-alt me-2"></i>Past Papers
+                            </a>
+                        </li>
+                        <li class="site-footer-link-item">
+                            <a href="{% url 'university-prospectus' %}" class="site-footer-link">
+                                <i class="fas fa-university me-2"></i>University Guide
+                            </a>
+                        </li>
+                        <li class="site-footer-link-item">
+                            <a href="{% url 'undergraduate-bursaries' %}" class="site-footer-link">
+                                <i class="fas fa-graduation-cap me-2"></i>Undergraduate Bursaries
+                            </a>
+                        </li>
+                        <li class="site-footer-link-item">
+                            <a href="{% url 'postgraduate-bursaries' %}" class="site-footer-link">
+                                <i class="fas fa-user-graduate me-2"></i>Postgraduate Bursaries
+                            </a>
+                        </li>
+                        <li class="site-footer-link-item">
+                            <a href="{% url 'get-certificates' %}" class="site-footer-link">
+                                <i class="fas fa-certificate me-2"></i>Certifications
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Resources & Support -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h3 class="site-footer-title">Resources</h3>
+                    <ul class="site-footer-links">
+                        <li class="site-footer-link-item">
+                            <a href="{% url 'south-african-articles' %}" class="site-footer-link">
+                                <i class="fas fa-newspaper me-2"></i>Articles
+                            </a>
+                        </li>
+                        <li class="site-footer-link-item">
+                            <a href="{% url 'graduates-opportunities' %}" class="site-footer-link">
+                                <i class="fas fa-users me-2"></i>Graduate Opportunities
+                            </a>
+                        </li>
+                        <li class="site-footer-link-item">
+                            <a href="{% url 'graduates-internships' %}" class="site-footer-link">
+                                <i class="fas fa-handshake me-2"></i>Internships
+                            </a>
+                        </li>
+                        <li class="site-footer-link-item">
+                            <a href="{% url 'highschool' %}" class="site-footer-link">
+                                <i class="fas fa-school me-2"></i>High School Guide
+                            </a>
+                        </li>
+                        <li class="site-footer-link-item">
+                            <a href="{% url 'submit-salary-request' %}" class="site-footer-link">
+                                <i class="fas fa-plus me-2"></i>Submit Salary Data
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Contact & Legal -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h3 class="site-footer-title">Contact & Support</h3>
+                    
+                    <div class="contact-info-item">
+                        <i class="fas fa-phone"></i>
+                        <a href="tel:+27171170422">071 177 0422</a>
+                    </div>
+                    
+                    <div class="contact-info-item">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:info@mzansiplug.com">info@mzansiplug.com</a>
+                    </div>
+                    
+                    <div class="contact-info-item">
+                        <i class="fas fa-globe"></i>
+                        <a href="https://www.mzansiplug.com" target="_blank">www.mzansiplug.com</a>
+                    </div>
+
+                    <ul class="site-footer-links mt-4">
+                        <li class="site-footer-link-item">
+                            <a href="{% url 'about-us' %}" class="site-footer-link">
+                                <i class="fas fa-info-circle me-2"></i>About Us
+                            </a>
+                        </li>
+                        <li class="site-footer-link-item">
+                            <a href="{% url 'contact' %}" class="site-footer-link">
+                                <i class="fas fa-comments me-2"></i>Contact Support
+                            </a>
+                        </li>
+                        <li class="site-footer-link-item">
+                            <a href="{% url 'privacy-policy' %}" class="site-footer-link">
+                                <i class="fas fa-shield-alt me-2"></i>Privacy Policy
+                            </a>
+                        </li>
+                        <li class="site-footer-link-item">
+                            <a href="{% url 'terms-and-conditions' %}" class="site-footer-link">
+                                <i class="fas fa-file-contract me-2"></i>Terms & Conditions
+                            </a>
+                        </li>
+                        <li class="site-footer-link-item">
+                            <a href="{% url 'disclaimer' %}" class="site-footer-link">
+                                <i class="fas fa-exclamation-triangle me-2"></i>Disclaimer
+                            </a>
+                        </li>
+                    </ul>
+
+                    <select class="form-select language-selector mt-3">
+                        <option value="en">English</option>
+                        <option value="af">Afrikaans</option>
+                        <option value="zu">isiZulu</option>
+                        <option value="xh">isiXhosa</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Copyright Section -->
+            <div class="copyright-section">
+                <div class="row">
+                    <div class="col-12">
+                        <p class="copyright-text">
+                            &copy; 2025 MzansiPlug. All rights reserved. | Empowering South African Careers
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
+    </footer>
 
-        <p class="copyright-text mt-lg-5 mt-4">
-          &copy; 2025 MzansiPlug. All rights reserved.<br /><br />
-        </p>
-      </div>
-    </div>
-  </div>
-</footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
-<!-- JAVASCRIPT FILES -->
+    <!-- JAVASCRIPT FILES -->
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static 'js/jquery.sticky.js'%}"></script>
