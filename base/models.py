@@ -87,12 +87,35 @@ class Job(models.Model):
     )
 
     JOB_TYPE_CHOICES = [
-        ('full_time', 'Full Time'),
+        # Standard employment types
+        ('full_time', 'Full Time (Permanent)'),
         ('part_time', 'Part Time'),
-        ('contract', 'Contract'),
+        ('fixed_term', 'Fixed Term Contract'),
+        
+        # Contract-based work
+        ('contract', 'Independent Contractor'),
+        ('freelance', 'Freelance'),
+        
+        # Learning and development positions
         ('internship', 'Internship'),
-        ('remote', 'Remote'),
-        ('hybrid', 'Hybrid'),
+        ('learnership', 'Learnership (NQF-aligned)'),
+        ('apprentice', 'Apprenticeship'),
+        ('trainee', 'Trainee'),
+        
+        # Alternative work arrangements
+        ('remote', 'Remote Work'),
+        ('hybrid', 'Hybrid Work'),
+        
+        # Temporary/short-term work
+        ('seasonal', 'Seasonal Work'),
+        ('casual', 'Casual Work'),
+        
+        # Non-paid positions
+        ('volunteer', 'Volunteer'),
+        
+        # Government programs
+        ('epwp', 'EPWP (Expanded Public Works Programme)'),
+        ('yes', 'YES (Youth Employment Service)'),
     ]
 
     EXPERIENCE_LEVEL_CHOICES = [
