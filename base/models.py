@@ -82,8 +82,8 @@ class JobNotificationSub(models.Model):
 
 class Job(models.Model):
     JOB_TYPE = (
-        ('internal', 'Internal'),
         ('external', 'External'),
+        ('internal', 'Internal'),
     )
 
     JOB_TYPE_CHOICES = [
