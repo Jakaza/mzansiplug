@@ -238,6 +238,8 @@ class Subject(models.Model):
     def __str__(self):
         return self.name
 
+from django.db import models
+
 class PastPaper(models.Model):
     PAPER_NUMBER_CHOICES = [
         ('Paper 1', 'Paper 1'),
@@ -265,45 +267,12 @@ class PastPaper(models.Model):
     class Meta:
         ordering = ['-exam_year', 'subject']
 
-    def apply_watermark(self, file_field):
-        if file_field and file_field.name.endswith('.pdf'):
-            original_path = file_field.path
-            watermark_path = os.path.join('media', 'watermark.pdf')
-
-            try:
-                input_pdf = PdfReader(original_path)
-                watermark = PdfReader(watermark_path)
-                watermark_page = watermark.pages[0]
-            except Exception as e:
-                print(f"Watermarking failed: {e}")
-                return
-
-            output_pdf = PdfWriter()
-            for page in input_pdf.pages:
-                page.merge_page(watermark_page)
-                output_pdf.add_page(page)
-
-            output_stream = BytesIO()
-            output_pdf.write(output_stream)
-
-            # Clean filename and re-assign to same folder
-            base_name = os.path.basename(file_field.name)
-            file_field.delete(save=False)  # Delete unwatermarked file
-            file_field.save(base_name, ContentFile(output_stream.getvalue()), save=False)
-            output_stream.close()
-
     def save(self, *args, **kwargs):
-        is_new = self.pk is None
+        # No watermarking applied anymore
         super().save(*args, **kwargs)
-
-        if is_new:
-            self.apply_watermark(self.file)
-            self.apply_watermark(self.memo)
-            super().save(update_fields=['file', 'memo'])
 
     def __str__(self):
         return f"{self.subject.name} {self.paper_number} – {self.exam_month} {self.exam_year}"
-
 
 #  ARTICLE MODELS 
 
