@@ -262,6 +262,8 @@
             }
         }
     </style>
+
+
  
     <footer class="site-footer">
         {% load static %}
@@ -276,12 +278,35 @@
                                 <p style="color: white;" class="mb-0">Get the latest job opportunities, career insights, and educational resources delivered to your inbox.</p>
                             </div>
                             <div class="col-md-6">
-                                <div class="input-group">
-                                    <input type="email" class="form-control newsletter-input" placeholder="Enter your email address">
-                                    <button class="btn btn-newsletter" type="button">
-                                        <i class="fas fa-paper-plane me-2"></i>Subscribe
-                                    </button>
-                                </div>
+                               
+                                    <!-- <form
+                                    class=" input-group"
+                                    action="{% url 'job-notification-subscription' %}"
+                                    method="POST"
+                                    role="form"
+                                  >
+
+                                  {% csrf_token %}
+
+                                  <input 
+                                  type="email" 
+                                  class="form-control newsletter-input"
+                                   placeholder="Enter your email address"
+                                   pattern="[^ @]*@[^ @]*"
+                                   name="subscribe-email"
+                                   id="subscribe-email"
+                                   required=""
+                                   >
+                                   <input type="hidden" name="next" value="{{ request.path }}" />
+                                  <button class="btn btn-newsletter" type="submit">
+                                      <i class="fas fa-paper-plane me-2"></i>Subscribe
+                                  </button>
+                                
+                                
+                                </form> -->
+
+                                
+                                
                             </div>
                         </div>
                     </div>
@@ -291,19 +316,19 @@
             <!-- Footer Stats -->
             <div class="footer-stats">
                 <div class="stat-item">
-                    <span class="stat-number">10K+</span>
+                    <span class="stat-number">5K+</span>
                     <span class="stat-label">Job Opportunities</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number">5K+</span>
+                    <span class="stat-number">1K+</span>
                     <span class="stat-label">Career Resources</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number">1M+</span>
+                    <span class="stat-number">5k+</span>
                     <span class="stat-label">Monthly Visitors</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number">500+</span>
+                    <span class="stat-number">10+</span>
                     <span class="stat-label">Universities</span>
                 </div>
             </div>
@@ -316,10 +341,20 @@
                     </a>
                     <p class="text-light mb-3">Empowering South African careers through comprehensive job listings, salary insights, educational resources, and professional development opportunities.</p>
                     <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <div class="social-links">
+                            <a href="https://web.facebook.com/profile.php?id=61577745517144" target="_blank" class="social-link" title="Follow us on Facebook">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/company/mzansi-plug/?viewAsMember=true" target="_blank" class="social-link" title="Connect with us on LinkedIn">
+                                <i class="bi bi-linkedin"></i>
+                            </a>
+                            <a href="https://www.tiktok.com/@mzansiplugs.com" target="_blank" class="social-link" title="Follow us on TikTok">
+                                <i class="bi bi-tiktok"></i>
+                            </a>
+                            <a href="https://whatsapp.com/channel/0029Vb66XqlD38CZwNG2JZ1m" target="_blank" class="social-link" title="Join our WhatsApp Channel">
+                                <i class="bi bi-whatsapp"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
@@ -340,11 +375,6 @@
                         <li class="site-footer-link-item">
                             <a href="{% url 'south-african-careers' %}" class="site-footer-link">
                                 <i class="fas fa-chart-line me-2"></i>Career Paths
-                            </a>
-                        </li>
-                        <li class="site-footer-link-item">
-                            <a href="{% url 'job-notification-subscription' %}" class="site-footer-link">
-                                <i class="fas fa-bell me-2"></i>Job Alerts
                             </a>
                         </li>
                     </ul>
@@ -406,11 +436,7 @@
                                 <i class="fas fa-school me-2"></i>High School Guide
                             </a>
                         </li>
-                        <li class="site-footer-link-item">
-                            <a href="{% url 'submit-salary-request' %}" class="site-footer-link">
-                                <i class="fas fa-plus me-2"></i>Submit Salary Data
-                            </a>
-                        </li>
+           
                     </ul>
                 </div>
 
@@ -483,7 +509,7 @@
         </div>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script> -->
 
     <!-- JAVASCRIPT FILES -->
 <script src="{% static 'js/jquery.min.js' %}"></script>
