@@ -51,8 +51,14 @@ def index(request):
     else:
         jobs = Job.objects.all().order_by('-created_at')[:9]
 
+    total_jobs = Job.objects.count()
+
     # Only include categories that have at least 1 job
     categories = Category.objects.annotate(job_count=Count('jobs')).filter(job_count__gt=0).order_by('name')
+
+    job_counts_by_category = {
+        category.name: category.job_count for category in categories
+    }
 
     # Featured content
     latest_job = Job.objects.order_by('-created_at').first()
@@ -64,6 +70,8 @@ def index(request):
         'jobs': jobs,
         'latest_job': latest_job, 
         'top_article': top_article,
+        'total_jobs_count': total_jobs,
+        'job_counts_by_category': job_counts_by_category,
         'selected_category': selected_category,
         'latest_articles': latest_articles,
         'title': 'Welcome to MzansiPlug - South African Jobs and Salaries Platform',
