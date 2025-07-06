@@ -544,13 +544,55 @@ def get_certifications(request):
 
 # Articles Views 
 
+
 def article_list(request):
-    articles = Article.objects.filter(status='published').order_by('-published_at')
-    return render(request, 'articles/articles.html', {
+    # Get all published articles
+    articles = Article.objects.filter(status='published')
+    
+    # Search functionality
+    search_query = request.GET.get('search')
+    if search_query:
+        articles = articles.filter(
+            Q(title__icontains=search_query) | 
+            Q(content__icontains=search_query) |
+            Q(excerpt__icontains=search_query)
+        )
+    
+    # Category filtering
+    category_filter = request.GET.get('category')
+    if category_filter:
+        articles = articles.filter(category__slug=category_filter)
+    
+    # Sorting
+    sort_by = request.GET.get('sort', '-published_at')
+    valid_sort_fields = ['-published_at', 'published_at', '-view_count', 'title']
+    if sort_by in valid_sort_fields:
+        articles = articles.order_by(sort_by)
+    else:
+        articles = articles.order_by('-published_at')
+    
+    # Get sidebar data
+    featured_articles = Article.objects.filter(
+        status='published', 
+        is_featured=True
+    ).order_by('-published_at')[:4]
+    
+    popular_articles = Article.objects.filter(
+        status='published'
+    ).order_by('-view_count')[:4]
+    
+    # Get all categories for filter dropdown
+    categories = ArticleCategory.objects.all()
+    
+    context = {
         'title': 'South African Articles',
         'articles': articles,
-    })
-
+        'featured_articles': featured_articles,
+        'popular_articles': popular_articles,
+        'categories': categories,
+    }
+    
+    return render(request, 'articles/articles.html', context)
 
 
 def article_detail(request, pk, slug):
