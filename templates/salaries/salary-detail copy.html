@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+{% load humanize %}
+<html lang="en">
+  {% include 'partials/_head.html' %}
+
+  <body class="topics-listing-page" id="top">
+    <main>
+      {% include 'partials/_navbar.html' %}
+
+      <header
+        class="site-header d-flex flex-column justify-content-center align-items-center"
+      >
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-lg-5 col-12">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item white-text">
+                    <a style="color: rgb(208, 208, 208);" href="{% url 'index' %}">Homepage</a>
+                  </li>
+
+
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Salaries
+                  </li>
+                </ol>
+              </nav>
+
+              <h3 class="text-white">{{ salary.title }}</h3>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <style>
+        .salary-graph {
+          height: 20px;
+          background: linear-gradient(to right, #e74c3c, #f39c12, #2ecc71);
+          border-radius: 5px;
+          width: 50%;
+        }
+        .bar-label {
+          font-size: 14px;
+        }
+      </style>
+
+      <section class="py-5">
+        <div class="container">
+          <p class="text-muted mb-2">
+            Last updated: {{ salary.created_at|date:"F Y" }}
+          </p>
+
+          <div class="row align-items-center mb-4">
+            <div class="col-md-6">
+              <h4>Average Base Salary</h4>
+              <div class="d-flex align-items-baseline">
+                <h6 class="me-3" id="salaryAmount">
+                  R{{ salary_data.yearly|floatformat:0|intcomma }}
+                </h6>
+                <select id="salaryType" class="form-select w-auto">
+                  <option value="yearly" selected>Per Year</option>
+                  <option value="monthly">Per Month</option>
+                  <option value="daily">Per Day</option>
+                  <option value="hourly">Per Hour</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-5">
+            <h4>Salary Range</h4>
+
+            <div class="mb-2">
+              <span class="bar-label"
+                >Low: R{{ salary_range.low|floatformat:0 }}</span
+              >
+              <div class="salary-graph my-2">
+                <div
+                  class="bar"
+                  data-percent="{{ salary_range.low_percent }}"
+                  style="height: 100%; background-color: #e74c3c"
+                ></div>
+              </div>
+            </div>
+
+            <div class="mb-2">
+              <span class="bar-label"
+                >Average: R{{ salary_range.average|floatformat:0 }}</span
+              >
+              <div class="salary-graph my-2">
+                <div
+                  class="bar"
+                  data-percent="{{ salary_range.average_percent }}"
+                  style="height: 100%; background-color: #f39c12"
+                ></div>
+              </div>
+            </div>
+
+            <div class="mb-2">
+              <span class="bar-label"
+                >High: R{{ salary_range.high|floatformat:0 }}</span
+              >
+              <div class="salary-graph my-2">
+                <div
+                  class="bar"
+                  data-percent="{{ salary_range.high_percent }}"
+                  style="height: 100%; background-color: #2ecc71"
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h4>Job Overview</h4>
+            <br />
+            {{ salary.overview|safe }}
+          </div>
+        </div>
+      </section>
+
+      <script>
+        // Set the width of the bars based on data-percent attribute
+        document.querySelectorAll(".bar").forEach((el) => {
+          const percent = el.getAttribute("data-percent");
+          el.style.width = percent + "%";
+        });
+
+        const salaryType = document.getElementById("salaryType");
+        const salaryAmount = document.getElementById("salaryAmount");
+
+        // Parse base salary from template as a number for calculations
+        const baseSalary = parseFloat("{{ salary_data.yearly }}");
+
+        salaryType.addEventListener("change", () => {
+          let value;
+          switch (salaryType.value) {
+            case "monthly":
+              value = baseSalary / 12;
+              break;
+            case "daily":
+              value = baseSalary / 260; // assume 260 workdays/year
+              break;
+            case "hourly":
+              value = baseSalary / (260 * 8); // assume 8-hour days
+              break;
+            default:
+              value = baseSalary;
+          }
+          // Format with commas, round to nearest integer
+          salaryAmount.textContent = `R${Math.round(value).toLocaleString()}`;
+        });
+      </script>
+
+      <!-- Existing Salary Overview Section (kept as is above) -->
+
+      <!-- Similar Salaries Section -->
+      <!-- Similar Salaries Section -->
+      <section class="pt-0 pb-5">
+        <div class="container">
+          <h4 class="mb-4">Similar Salaries</h4>
+          <div class="row g-4">
+            {% for salary in similar_salaries %}
+            <div class="col-lg-4 col-12 mb-4">
+              <div class="custom-block bg-white shadow-lg p-4 rounded-4 h-100">
+                <a
+                  href="{% url 'salary-detail' salary.id salary.slug %}"
+                  class="text-decoration-none text-dark d-block"
+                >
+                  <div class="d-flex flex-column h-100">
+                    <div>
+                      <h5 class="mb-2">{{ salary.title }}</h5>
+                      <p class="text-muted mb-1">
+                        Average: R{{ salary.average_salary|floatformat:0 }}/
+                        <span>{{ salary.salary_type }}</span>
+                      </p>
+                      <small class="text-muted">
+                        {% if salary.location %}
+
+                        <span>{{ salary.location }} </span>
+
+                        {% else%}
+
+                        <span> Various Locations</span>
+
+                        {% endif %}
+                      </small>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            {% empty %}
+            <p class="text-muted">No similar salary reports found.</p>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+
+      {% if related_jobs %}
+      <section class="py-5">
+        <div class="container">
+          <h4 class="mb-4">📌 Related Job Listings</h4>
+          <div class="row">
+            {% for job in related_jobs %}
+            <div class="col-lg-4 col-md-6 mb-4">
+              <a
+                href="{% url 'job-detail' job.id job.slug %}"
+                class="text-decoration-none text-dark d-block h-100"
+              >
+                <div
+                  class="custom-block bg-white shadow-lg h-100 p-4 rounded-4 hover-shadow"
+                >
+                  <h5 class="mb-1">{{ job.title }}</h5>
+                  <div class="d-flex justify-content-between mb-2">
+                    <small class="text-muted"
+                      >{{ job.external_company_name }}</small
+                    >
+
+                    <small class="text-muted">
+                      <i class="bi bi-geo-alt"></i> {{ job.location }}
+                    </small>
+                  </div>
+
+                  <p
+                    class="text-truncate mb-3"
+                    style="text-transform: capitalize"
+                  >
+                    {{ job.internal_or_external }}
+                  </p>
+
+                  <small class="text-muted"
+                    >Posted By <b>{{ job.company.company_name }}</b></small
+                  >
+                  <div class="text-end">
+                    <small class="text-muted"
+                      >Posted {{ job.created_at|timesince }} ago</small
+                    >
+                  </div>
+                </div>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+      {% endif %}
+
+      <section class="py-5 bg-light">
+        <div class="container">
+          <h4 class="mb-4">❓ Frequently Asked Questions</h4>
+          <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button
+                  class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseOne"
+                >
+                  Do I need a degree to become a Front-End Developer?
+                </button>
+              </h2>
+              <div
+                id="collapseOne"
+                class="accordion-collapse collapse show"
+                data-bs-parent="#faqAccordion"
+              >
+                <div class="accordion-body">
+                  No, many developers are self-taught or come from coding
+                  bootcamps. A strong portfolio matters more than formal
+                  education.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingTwo">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseTwo"
+                >
+                  Can I work remotely as a Front-End Developer?
+                </button>
+              </h2>
+              <div
+                id="collapseTwo"
+                class="accordion-collapse collapse"
+                data-bs-parent="#faqAccordion"
+              >
+                <div class="accordion-body">
+                  Yes! Many companies offer remote or hybrid work options for
+                  frontend developers.
+                </div>
+              </div>
+            </div>
+
+            <!-- Add more FAQs as needed -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    {% include 'partials/_footer.html' %}
+  </body>
+</html>
