@@ -39,6 +39,23 @@ class UserAdmin(BaseUserAdmin):
         ('Company Info', {'fields': ('is_company', 'company')}),
     )
 
+        # Restrict who can assign permissions
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = super().get_fieldsets(request, obj)
+
+        if not request.user.is_superuser:
+            # Remove group & permission fields for non-superusers
+            filtered = []
+            for name, data in fieldsets:
+                fields = data.get("fields", ())
+                if isinstance(fields, tuple) or isinstance(fields, list):
+                    fields = [f for f in fields if f not in ("groups", "user_permissions")]
+                data["fields"] = fields
+                filtered.append((name, data))
+            return filtered
+
+        return fieldsets
+
 
     # 🔐 Staff can only change themselves
     def has_change_permission(self, request, obj=None):
