@@ -99,15 +99,39 @@
                   <span class="badge bg-primary bg-opacity-10 text-primary">{{ job.category.name }}</span>
                 </div>
                 
-                <p class="text-truncate mb-3" style="text-transform: capitalize">
-                  {{ job.internal_or_external }}
-                </p>
 
                 <small class="text-muted">Posted By <b>{{ job.company.company_name }}</b></small>
+
+                <p class="text-truncate mb-3 apply-btn"  style="text-transform: capitalize">
+                  Apply Now
+                </p>
+
+                <style>
+                  .apply-btn{
+                    background-color: var(--custom-btn-bg-color);
+                     color: var(--white-color);
+                      padding: 8px 16px;
+  font-size: 14px;
+  width: max-content;
+   border-radius: var(--border-radius-small);
+   margin-top: 5px;
+                  }
+                  .apply-btn:hover {
+  background-color: var(--custom-btn-bg-hover-color);
+  color: var(--white-color);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(44, 82, 130, 0.2);
+  text-decoration: none;
+}
+                </style>
+
+
                 
                 <div class="text-end">
                   <small class="text-muted">{{ job.created_at|timesince }} ago</small>
                 </div>
+
+
               </div>
             </a>
           </div>
