@@ -7,9 +7,190 @@
     <main>
       {% include 'partials/_navbar.html' %}
 
-      <header
-        class="site-header d-flex flex-column justify-content-center align-items-center"
-      >
+      <style>
+        :root {
+          --white-color: #ffffff;
+          --primary-color: #2c5282;
+          --primary2-color: #3c5a7f;
+          --secondary-color: #13547a;
+          --section-bg-color: #f7fafc;
+          --custom-btn-bg-color: #2c5282;
+          --custom-btn-bg-hover-color: #2a4365;
+          --dark-color: #1a202c;
+          --p-color: #4a5568;
+          --border-color: #e2e8f0;
+          --link-hover-color: #2c5282;
+
+          --body-font-family: 'Open Sans', sans-serif;
+          --title-font-family: 'Montserrat', sans-serif;
+
+          --h1-font-size: 42px;
+          --h2-font-size: 32px;
+          --h3-font-size: 26px;
+          --h4-font-size: 22px;
+          --h5-font-size: 18px;
+          --h6-font-size: 16px;
+          --p-font-size: 15px;
+          --menu-font-size: 15px;
+          --btn-font-size: 16px;
+          --copyright-font-size: 14px;
+
+          --border-radius-large: 100px;
+          --border-radius-medium: 20px;
+          --border-radius-small: 10px;
+
+          --font-weight-normal: 400;
+          --font-weight-medium: 500;
+          --font-weight-semibold: 600;
+          --font-weight-bold: 700;
+        }
+
+        /* Enhanced Navigation Styles */
+        .navbar-logo,
+        .mzansi-plug-logo {
+          max-height: 50px;
+          width: auto;
+          display: block;
+          filter: drop-shadow(0 2px 4px rgba(44, 82, 130, 0.1));
+        }
+
+        .navbar-nav .nav-link::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(44, 82, 130, 0.1), transparent);
+          transition: left 0.5s ease;
+        }
+
+        .navbar-nav .nav-link:hover::before {
+          left: 100%;
+        }
+
+        .navbar-nav .nav-link:hover {
+          color: var(--primary-color) !important;
+          background-color: rgba(44, 82, 130, 0.05);
+          transform: translateY(-2px);
+        }
+
+        .navbar-nav .nav-link.active:hover {
+          background: linear-gradient(135deg, var(--primary2-color), var(--secondary-color));
+          color: var(--white-color) !important;
+        }
+
+        .navbar-toggler {
+          border: 2px solid var(--primary-color);
+          border-radius: var(--border-radius-small);
+          padding: 8px 12px;
+          transition: all 0.3s ease;
+        }
+
+        /* Enhanced Header Styles */
+        .site-header {
+          background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--primary2-color) 100%);
+          min-height: 200px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .site-header .container {
+          position: relative;
+          z-index: 2;
+        }
+
+        /* Chart Container Styles */
+        .chart-container {
+          background: white;
+          border-radius: var(--border-radius-medium);
+          padding: 2rem;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          margin-bottom: 2rem;
+        }
+
+        .chart-title {
+          font-size: var(--h5-font-size);
+          font-weight: var(--font-weight-semibold);
+          color: var(--dark-color);
+          margin-bottom: 1rem;
+          text-align: center;
+        }
+
+        .salary-metrics {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 1rem;
+          margin-bottom: 2rem;
+        }
+
+        .metric-card {
+          background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+          color: white;
+          padding: 1.5rem;
+          border-radius: var(--border-radius-medium);
+          text-align: center;
+          transition: transform 0.3s ease;
+        }
+
+        .metric-card:hover {
+          transform: translateY(-5px);
+        }
+
+        .metric-value {
+          font-size: var(--h3-font-size);
+          font-weight: var(--font-weight-bold);
+          margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+          font-size: var(--p-font-size);
+          opacity: 0.9;
+        }
+
+        /* Loading states */
+        .chart-loading {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 300px;
+          font-size: var(--p-font-size);
+          color: var(--p-color);
+        }
+
+        .spinner {
+          border: 3px solid #f3f3f3;
+          border-top: 3px solid var(--primary-color);
+          border-radius: 50%;
+          width: 30px;
+          height: 30px;
+          animation: spin 1s linear infinite;
+          margin-right: 10px;
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+          .chart-container {
+            padding: 1rem;
+          }
+          
+          .salary-metrics {
+            grid-template-columns: 1fr;
+          }
+        }
+      </style>
+
+      <!-- External Chart Libraries -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.44.0/apexcharts.min.js"></script>
+
+      <header class="site-header d-flex flex-column justify-content-center align-items-center">
         <div class="container">
           <div class="row align-items-center">
             <div class="col-lg-5 col-12">
@@ -18,45 +199,48 @@
                   <li class="breadcrumb-item white-text">
                     <a style="color: rgb(208, 208, 208);" href="{% url 'index' %}">Homepage</a>
                   </li>
-
-
                   <li class="breadcrumb-item active" aria-current="page">
                     Salaries
                   </li>
                 </ol>
               </nav>
-
               <h3 class="text-white">{{ salary.title }}</h3>
             </div>
           </div>
         </div>
       </header>
 
-      <style>
-        .salary-graph {
-          height: 20px;
-          background: linear-gradient(to right, #e74c3c, #f39c12, #2ecc71);
-          border-radius: 5px;
-          width: 50%;
-        }
-        .bar-label {
-          font-size: 14px;
-        }
-      </style>
-
       <section class="py-5">
         <div class="container">
-          <p class="text-muted mb-2">
+          <p class="text-muted mb-4">
             Last updated: {{ salary.created_at|date:"F Y" }}
           </p>
 
+          <!-- Salary Metrics Cards -->
+          <div class="salary-metrics">
+            <div class="metric-card">
+              <div class="metric-value" id="avgSalaryDisplay">-</div>
+              <div class="metric-label">Average Salary</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value" id="minSalaryDisplay">-</div>
+              <div class="metric-label">Minimum Salary</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value" id="maxSalaryDisplay">-</div>
+              <div class="metric-label">Maximum Salary</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value" id="medianSalaryDisplay">-</div>
+              <div class="metric-label">Median Salary</div>
+            </div>
+          </div>
+
+          <!-- Salary Type Selector -->
           <div class="row align-items-center mb-4">
             <div class="col-md-6">
-              <h4>Average Base Salary</h4>
-              <div class="d-flex align-items-baseline">
-                <h6 class="me-3" id="salaryAmount">
-                  R{{ salary_data.yearly|floatformat:0|intcomma }}
-                </h6>
+              <div class="d-flex align-items-center">
+                <label for="salaryType" class="form-label me-3 mb-0">View as:</label>
                 <select id="salaryType" class="form-select w-auto">
                   <option value="yearly" selected>Per Year</option>
                   <option value="monthly">Per Month</option>
@@ -67,93 +251,44 @@
             </div>
           </div>
 
-          <div class="mb-5">
-            <h4>Salary Range</h4>
-
-            <div class="mb-2">
-              <span class="bar-label"
-                >Low: R{{ salary_range.low|floatformat:0 }}</span
-              >
-              <div class="salary-graph my-2">
-                <div
-                  class="bar"
-                  data-percent="{{ salary_range.low_percent }}"
-                  style="height: 100%; background-color: #e74c3c"
-                ></div>
+          <!-- Side by Side Charts Row -->
+          <div class="row">
+            <!-- Salary Range Bar Chart -->
+            <div class="col-lg-6 col-12 mb-4">
+              <div class="chart-container">
+                <h5 class="chart-title">Salary Range Distribution</h5>
+                <div class="chart-loading" id="barChartLoading">
+                  <div class="spinner"></div>
+                  Loading chart...
+                </div>
+                <canvas id="salaryBarChart" style="display: none;"></canvas>
               </div>
             </div>
 
-            <div class="mb-2">
-              <span class="bar-label"
-                >Average: R{{ salary_range.average|floatformat:0 }}</span
-              >
-              <div class="salary-graph my-2">
-                <div
-                  class="bar"
-                  data-percent="{{ salary_range.average_percent }}"
-                  style="height: 100%; background-color: #f39c12"
-                ></div>
-              </div>
+            <!-- Salary Distribution Pie Chart -->
+            <div class="col-lg-6 col-12 mb-4">
+            <div class="chart-container">
+            <h5 class="chart-title">Salary Trend Over Time</h5>
+            <div class="chart-loading" id="lineChartLoading">
+              <div class="spinner"></div>
+              Loading chart...
             </div>
-
-            <div class="mb-2">
-              <span class="bar-label"
-                >High: R{{ salary_range.high|floatformat:0 }}</span
-              >
-              <div class="salary-graph my-2">
-                <div
-                  class="bar"
-                  data-percent="{{ salary_range.high_percent }}"
-                  style="height: 100%; background-color: #2ecc71"
-                ></div>
-              </div>
+            <canvas id="salaryTrendChart" style="display: none;"></canvas>
+          </div>
             </div>
           </div>
 
-          <div>
+          <!-- Salary Trend Line Chart -->
+
+
+          <!-- Job Overview -->
+          <div class="chart-container">
             <h4>Job Overview</h4>
-            <br />
             {{ salary.overview|safe }}
           </div>
         </div>
       </section>
 
-      <script>
-        // Set the width of the bars based on data-percent attribute
-        document.querySelectorAll(".bar").forEach((el) => {
-          const percent = el.getAttribute("data-percent");
-          el.style.width = percent + "%";
-        });
-
-        const salaryType = document.getElementById("salaryType");
-        const salaryAmount = document.getElementById("salaryAmount");
-
-        // Parse base salary from template as a number for calculations
-        const baseSalary = parseFloat("{{ salary_data.yearly }}");
-
-        salaryType.addEventListener("change", () => {
-          let value;
-          switch (salaryType.value) {
-            case "monthly":
-              value = baseSalary / 12;
-              break;
-            case "daily":
-              value = baseSalary / 260; // assume 260 workdays/year
-              break;
-            case "hourly":
-              value = baseSalary / (260 * 8); // assume 8-hour days
-              break;
-            default:
-              value = baseSalary;
-          }
-          // Format with commas, round to nearest integer
-          salaryAmount.textContent = `R${Math.round(value).toLocaleString()}`;
-        });
-      </script>
-
-      <!-- Existing Salary Overview Section (kept as is above) -->
-
-      <!-- Similar Salaries Section -->
       <!-- Similar Salaries Section -->
       <section class="pt-0 pb-5">
         <div class="container">
@@ -162,26 +297,18 @@
             {% for salary in similar_salaries %}
             <div class="col-lg-4 col-12 mb-4">
               <div class="custom-block bg-white shadow-lg p-4 rounded-4 h-100">
-                <a
-                  href="{% url 'salary-detail' salary.id salary.slug %}"
-                  class="text-decoration-none text-dark d-block"
-                >
+                <a href="{% url 'salary-detail' salary.id salary.slug %}" class="text-decoration-none text-dark d-block">
                   <div class="d-flex flex-column h-100">
                     <div>
                       <h5 class="mb-2">{{ salary.title }}</h5>
                       <p class="text-muted mb-1">
-                        Average: R{{ salary.average_salary|floatformat:0 }}/
-                        <span>{{ salary.salary_type }}</span>
+                        Average: R{{ salary.average_salary|floatformat:0 }}/<span>{{ salary.salary_type }}</span>
                       </p>
                       <small class="text-muted">
                         {% if salary.location %}
-
-                        <span>{{ salary.location }} </span>
-
-                        {% else%}
-
-                        <span> Various Locations</span>
-
+                        <span>{{ salary.location }}</span>
+                        {% else %}
+                        <span>Various Locations</span>
                         {% endif %}
                       </small>
                     </div>
@@ -196,6 +323,7 @@
         </div>
       </section>
 
+      <!-- Related Jobs Section -->
       {% if related_jobs %}
       <section class="py-5">
         <div class="container">
@@ -203,38 +331,21 @@
           <div class="row">
             {% for job in related_jobs %}
             <div class="col-lg-4 col-md-6 mb-4">
-              <a
-                href="{% url 'job-detail' job.id job.slug %}"
-                class="text-decoration-none text-dark d-block h-100"
-              >
-                <div
-                  class="custom-block bg-white shadow-lg h-100 p-4 rounded-4 hover-shadow"
-                >
+              <a href="{% url 'job-detail' job.id job.slug %}" class="text-decoration-none text-dark d-block h-100">
+                <div class="custom-block bg-white shadow-lg h-100 p-4 rounded-4 hover-shadow">
                   <h5 class="mb-1">{{ job.title }}</h5>
                   <div class="d-flex justify-content-between mb-2">
-                    <small class="text-muted"
-                      >{{ job.external_company_name }}</small
-                    >
-
+                    <small class="text-muted">{{ job.external_company_name }}</small>
                     <small class="text-muted">
                       <i class="bi bi-geo-alt"></i> {{ job.location }}
                     </small>
                   </div>
-
-                  <p
-                    class="text-truncate mb-3"
-                    style="text-transform: capitalize"
-                  >
+                  <p class="text-truncate mb-3" style="text-transform: capitalize">
                     {{ job.internal_or_external }}
                   </p>
-
-                  <small class="text-muted"
-                    >Posted By <b>{{ job.company.company_name }}</b></small
-                  >
+                  <small class="text-muted">Posted By <b>{{ job.company.company_name }}</b></small>
                   <div class="text-end">
-                    <small class="text-muted"
-                      >Posted {{ job.created_at|timesince }} ago</small
-                    >
+                    <small class="text-muted">Posted {{ job.created_at|timesince }} ago</small>
                   </div>
                 </div>
               </a>
@@ -245,76 +356,285 @@
       </section>
       {% endif %}
 
+      <!-- FAQ Section -->
       <section class="py-5 bg-light">
         <div class="container">
           <h4 class="mb-4">❓ Frequently Asked Questions</h4>
           <div class="accordion" id="faqAccordion">
             <div class="accordion-item">
               <h2 class="accordion-header" id="headingOne">
-                <button
-                  class="accordion-button"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#collapseOne"
-                >
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
                   Do I need a degree to become a Front-End Developer?
                 </button>
               </h2>
-              <div
-                id="collapseOne"
-                class="accordion-collapse collapse show"
-                data-bs-parent="#faqAccordion"
-              >
+              <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
                 <div class="accordion-body">
-                  No, many developers are self-taught or come from coding
-                  bootcamps. A strong portfolio matters more than formal
-                  education.
+                  No, many developers are self-taught or come from coding bootcamps. A strong portfolio matters more than formal education.
                 </div>
               </div>
             </div>
-
             <div class="accordion-item">
               <h2 class="accordion-header" id="headingTwo">
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#collapseTwo"
-                >
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
                   Can I work remotely as a Front-End Developer?
                 </button>
               </h2>
-              <div
-                id="collapseTwo"
-                class="accordion-collapse collapse"
-                data-bs-parent="#faqAccordion"
-              >
+              <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                 <div class="accordion-body">
-                  Yes! Many companies offer remote or hybrid work options for
-                  frontend developers.
+                  Yes! Many companies offer remote or hybrid work options for frontend developers.
                 </div>
               </div>
             </div>
-
-            <!-- Add more FAQs as needed -->
           </div>
         </div>
       </section>
     </main>
 
-    <script>
-(function(pidpo){
-var d = document,
-    s = d.createElement('script'),
-    l = d.scripts[d.scripts.length - 1];
-s.settings = pidpo || {};
-s.src = "\/\/fondstudy.com\/bwXiV.s\/d-GIlb0UYCWZcq\/Lewm\/9huDZRUol\/kWPKTuY\/1NMMjZE\/zUMGzfIPtzN-j_U\/yWM\/TGM\/zwMOwr";
-s.async = true;
-s.referrerPolicy = 'no-referrer-when-downgrade';
-l.parentNode.insertBefore(s, l);
-})({})
-</script>
-
     {% include 'partials/_footer.html' %}
+
+    <!-- JavaScript for handling data and charts -->
+    <script>
+      // Store backend data in JavaScript variables (avoid direct CSS usage)
+      const salaryData = {
+        yearly: parseFloat("{{ salary_data.yearly }}") || 0,
+        title: "{{ salary.title|escapejs }}",
+        range: {
+          low: parseFloat("{{ salary_range.low }}") || 0,
+          average: parseFloat("{{ salary_range.average }}") || 0,
+          high: parseFloat("{{ salary_range.high }}") || 0
+        }
+      };
+
+      // Salary conversion functions
+      function convertSalary(yearlyAmount, type) {
+        switch (type) {
+          case 'monthly':
+            return yearlyAmount / 12;
+          case 'daily':
+            return yearlyAmount / 260; // 260 working days per year
+          case 'hourly':
+            return yearlyAmount / (260 * 8); // 8-hour work days
+          default:
+            return yearlyAmount;
+        }
+      }
+
+      function formatCurrency(amount) {
+        return `R${Math.round(amount).toLocaleString()}`;
+      }
+
+      function updateSalaryDisplay(type) {
+        const avgSalary = convertSalary(salaryData.yearly, type);
+        const minSalary = convertSalary(salaryData.range.low, type);
+        const maxSalary = convertSalary(salaryData.range.high, type);
+        const medianSalary = convertSalary(salaryData.range.average, type);
+
+        document.getElementById('avgSalaryDisplay').textContent = formatCurrency(avgSalary);
+        document.getElementById('minSalaryDisplay').textContent = formatCurrency(minSalary);
+        document.getElementById('maxSalaryDisplay').textContent = formatCurrency(maxSalary);
+        document.getElementById('medianSalaryDisplay').textContent = formatCurrency(medianSalary);
+      }
+
+      // Chart.js Bar Chart
+      let barChartInstance = null;
+      
+      function createBarChart() {
+        const ctx = document.getElementById('salaryBarChart').getContext('2d');
+        const currentType = document.getElementById('salaryType').value;
+        
+        // Destroy existing chart if it exists
+        if (barChartInstance) {
+          barChartInstance.destroy();
+        }
+        
+        barChartInstance = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Minimum', 'Average', 'Maximum'],
+            datasets: [{
+              label: 'Salary Range',
+              data: [
+                convertSalary(salaryData.range.low, currentType),
+                convertSalary(salaryData.range.average, currentType),
+                convertSalary(salaryData.range.high, currentType)
+              ],
+              backgroundColor: [
+                'rgba(231, 76, 60, 0.8)',
+                'rgba(243, 156, 18, 0.8)',
+                'rgba(46, 204, 113, 0.8)'
+              ],
+              borderColor: [
+                'rgba(231, 76, 60, 1)',
+                'rgba(243, 156, 18, 1)',
+                'rgba(46, 204, 113, 1)'
+              ],
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+              legend: {
+                display: false
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  callback: function(value) {
+                    return formatCurrency(value);
+                  }
+                }
+              }
+            }
+          }
+        });
+
+        document.getElementById('barChartLoading').style.display = 'none';
+        document.getElementById('salaryBarChart').style.display = 'block';
+      }
+
+      // ApexCharts Pie Chart
+      let pieChartInstance = null;
+      
+      function createPieChart() {
+        // Clear existing chart
+        if (pieChartInstance) {
+          pieChartInstance.destroy();
+        }
+        
+        const options = {
+          series: [30, 45, 25],
+          chart: {
+            type: 'pie',
+            height: 350,
+            animations: {
+              enabled: true,
+              easing: 'easeinout',
+              speed: 800,
+              animateGradually: {
+                enabled: true,
+                delay: 150
+              },
+              dynamicAnimation: {
+                enabled: true,
+                speed: 350
+              }
+            }
+          },
+          labels: ['Entry Level', 'Mid Level', 'Senior Level'],
+          colors: ['#2c5282', '#3c5a7f', '#13547a'],
+          legend: {
+            position: 'bottom'
+          },
+          responsive: [{
+            breakpoint: 768,
+            options: {
+              chart: {
+                height: 300
+              },
+              legend: {
+                position: 'bottom'
+              }
+            }
+          }],
+          dataLabels: {
+            enabled: true,
+            formatter: function (val) {
+              return Math.round(val) + "%"
+            }
+          }
+        };
+
+        try {
+          pieChartInstance = new ApexCharts(document.querySelector("#salaryPieChart"), options);
+          pieChartInstance.render().then(() => {
+            document.getElementById('pieChartLoading').style.display = 'none';
+            document.getElementById('salaryPieChart').style.display = 'block';
+          });
+        } catch (error) {
+          console.error('Error creating pie chart:', error);
+          document.getElementById('pieChartLoading').innerHTML = '<p class="text-center text-muted">Chart unavailable</p>';
+        }
+      }
+
+      // Chart.js Line Chart
+      function createLineChart() {
+        const ctx = document.getElementById('salaryTrendChart').getContext('2d');
+        
+        // Mock trend data - replace with actual backend data
+        const trendData = [
+          salaryData.yearly * 0.8,
+          salaryData.yearly * 0.85,
+          salaryData.yearly * 0.9,
+          salaryData.yearly * 0.95,
+          salaryData.yearly,
+          salaryData.yearly * 1.05
+        ];
+
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
+            datasets: [{
+              label: 'Average Salary Trend',
+              data: trendData,
+              borderColor: 'rgba(44, 82, 130, 1)',
+              backgroundColor: 'rgba(44, 82, 130, 0.1)',
+              borderWidth: 3,
+              fill: true,
+              tension: 0.4
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                display: true
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: false,
+                ticks: {
+                  callback: function(value) {
+                    return formatCurrency(value);
+                  }
+                }
+              }
+            }
+          }
+        });
+
+        document.getElementById('lineChartLoading').style.display = 'none';
+        document.getElementById('salaryTrendChart').style.display = 'block';
+      }
+
+      // Event listeners
+      document.getElementById('salaryType').addEventListener('change', function() {
+        updateSalaryDisplay(this.value);
+        
+        // Show loading states
+        document.getElementById('barChartLoading').style.display = 'flex';
+        document.getElementById('salaryBarChart').style.display = 'none';
+        
+        // Recreate bar chart with new salary type
+        setTimeout(() => {
+          createBarChart();
+        }, 300);
+      });
+
+      // Initialize page
+      document.addEventListener('DOMContentLoaded', function() {
+        updateSalaryDisplay('yearly');
+        
+        // Create charts with delays to show loading states
+        setTimeout(createBarChart, 1000);
+        setTimeout(createPieChart, 1500);
+        setTimeout(createLineChart, 2000);
+      });
+    </script>
   </body>
 </html>
