@@ -8,7 +8,109 @@
     <main>
         
       {% include 'partials/_navbar.html' %}
+    <style>
 
+          :root {
+            --white-color: #ffffff;
+            --primary-color: #2c5282;
+            --primary2-color: #3c5a7f;
+            --secondary-color: #13547a;
+            --section-bg-color: #f7fafc;
+            --custom-btn-bg-color: #2c5282;
+            --custom-btn-bg-hover-color: #2a4365;
+            --dark-color: #1a202c;
+            --p-color: #4a5568;
+            --border-color: #e2e8f0;
+            --link-hover-color: #2c5282;
+
+            --body-font-family: 'Open Sans', sans-serif;
+            --title-font-family: 'Montserrat', sans-serif;
+
+            --h1-font-size: 42px;
+            --h2-font-size: 32px;
+            --h3-font-size: 26px;
+            --h4-font-size: 22px;
+            --h5-font-size: 18px;
+            --h6-font-size: 16px;
+            --p-font-size: 15px;
+            --menu-font-size: 15px;
+            --btn-font-size: 16px;
+            --copyright-font-size: 14px;
+
+            --border-radius-large: 100px;
+            --border-radius-medium: 20px;
+            --border-radius-small: 10px;
+
+            --font-weight-normal: 400;
+            --font-weight-medium: 500;
+            --font-weight-semibold: 600;
+            --font-weight-bold: 700;
+        }
+
+                /* Enhanced Navigation Styles */
+
+        .navbar-logo,
+        .mzansi-plug-logo {
+            max-height: 50px;
+            width: auto;
+            display: block;
+            filter: drop-shadow(0 2px 4px rgba(44, 82, 130, 0.1));
+        }
+
+
+
+        .navbar-nav .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(44, 82, 130, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .navbar-nav .nav-link:hover::before {
+            left: 100%;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-color) !important;
+            background-color: rgba(44, 82, 130, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .navbar-nav .nav-link.active:hover {
+            background: linear-gradient(135deg, var(--primary2-color), var(--secondary-color));
+            color: var(--white-color) !important;
+        }
+
+        .navbar-toggler {
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius-small);
+            padding: 8px 12px;
+            transition: all 0.3s ease;
+        }
+
+        /* Enhanced Header Styles */
+        .site-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--primary2-color) 100%);
+            min-height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+
+        .site-header .container {
+            position: relative;
+            z-index: 2;
+        }
+
+
+
+
+
+        </style>
       <header
         class="site-header d-flex flex-column justify-content-center align-items-center"
       >
